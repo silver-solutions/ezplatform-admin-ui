@@ -1,0 +1,14 @@
+{% extends '@ezdesign/content_fields.html.twig' %}
+
+{% block ezstring_field_comparison %}
+{% apply spaceless %}
+    <span {{ block( 'field_attributes' ) }}>
+        {% for string_diff in comparison_result.getStringDiffs %}
+            {% set field_value = string_diff.getToken %}
+            {% set status = string_diff.getStatus %}
+            <span class="ez-string-{{ status }}">{{ field_value }}{% if not loop.last %} {% endif %}</span>
+        {% endfor %}
+    </span>
+{% endapply %}
+{% endblock %}
+

@@ -53,3 +53,6 @@ system:
 
         fielddefinition_edit_templates:
             - { template: '@ezdesign/content_type/field_types.html.twig', priority: 10 }
+
+        field_comparison_templates:
+            - { template: '@ezdesign/ui/field_type/comparison/content_fields.html.twig', priority: 10 }

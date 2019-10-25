@@ -1,0 +1,18 @@
+.ez-content-preview {
+  &.comparison-preview {
+    display: flex;
+
+    .one-side-preview {
+      flex: 1;
+    }
+
+    .ez-string-removed {
+      color: #E84949;
+      text-decoration: line-through;
+    }
+
+    .ez-string-added {
+      background-color: #9EEEAB;
+    }
+  }
+}

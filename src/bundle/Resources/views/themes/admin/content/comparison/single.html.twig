@@ -1,0 +1,32 @@
+{% extends '@ezdesign/ui/layout.html.twig' %}
+
+{% block navigation %}
+{% endblock %}
+
+{% block content %}
+<div class="ez-content-preview comparison-preview">
+    <div class="">
+        <section class="ez-fieldgroup container">
+            <h3 class="ez-fieldgroup__name"></h3>
+                {% for field_diff in version_diff %}
+                    {% block field_diff %}
+                        <div class="ez-content-field">
+                            <p class="ez-content-field-name">{{ field_diff.getFieldDef.name }}:</p>
+                            <div class="ez-content-field-value">
+                                {% if not field_diff.isChanged() %}
+                                    {{ ez_render_field(content_a, field_diff.getFieldDef.identifier, {
+                                        'template': '@ezdesign/ui/field_type/preview/content_fields.html.twig'
+                                    }) }}
+                                {% else %}
+                                    {{ ez_render_comparison_result(field_diff.getFieldDef, field_diff.getComparisonResult, {
+                                    }) }}
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endblock %}
+                {% endfor %}
+        </section>
+    </div>
+</div>
+</div>
+{% endblock %}

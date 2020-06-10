@@ -1,0 +1,17 @@
+<phpunit
+        backupGlobals="false"
+        backupStaticAttributes="false"
+        bootstrap="vendor/autoload.php"
+        convertErrorsToExceptions="true"
+        convertNoticesToExceptions="true"
+        convertWarningsToExceptions="true"
+        colors="true">
+    <testsuites>
+        <testsuite name="Ibexa\Commerce\Bundle\AdminUiBundle">
+            <directory>tests/bundle</directory>
+        </testsuite>
+        <testsuite name="Ibexa\Commerce\AdminUi">
+            <directory>tests/lib</directory>
+        </testsuite>
+    </testsuites>
+</phpunit>

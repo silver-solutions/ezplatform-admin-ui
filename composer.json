@@ -1,0 +1,42 @@
+{
+    "name": "ezsystems/ezcommerce-admin-ui",
+    "license": "TTL-2.0",
+    "keywords": [
+        "ezplatform",
+        "ezcommerce",
+        "commerce"
+    ],
+    "type": "ezplatform-bundle",
+    "require": {
+        "php": "^7.3",
+        "symfony/http-kernel": "^5.0",
+        "symfony/config": "^5.0",
+        "symfony/dependency-injection": "^5.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8.2",
+        "ezsystems/ezplatform-code-style": "^0.1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Ibexa\\Commerce\\Bundle\\AdminUiBundle\\": "src/bundle/",
+            "Ibexa\\Commerce\\AdminUi\\": "src/lib/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Ibexa\\Commerce\\AdminUi\\Bundle\\Tests\\": "tests/bundle/",
+            "Ibexa\\Commerce\\AdminUi\\Tests\\": "tests/lib/"
+        }
+    },
+    "scripts": {
+        "fix-cs": "php-cs-fixer fix -v --show-progress=estimating",
+        "check-cs": "php-cs-fixer fix --dry-run -v --show-progress=estimating",
+        "unit-tests": "phpunit -c phpunit.xml.dist"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        }
+    }
+}

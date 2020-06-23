@@ -21,7 +21,7 @@
             .then(eZ.helpers.request.getJsonFromResponse)
             .then((response) => {
                 const shopList = Object.values(response.ShopList.shopList).length
-                    ? Object.values(response.ShopList.shopList)
+                    ? Object.values(response.ShopList.shopList).map(({ shop }) => shop)
                     : [DEFAULT_SHOP_ID];
 
                 shopList.forEach((shopId) => {

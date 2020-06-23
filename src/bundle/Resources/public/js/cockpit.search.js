@@ -7,7 +7,7 @@ import RowTemplateGenerator from './helpers/row.template.helper.js';
     const shopSelect = doc.querySelector('select[name="shop_id"]');
     const serchTables = doc.querySelectorAll('.ez-ecommerce-cockpit-search');
     const showSearchTermsGeneric = (type, table) => {
-        const rowTemplateGenerator = new RowTemplateGenerator(type, table.dataset.template);
+        const rowTemplateGenerator = new RowTemplateGenerator(type, table.dataset.template, formatShortDateTime);
         const request = new Request('/api/ezp/v2/rest/dashboard-searchterms', {
             method: 'POST',
             headers: {

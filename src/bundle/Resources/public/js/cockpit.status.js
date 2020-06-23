@@ -68,9 +68,10 @@
     };
     const showSalesStats = (data) => {
         const salesWidget = doc.querySelector('.ez-ecommerce-cockpit-status__box--sales');
+        const totalSales = Object.values(data.totalSales).find((sales) => sales.currency === currencySelect.value);
 
         salesWidget.querySelector('.ez-icon').removeAttribute('hidden');
-        salesWidget.querySelector('.ez-ecommerce-cockpit-status__value').innerHTML = data.totalSales;
+        salesWidget.querySelector('.ez-ecommerce-cockpit-status__value').innerHTML = totalSales.totalSales;
     };
     const showOrdersStats = (data) => {
         const ordersWidget = doc.querySelector('.ez-ecommerce-cockpit-status__box--orders');

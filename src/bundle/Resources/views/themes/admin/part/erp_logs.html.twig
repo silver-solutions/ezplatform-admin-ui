@@ -1,0 +1,131 @@
+{% trans_default_domain 'ezcommerce_erp_admin_control_center' %}
+
+<section class="container mt-4 px-5">
+    <form name="search" action="" method="POST">
+        <div class="ez-filters ez-filters--erp-logs">
+            <div class="ez-filters__row">
+                <div class="ez-filters__item">
+                    <label class="ez-filters__item-label" for="ez-erp-logs-start-date">{{ 'filters.date_from'|trans|desc('Date from') }}:</label>
+                    <input
+                       class="ez-filters__input form-control ez-filters__input--date"
+                       data-target-selector="#ez-erp-logs-start-date"
+                       value="{{ parameters['ez-erp-logs-start-date']|default('now'|date('Y-m-d')) }}">
+                    <input
+                        name="ez-erp-logs-start-date"
+                        hidden="hidden"
+                        id="ez-erp-logs-start-date"
+                        value="{{ parameters['ez-erp-logs-start-date']|default('now'|date('Y-m-d')) }}">
+                </div>
+                <div class="ez-filters__item">
+                    <label class="ez-filters__item-label" for="ez-erp-logs-end-date">{{ 'filters.date_to'|trans|desc('Date to') }}:</label>
+                    <input
+                       class="ez-filters__input form-control ez-filters__input--date"
+                       data-target-selector="#ez-erp-logs-end-date"
+                       value="{{ parameters['ez-erp-logs-end-date']|default('now'|date('Y-m-d')) }}">
+                    <input
+                        name="ez-erp-logs-end-date"
+                        hidden="hidden"
+                        id="ez-erp-logs-end-date"
+                        value="{{ parameters['ez-erp-logs-end-date']|default('now'|date('Y-m-d')) }}">
+                </div>
+                <div class="ez-filters__item">
+                    <label class="ez-filters__item-label" for="ez-erp-logs-request-id">{{ 'filters.request_id'|trans|desc('Request Id') }}:</label>
+                    <input
+                        type="text"
+                        id="ez-erp-logs-request-id"
+                        name="ez-erp-logs-request-id"
+                        class="ez-filters__input form-control"
+                        value="{{ parameters['ez-erp-logs-request-id']|default('') }}">
+                </div>
+                <div class="ez-filters__item">
+                    <label class="ez-filters__item-label" for="ez-erp-logs-text">{{ 'filters.text'|trans|desc('Text') }}:</label>
+                    <input
+                        type="text"
+                        id="ez-erp-logs-text"
+                        name="ez-erp-logs-text"
+                        class="ez-filters__input form-control"
+                        value="{{ parameters['ez-erp-logs-text']|default('') }}">
+                </div>
+                <div class="ez-filters__item">
+                    <label class="ez-filters__item-label" for="ez-erp-logs-limit">{{ 'filters.limit'|trans|desc('Limit') }}:</label>
+                    {% set limit_options = [100, 250, 500, 1000, 2000]%}
+                    <select name="ez-erp-logs-limit" class="ez-filters__select form-control">
+                    {% for limit_option in limit_options %}
+                        <option{% if parameters['ez-erp-logs-limit'] is defined and parameters['ez-erp-logs-limit'] == limit_option %} selected="selected"{% endif %}>
+                            {{ limit_option }}
+                        </option>
+                    {% endfor %}
+                    </select>
+                </div>
+                <div class="ez-filters__item">
+                    <label class="ez-filters__item-label" for="ez-erp-logs-measuring-point">{{ 'filters.measuring_point'|trans|desc('Measuring point') }}:</label>
+                    <select id="ez-erp-logs-measuring-point" class="ez-filters__select form-control" name="ez-erp-logs-measuring-point">
+                        <option {% if parameters['ez-erp-logs-measuring-point'] is defined and parameters['ez-erp-logs-measuring-point'] == ''%}selected="selected"{% endif %}></option>
+                        {% for measuringPointOption in measuringPoints %}
+                            {% set isDefaultChoice = measuringPointOption == "180_soap" and parameters['ez-erp-logs-measuring-point'] is not defined %}
+                            <option
+                                {% if parameters['ez-erp-logs-measuring-point'] is defined and parameters['ez-erp-logs-measuring-point'] == measuringPointOption or isDefaultChoice %}selected="selected"{% endif %}
+                                value="{{ measuringPointOption }}">
+                                {{ ('code.' ~ measuringPointOption)|st_translate }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="ez-filters__btns mb-2">
+                <Button type="submit" class="btn btn-secondary" name="submit">{{ 'filters.search'|trans|desc('Search') }}</Button>
+            </div>
+        </div>
+    </form>
+    <h1>{{ 'filters.events'|trans|desc('Events') }} ({{ events|length }})</h1>
+    {% if message is defined and message != '' %}
+        <div class="message border notice"><p>{{ message }}</p></div>
+    {% endif %}
+    {% if events|length == 0 %}
+        {{ 'filters.no_logs'|trans|desc('Currently there are no events in the log.') }}
+    {% endif %}
+    {% if events|length != 0 %}
+        {% include '@ezdesign/modal/modal_show_log.html.twig' %}
+        <div class="ez-table-header">
+            <div class="ez-table-header__headline">{{ 'logs_table.title'|trans|desc('ERP request log') }}</div>
+        </div>
+        <table class="table">
+        <thead>
+            <tr>
+                <th>{{ 'logs_table.date.title'|trans|desc('Date') }}</th>
+                <th>{{ 'logs_table.elapsed_time.title'|trans|desc('Elapsed time') }}</th>
+                <th>{{ 'logs_table.user_id.title'|trans|desc('User id') }}</th>
+                <th>{{ 'logs_table.request_id.title'|trans|desc('Request id') }}</th>
+                <th>{{ 'logs_table.status.title'|trans|desc('Response status') }}</th>
+                <th>{{ 'logs_table.measuring_point.title'|trans|desc('Measuring point') }}</th>
+                <th>{{ 'logs_table.meassage_id.title'|trans|desc('Message identifier') }}</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for event in events %}
+            <tr>
+                <td>{{ event.logTimestamp|date('Y-m-d H:i:s')  }}</td>
+                <td>{{ event.processingTime }}</td>
+                <td>{{ event.userId }}</td>
+                <td>{{ event.requestId }}</td>
+                <td>{{ event.responseStatus }}</td>
+                <td>{{ '[' ~ event.measuringPoint ~ '] ' ~ (('code.' ~ event.measuringPoint)|st_translate) }}</td>
+                <td>{{ event.messageIdentifier }}</td>
+                <td>
+                    <button
+                        type="button"
+                        title="Preview log"
+                        class="btn ez-btn ez-btn--show-erp-log"
+                        data-event-id="{{ event.id }}">
+                        <svg class="ez-icon ez-icon--medium ez-icon--secondary">
+                            <use xlink:href="{{ asset('bundles/ezplatformadminui/img/ez-icons.svg') }}#view"></use>
+                        </svg>
+                    </button>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+   {% endif %}
+</section>

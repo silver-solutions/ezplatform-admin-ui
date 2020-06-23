@@ -1,0 +1,92 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    Ibexa\Commerce\Bundle\AdminUiBundle\Controller\ControlCenterController:
+        arguments:
+            $configResolver: '@ezpublish.config.resolver'
+            $queryLogService: '@siso_adminerp.query_log_service'
+            $queryMailService: '@siso_adminerp.query_mail_service'
+            $requestStack: '@request_stack'
+        calls:
+            - [setContainer, ['@service_container']]
+        tags:
+            - { name: controller.service_arguments }
+            - { name: container.service_subscriber }
+
+    Ibexa\Commerce\Bundle\AdminUiBundle\Controller\ErpTestController:
+        arguments:
+            $configResolver: '@ezpublish.config.resolver'
+        calls:
+            - [setContainer, ['@service_container']]
+        tags:
+            - { name: controller.service_arguments }
+            - { name: container.service_subscriber }
+
+    Ibexa\Commerce\Bundle\AdminUiBundle\Controller\EmailController:
+        arguments:
+            $queryMailService: '@siso_adminerp.query_mail_service'
+            $resendEmailService: '@siso_adminerp.resend_email_service'
+        calls:
+            - [setContainer, ['@service_container']]
+        tags:
+            - { name: controller.service_arguments }
+            - { name: container.service_subscriber }
+
+    Ibexa\Commerce\Bundle\AdminUiBundle\Controller\DefaultController:
+        arguments:
+            $csvImportExportHandler: '@siso_price.csv_import_export_handler'
+            $transService: '@silver_trans.translator'
+            $notificationHandler: '@EzSystems\EzPlatformAdminUi\Notification\FlashBagNotificationHandler'
+            $configResolver: '@ezpublish.config.resolver'
+        calls:
+            - [setContainer, ['@service_container']]
+        tags:
+            - { name: controller.service_arguments }
+            - { name: container.service_subscriber }
+
+    Ibexa\Commerce\Bundle\AdminUiBundle\Controller\JobController:
+        arguments:
+            $configResolver: '@ezpublish.config.resolver'
+            $jobManager: '@jms_job_queue.job_manager'
+            $registry: '@doctrine'
+        calls:
+            - [setContainer, ['@service_container']]
+        tags:
+            - { name: controller.service_arguments }
+            - { name: container.service_subscriber }
+
+    Ibexa\Commerce\Bundle\AdminUiBundle\Controller\EcontentController:
+        arguments:
+            $connection: '@doctrine.dbal.default_connection'
+            $configResolver: '@ezpublish.config.resolver'
+            $registry: '@doctrine'
+            $projectDir: '%kernel.project_dir%'
+        calls:
+            - [setContainer, ['@service_container']]
+        tags:
+            - { name: controller.service_arguments }
+            - { name: container.service_subscriber }
+
+    Ibexa\Commerce\Bundle\AdminUiBundle\Controller\MenuAdminController:
+        arguments:
+            $configResolver: '@ezpublish.config.resolver'
+            $productManager: '@siso_price.product_manager'
+            $registry: '@doctrine'
+            $checkoutValues: '%ses_forms.checkout_values%'
+        calls:
+            - [setContainer, ['@service_container']]
+        tags:
+            - { name: controller.service_arguments }
+            - { name: container.service_subscriber }
+
+    Ibexa\Commerce\Bundle\AdminUiBundle\Controller\ShowLogController:
+        arguments:
+            $queryLogService: '@siso_adminerp.query_log_service'
+        calls:
+            - [setContainer, ['@service_container']]
+        tags:
+            - { name: controller.service_arguments }
+            - { name: container.service_subscriber }

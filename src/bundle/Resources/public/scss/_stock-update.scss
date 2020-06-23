@@ -1,0 +1,15 @@
+.ez-stock-update {
+    &__label {
+        font-weight: bold;
+        margin-bottom: 0;
+        margin-top: calculateRem(8px);
+    }
+
+    &__input {
+        width: calculateRem(200px);
+    }
+
+    .ez-btn {
+        margin-top: calculateRem(32px);
+    }
+}

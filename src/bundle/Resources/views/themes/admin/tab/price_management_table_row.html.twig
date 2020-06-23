@@ -1,0 +1,20 @@
+<td>
+    {{ sku }}
+</td>
+<td>
+    <select class="ez-table__customer-group-select form-control"></select>
+</select>
+</td>
+<td>
+    <input type="number" class="ez-table__base-price form-control">
+</td>
+<td>
+    <input type="number" class="ez-table__offer-price form-control">
+</td>
+<td>
+    <button class="btn" title="{{ 'price_management.delete_price.button'|trans|desc('Delete price') }}">
+        <svg class="ez-icon ez-icon--medium ez-icon--trash">
+            <use xlink:href="{{ asset('bundles/ezplatformadminui/img/ez-icons.svg') }}#trash"></use>
+        </svg>
+    </button>
+</td>

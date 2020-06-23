@@ -1,0 +1,11 @@
+{% trans_default_domain 'ezcommerce_erp_admin_control_center' %}
+
+<tr class="ez-table__job-item">
+    <td>
+        <div>{{ label }}</div>
+        <div class="small">{{ desc }}</div>
+    </td>
+    <td>
+        <button class="btn btn-secondary ez-btn ez-btn--start-job" data-job-identifier="{{ job_identifier }}">{{ 'job_table.start'|trans|desc('Start') }}</button>
+    </td>
+</tr>

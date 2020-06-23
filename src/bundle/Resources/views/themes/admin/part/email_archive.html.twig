@@ -1,0 +1,115 @@
+{% trans_default_domain 'ezcommerce_erp_admin_control_center' %}
+
+<section class="container mt-4 px-5">
+    <form name="emailForm" action="" method="POST">
+        <div class="ez-filters ez-filters--email-archive">
+            <div class="ez-filters__row">
+                <div class="ez-filters__item">
+                    <label class="ez-filters__item-label" for="ez-email-archive-date-start">{{ 'filters.date_from'|trans|desc('Date from') }}:</label>
+                    <input
+                       class="ez-filters__input form-control ez-filters__input--date"
+                       data-target-selector="#email-search-date-start"
+                       value="{{ parameters['ez-email-archive-date-start']|default('now'|date('Y-m-d')) }}">
+                    <input
+                        type="hidden"
+                        name="ez-email-archive-date-start"
+                        id="email-search-date-start"
+                        value="{{ parameters['ez-email-archive-date-start']|default('now'|date('Y-m-d')) }}">
+                </div>
+                <div class="ez-filters__item">
+                    <label class="ez-filters__item-label" for="ez-email-archive-date-end">{{ 'filters.date_to'|trans|desc('Date to') }}:</label>
+                    <input
+                       class="ez-filters__input form-control ez-filters__input--date"
+                       data-target-selector="#email-search-date-end"
+                       value="{{ parameters['ez-email-archive-date-end']|default('now'|date('Y-m-d')) }}">
+                    <input
+                        type="hidden"
+                        name="ez-email-archive-date-end"
+                        id="email-search-date-end"
+                        value="{{ parameters['ez-email-archive-date-end']|default('now'|date('Y-m-d')) }}">
+                </div>
+                <div class="ez-filters__item ez-filters__item--user-id">
+                    <label class="ez-filters__item-label" for="ez-email-archive-user-id">{{ 'filters.user_id'|trans|desc('User Id') }}:</label>
+                    <button
+                        type="button"
+                        class="ez-filters__item-udw-button btn btn-secondary{% if parameters['ez-email-archive-user-id'] is defined and parameters['ez-email-archive-user-id'] is not empty %} ez-filters__item-button--hidden{% endif %}"
+                        data-udw-config="{{ ez_udw_config('single_user', {}) }}">
+                        {{ 'filters.select_user'|trans|desc('Select user') }}
+                    </button>
+                    <span class="ez-filters__item-desc{% if parameters['ez-email-archive-user-id'] is not defined or parameters['ez-email-archive-user-id'] is empty %} ez-filters__item-desc--hidden{% endif %}">
+                        {{ 'filters.selected_user'|trans|desc('Selected user') }}: <span class="ez-filters__user-id">{{ parameters['ez-email-archive-user-id']|default('') }}</span>
+                        <button type="button" class="ez-filters__btn-reset">
+                            <svg class="ez-icon ez-icon--medium ez-icon--reset">
+                                <use xlink:href="{{ asset('bundles/ezplatformadminui/img/ez-icons.svg') }}#circle-close"></use>
+                            </svg>
+                        </button>
+                    </span>
+                    <input type="hidden" id="ez-email-archive-user-id" name="ez-email-archive-user-id" value="{{ parameters['ez-email-archive-user-id']|default('') }}">
+                </div>
+                <div class="ez-filters__item">
+                    <label class="ez-filters__item-label" for="ez-email-archive-text-search">{{ 'filters.text'|trans|desc('Text') }}:</label>
+                    <input type="text" id="ez-email-archive-text-search" name="ez-email-archive-text-search" class="ez-filters__input form-control" value="{{ parameters['ez-email-archive-text']|default('') }}">
+                </div>
+            </div>
+            <div class="ez-filters__btns mb-2">
+                <Button type="submit" class="btn btn-secondary" name="submit">{{ 'filters.search'|trans|desc('Search') }}</Button>
+            </div>
+        </div>
+    </form>
+    {% if message is defined and message != '' %}
+        <div class="message border notice"><p>{{ message }}</p></div>
+    {% endif %}
+    {% if emails|length == 0 %}
+        {{ 'filters.no_mail'|trans|desc('Currently there are no emails in the log.') }}
+    {% endif %}
+    {% if emails|length != 0 %}
+        {% include '@ezdesign/modal/modal_show_email.html.twig' %}
+        <div class="ez-table-header mt-5">
+            <div class="ez-table-header__headline">{{ 'emails_table.title'|trans|desc('Emails') }} ({{ emails|length }})</div>
+        </div>
+        <table class="table mb-3" data-rows="30">
+            <thead>
+                <tr>
+
+                    <th>{{ 'emails_table.recipient.title'|trans|desc('Recipient') }}</th>
+                    <th>{{ 'emails_table.subject.title'|trans|desc('Subject') }}</th>
+                    <th>{{ 'emails_table.sent_date.title'|trans|desc('Sent date') }}</th>
+                    <th>{{ 'emails_table.status.title'|trans|desc('Status') }}</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for email in emails %}
+                <tr>
+                    <td>{{ email.receiver }}</td>
+                    <td>{{ email.subject }}</td>
+                    <td>{{ email.logTimestamp|date('Y-m-d H:i:s') }}</td>
+                    <td>{{ email.status }}</td>
+                    <td>
+                        <button
+                            type="button"
+                            title="{{ 'emails_table.preview.title'|trans|desc('Preview email') }}"
+                            class="btn ez-btn ez-btn--show-email"
+                            data-email-id="{{ email.id }}">
+                            <svg class="ez-icon ez-icon--medium ez-icon--secondary">
+                                <use xlink:href="{{ asset('bundles/ezplatformadminui/img/ez-icons.svg') }}#view"></use>
+                            </svg>
+                        </button>
+                    {% if email.status %}
+                        <button
+                            type="button"
+                            title="{{ 'emails_table.resend.title'|trans|desc('Resend email') }}"
+                            class="btn ez-btn btn-icon px-2 py-1 ez-btn--resend-email"
+                            data-email-id="{{ email.id }}">
+                            <svg class="ez-icon ez-icon--medium">
+                                <use xlink:href="{{ asset('bundles/ezplatformadminui/img/ez-icons.svg') }}#refresh"></use>
+                            </svg>
+                        </button>
+                    {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+</section>

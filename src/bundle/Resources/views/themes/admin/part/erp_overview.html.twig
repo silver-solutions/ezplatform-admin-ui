@@ -1,0 +1,62 @@
+{% trans_default_domain 'ezcommerce_erp_admin_control_center' %}
+
+<div class="container ez-erp-overview">
+    <h3>{{ 'erp_overview.tests'|trans|desc('ERP Tests') }}</h3>
+    <strong>{{ 'erp_overview.connection'|trans|desc('URL for ERP connection') }}:</strong>{{ web_onnector_service_location }}
+    <div class="ez-erp-overview__url">
+        <strong>{{ 'erp_overview.url_check'|trans|desc('ERP Url check') }}: </strong>
+        {{ render(controller('Ibexa\\Commerce\\Bundle\\AdminUiBundle\\Controller\\ErpTestController::ErpTestUrlAction')) }}
+    </div>
+    <div class="ez-erp-overview__status">
+        <strong>{{ 'erp_overview.status'|trans|desc('ERP Status') }}: </strong>
+        <span class="ez-erp-overview__status-checking">{{ 'erp_overview.checking'|trans|desc('Checking ERP') }}</span>
+        <span class="ez-erp-overview__status-fine ez-erp-overview__status-fine--hidden ez-badge badge badge-success">
+            <svg class="ez-icon ez-icon--small ez-icon--light">
+                <use xlink:href="{{ asset('bundles/ezplatformadminui/img/ez-icons.svg') }}#checkmark"></use>
+            </svg>
+            {{ 'erp_overview.fine'|trans|desc('Fine') }}
+        </span>
+        <span class="ez-erp-overview__status-no-connection ez-erp-overview__status-no-connection--hidden">{{ 'erp_overview.no_connection'|trans|desc('No connection') }}</span>
+    </div>
+    <hr/>
+    <h3>{{ 'erp_overview.message_mappings'|trans|desc('Message mappings') }}:</h3>
+    <div class="alert alert-warning" role="alert">
+        {{ 'erp_overview.alert.standard_mappings'|trans|desc('The list contains standard message mappings only') }}
+    </div>
+    <div class="accordion">
+        {% for key, values in message_mapping_data %}
+        <div class="card">
+            <div class="card-header" id="panel-{{ loop.index }}">
+                <h5 class="mb-0">
+                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse-{{ loop.index }}" aria-expanded="true" aria-controls="collapseOne">
+                        {{ key }}
+                    </button>
+                </h5>
+            </div>
+            <div id="collapse-{{ loop.index }}" class="collapse" aria-labelledby="panel-{{ loop.index }}" >
+                <div class="card-body">
+                    <div class="mb-4">
+                        <strong>{{ 'erp_overview.mapping.id'|trans|desc('Mapping identifier') }}: </strong>{{ values.mapping_identifier }}
+                    </div>
+                    <div class="mb-4">
+                        <strong>{{ 'erp_overview.reguest_path'|trans|desc('Request mapping file path') }}: </strong>
+                        <p>{{ values.request_mapping.file_path|default('') }}</p>
+                    </div>
+                    <div class="mb-4">
+                        <strong>{{ 'erp_overview.reguest_mapping'|trans|desc('Request mapping') }}: </strong>
+                        <pre>{{ values.request_mapping.file_content|default('') }}</pre>
+                    </div>
+                    <div class="mb-4">
+                        <strong>{{ 'erp_overview.file_path'|trans|desc('Response mapping file path') }}: </strong>
+                        <p>{{ values.response_mapping.file_path|default('') }}</p>
+                    </div>
+                    <div>
+                        <strong>{{ 'erp_overview.response_mapping'|trans|desc('Response mapping') }}: </strong>
+                        <pre>{{ values.response_mapping.file_content|default('') }}</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>

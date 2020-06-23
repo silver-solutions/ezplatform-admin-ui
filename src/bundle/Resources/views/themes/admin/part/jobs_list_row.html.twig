@@ -1,0 +1,28 @@
+{% trans_default_domain 'ezcommerce_erp_admin_control_center' %}
+
+<tr>
+    <td>{{ id }}</td>
+    <td><span class="label">{{ command }}</span></td>
+    <td><span class="label">{{ state }}</span></td>
+    <td>{{ createdAt }}</td>
+    <td>{{ runtime }}</td>
+    <td>{{ queue }}</td>
+    <td>
+        <button
+            type="button"
+            title="{{ 'jobs_list.preview'|trans|desc('Preview') }}"
+            class="btn ez-btn ez-btn--view">
+            <svg class="ez-icon ez-icon--medium ez-icon--secondary">
+                <use xlink:href="{{ asset('bundles/ezplatformadminui/img/ez-icons.svg') }}#view"></use>
+            </svg>
+        </button>
+        <button
+            type="button"
+            title="{{ 'jobs_list.remove'|trans|desc('Remove') }}"
+            class="btn ez-btn ez-btn--remove">
+            <svg class="ez-icon ez-icon--medium ez-icon--trash">
+                <use xlink:href="{{ asset('bundles/ezplatformadminui/img/ez-icons.svg') }}#trash"></use>
+            </svg>
+        </button>
+    </td>
+</tr>

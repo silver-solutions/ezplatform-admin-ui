@@ -1,0 +1,66 @@
+{% trans_default_domain 'ezcommerce_erp_admin_control_center' %}
+
+<section class="container mt-4 px-5">
+    <form name="graphForm" action="" method="POST">
+        <div class="ez-filters ez-filters--erp-performance">
+            <div class="ez-filters__row">
+                <div class="ez-filters__item">
+                    <label class="ez-filters__item-label" for="ez-erp-performance-date-start">{{ 'filters.date_from'|trans|desc('Date from') }}:</label>
+                    <input
+                       class="ez-filters__input form-control ez-filters__input--date"
+                       data-target-selector="#ez-erp-performance-date-start"
+                       value="{{ parameters['ez-erp-performance-date-start']|default('now'|date('Y-m-d')) }}">
+                    <input
+                        name="ez-erp-performance-date-start"
+                        hidden="hidden"
+                        id="ez-erp-performance-date-start"
+                        value="{{ parameters['ez-erp-performance-date-start']|default('now'|date('Y-m-d')) }}">
+                </div>
+                <div class="ez-filters__item">
+                    <label class="ez-filters__item-label" for="ez-erp-performance-date-end">{{ 'filters.date_to'|trans|desc('Date to') }}:</label>
+                    <input
+                       class="ez-filters__input form-control ez-filters__input--date"
+                       data-target-selector="#ez-erp-performance-date-end"
+                       value="{{ parameters['ez-erp-performance-date-end']|default('now'|date('Y-m-d')) }}">
+                    <input
+                        name="ez-erp-performance-date-end"
+                        hidden="hidden"
+                        id="ez-erp-performance-date-end"
+                        value="{{ parameters['ez-erp-performance-date-end']|default('now'|date('Y-m-d')) }}">
+                </div>
+                <div class="ez-filters__item ez-filters__item--user-id">
+                    <label class="ez-filters__item-label" for="ez-erp-performance-user-id">{{ 'filters.user_id'|trans|desc('User Id') }}:</label>
+                    <button
+                        type="button"
+                        class="ez-filters__item-udw-button btn btn-secondary{% if parameters['ez-erp-performance-user-id'] is defined and parameters['ez-erp-performance-user-id'] is not empty %} ez-filters__item-button--hidden{% endif %}"
+                        data-udw-config="{{ ez_udw_config('single_user', {}) }}">
+                        {{ 'filters.select_user'|trans|desc('Select user') }}
+                    </button>
+                    <span class="ez-filters__item-desc{% if parameters['ez-erp-performance-user-id'] is not defined or parameters['ez-erp-performance-user-id'] is empty %} ez-filters__item-desc--hidden{% endif %}">
+                        {{ 'filters.selected_user'|trans|desc('Selected user') }}: <span class="ez-filters__user-id">{{ parameters['ez-erp-performance-user-id']|default('') }}</span>
+                        <button type="button" class="ez-filters__btn-reset">
+                            <svg class="ez-icon ez-icon--medium ez-icon--reset">
+                                <use xlink:href="{{ asset('bundles/ezplatformadminui/img/ez-icons.svg') }}#circle-close"></use>
+                            </svg>
+                        </button>
+                    </span>
+                    <input type="hidden" id="ez-erp-performance-user-id" name="ez-erp-performance-user-id" value="{{ parameters['ez-erp-performance-user-id']|default('') }}">
+                </div>
+                <div class="ez-filters__item">
+                    <label class="ez-filters__item-label" for="ez-erp-performance-text">{{ 'filters.text'|trans|desc('Text') }}:</label>
+                    <input
+                        type="text"
+                        id="ez-erp-performance-text"
+                        name="ez-erp-performance-text"
+                        class="ez-filters__input form-control"
+                        value="{{ parameters['ez-erp-performance-text']|default('') }}">
+                </div>
+            </div>
+            <div class="ez-filters__btns mb-2">
+                <Button type="submit" class="btn btn-secondary" name="submit">{{ 'filters.search'|trans|desc('Search') }}</Button>
+            </div>
+        </div>
+    </form>
+    <div id="ez-performance-chart" data-date-time="{{ date_time|json_encode() }}" data-columns="{{ columns|json_encode() }}"></div>
+    {{ 'erp_graph.message'|trans|desc('You can use the smaller graph (the second graph) to select a specific period, the selected period will be marked with a grey background and you can move the selected area. The upper chart will then zoom into details.') }}
+</section>

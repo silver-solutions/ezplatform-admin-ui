@@ -1,0 +1,68 @@
+<div class="ez-import-export">
+    <div class="ez-import-export__upload">
+        <h2>{{ 'import_export.upload_price.title'|trans|desc('Upload new price list') }}</h2>
+        <div class="alert alert-warning">{{ 'import_export.upload.alert'|trans|desc('It might take some time until the CSV file has been imported.') }}</div>
+        <form name="eventForm" action="{{ path('siso_shop_price_engine_price_upload', { 'shopId' : 'MAIN'}) }}" method="POST" enctype="multipart/form-data">
+            <input name="file" type="file" />
+            <button class="btn btn-secondary" type="submit" name="submit" title="{{ 'import_export.upload_price.button'|trans|desc('Upload prices') }}">
+                <svg class="ez-icon ez-icon--medium ez-icon--light">
+                    <use xlink:href="{{ asset('bundles/ezplatformadminui/img/ez-icons.svg') }}#upload"></use>
+                </svg>
+            </button>
+        </form>
+    </div>
+    <div class="ez-import-export__download">
+        <a
+            href="{{ path('siso_shop_price_engine_price_download', { 'shopId' : 'MAIN'}) }}"
+            target="_blank"
+            class="btn btn-secondary"
+            title="{{ 'import_export.download_price.button'|trans|desc('Download prices') }}">
+            <svg class="ez-icon ez-icon--medium ez-icon--light">
+                <use xlink:href="{{ asset('bundles/ezplatformadminui/img/ez-icons.svg') }}#download"></use>
+            </svg>
+        </a>
+    </div>
+</div>
+<div class="ez-sku-search ez-sku-search--price">
+    <div class="ez-sku-search__tools">
+        <input type="search" class="ez-sku-search__input form-control">
+        <button type="button" class="btn btn-primary font-weight-bold ez-btn--search">
+            <svg class="ez-icon ez-icon--medium ez-icon--light">
+                <use xlink:href="{{ asset('bundles/ezplatformadminui/img/ez-icons.svg') }}#search"></use>
+            </svg>
+            <span>{{ 'import_export.search.button'|trans|desc('Search') }}</span>
+        </button>
+    </div>
+    <div class="ez-sku-search__results ez-sku-search__results--hidden">
+        <div class="ez-table-header ez-table-header--price-management">
+            <div class="ez-table-header__headline"></div>
+            <div class="ez-table-header__tools">
+                <select class="ez-table-header__price-select form-control"></select>
+                <button class="btn btn-primary ez-btn--add-price" title="{{ 'price_management.add_price'|trans|desc('Add price') }}">
+                    <svg class="ez-icon ez-icon-create">
+                        <use xlink:href="{{ asset('bundles/ezplatformadminui/img/ez-icons.svg') }}#create"></use>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <table class="table ez-table--price-management" data-row-template="{{ include('@ezdesign/tab/price_management_table_row.html.twig', {
+            sku: '{{ sku }}'
+        })|e('html_attr') }}">
+            <thead>
+                <tr>
+                    <th>{{ 'price_management.sku'|trans|desc('SKU') }}</th>
+                    <th>{{ 'price_management.customer_group'|trans|desc('Customer group') }}</th>
+                    <th>{{ 'price_management.base_price'|trans|desc('Base price') }}</th>
+                    <th>{{ 'price_management.offer_price'|trans|desc('Offer price') }}</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+        <button class="btn btn-primary ez-btn--save" title="{{ 'price_management.save'|trans|desc('Save') }}">
+            <svg class="ez-icon ez-icon--medium ez-icon--light">
+                <use xlink:href="{{ asset('bundles/ezplatformadminui/img/ez-icons.svg') }}#save"></use>
+            </svg>
+        </button>
+    </div>
+</div>

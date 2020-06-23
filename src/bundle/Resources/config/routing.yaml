@@ -1,0 +1,166 @@
+siso_control_center:
+    path: /ecommerce_advanced/controlcenter
+    defaults:
+        _controller: Ibexa\Commerce\Bundle\AdminUiBundle\Controller\ControlCenterController::showAction
+
+siso_admin_erp_ajax:
+    path: /ses_erp/showLogMessage/{id}
+    defaults:
+        _controller: Ibexa\Commerce\Bundle\AdminUiBundle\Controller\ShowLogController::ajaxShowLogMessageAction
+    options:
+        expose: true
+
+siso_admin_mail_ajax:
+    path: /ses_erp/showMailContent/{id}
+    defaults:
+        _controller: Ibexa\Commerce\Bundle\AdminUiBundle\Controller\EmailController::ajaxShowMailContentAction
+    options:
+        expose: true
+
+siso_admin_mail_resend_ajax:
+    path: /ses_erp/resendMail
+    defaults:
+        _controller: Ibexa\Commerce\Bundle\AdminUiBundle\Controller\EmailController::ajaxResendEmailAction
+    options:
+        expose: true
+
+siso_admin_start_job:
+    path: /ecommerce_advanced/startjob
+    defaults:
+        _controller: Ibexa\Commerce\Bundle\AdminUiBundle\Controller\JobController::startJobAction
+    options:
+        expose: true
+
+siso_admin_econtent_job_data:
+    path: /ecommerce_advanced/jobdata
+    defaults:
+        _controller: Ibexa\Commerce\Bundle\AdminUiBundle\Controller\JobController::jobListDataAction
+    options:
+        expose: true
+
+siso_admin_econtent_remove_job:
+    path: /ecommerce_advanced/removejob/{id}
+    defaults:
+        _controller: Ibexa\Commerce\Bundle\AdminUiBundle\Controller\JobController::removeJobAction
+    options:
+        expose: true
+
+siso_admin_econtent_start_indexer:
+    path: /ecommerce_advanced/startIndexer
+    defaults:
+        _controller: Ibexa\Commerce\Bundle\AdminUiBundle\Controller\EcontentController::startIndexerAction
+
+siso_admin_econtent_start_export:
+    path: /ecommerce_advanced/startExport
+    defaults:
+        _controller: Ibexa\Commerce\Bundle\AdminUiBundle\Controller\EcontentController::startExportAction
+    options:
+        expose: true
+
+siso_admin_econtent_start_import:
+    path: /ecommerce_advanced/startImport
+    defaults:
+        _controller: Ibexa\Commerce\Bundle\AdminUiBundle\Controller\EcontentController::startImportAction
+    options:
+        expose: true
+
+siso_admin_econtent_backuplist:
+    path: /ecommerce_advanced/backupdata
+    defaults:
+        _controller: Ibexa\Commerce\Bundle\AdminUiBundle\Controller\EcontentController::listBackupFilesAction
+    options:
+        expose: true
+
+siso_admin_econtent_swap:
+    path: /ecommerce_advanced/econtentSwap
+    defaults:
+        _controller: Ibexa\Commerce\Bundle\AdminUiBundle\Controller\EcontentController::swapProductsTmpToLiveAction
+    options:
+        expose: true
+
+siso_admin_econtent_info:
+    path: /ecommerce_advanced/econtentInfo
+    defaults:
+        _controller: Ibexa\Commerce\Bundle\AdminUiBundle\Controller\EcontentController::getEcontentInfoAction
+    options:
+        expose: true
+
+siso_shop_price_engine_price_download:
+    path: /price/download/{shopId}
+    defaults:
+        _controller: Ibexa\Commerce\Bundle\AdminUiBundle\Controller\DefaultController::priceDownloadAction
+
+siso_shop_price_engine_price_upload:
+    path: /price/upload/{shopId}
+    defaults:
+        _controller: Ibexa\Commerce\Bundle\AdminUiBundle\Controller\DefaultController::priceUploadAction
+
+siso_shop_price_engine_stock_download:
+    path: /stock/download/{shopId}
+    defaults:
+        _controller: Ibexa\Commerce\Bundle\AdminUiBundle\Controller\DefaultController::stockDownloadAction
+
+siso_shop_price_engine_stock_upload:
+    path: /stock/upload/{shopId}
+    defaults:
+        _controller: Ibexa\Commerce\Bundle\AdminUiBundle\Controller\DefaultController::stockUploadAction
+
+siso_menu_admin_price_stock_management:
+    path: /eshop/price-and-stock
+    defaults:
+        _controller: Ibexa\Commerce\Bundle\AdminUiBundle\Controller\MenuAdminController::priceStockManagementAction
+
+siso_menu_admin_fetch_prices:
+    path: /eshop/prices-fetch/{shopId}/{currency}
+    defaults:
+        _controller: Ibexa\Commerce\Bundle\AdminUiBundle\Controller\MenuAdminController::fetchPricesAction
+        shopId: ~
+        currency: ~
+    methods: [POST]
+    options:
+        expose: true
+
+siso_menu_admin_fetch_stock:
+    path: /eshop/stock-fetch/{shopId}
+    defaults:
+        _controller: Ibexa\Commerce\Bundle\AdminUiBundle\Controller\MenuAdminController::fetchStockAction
+        shopId: ~
+    methods: [POST]
+    options:
+        expose: true
+
+siso_menu_admin_fetch_shipping_costs:
+    path: /eshop/shipping-costs-fetch
+    defaults:
+        _controller: Ibexa\Commerce\Bundle\AdminUiBundle\Controller\MenuAdminController::fetchShippingCostsAction
+        shopId: ~
+    methods: [GET]
+    options:
+        expose: true
+
+siso_menu_admin_update_stock:
+    path: /eshop/stock-update/{shopId}
+    defaults:
+        _controller: Ibexa\Commerce\Bundle\AdminUiBundle\Controller\MenuAdminController::updateStockAction
+        shopId: ~
+    methods: [POST]
+    options:
+        expose: true
+
+siso_menu_admin_update_prices:
+    path: /eshop/prices-update/{shopId}
+    defaults:
+        _controller: Ibexa\Commerce\Bundle\AdminUiBundle\Controller\MenuAdminController::updatePricesAction
+        shopId: ~
+    methods: [POST]
+    options:
+        expose: true
+
+siso_menu_admin_update_shipping_costs:
+    path: /eshop/shipping-costs-update
+    defaults:
+        _controller: Ibexa\Commerce\Bundle\AdminUiBundle\Controller\MenuAdminController::updateShippingCostsAction
+        shopId: ~
+    methods: [POST]
+    options:
+        expose: true

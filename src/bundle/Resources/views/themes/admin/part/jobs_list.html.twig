@@ -1,0 +1,27 @@
+{% trans_default_domain 'ezcommerce_erp_admin_control_center' %}
+
+{% include '@ezdesign/modal/modal_show_job.html.twig' %}
+<div class="ez-table-header">
+    <div class="ez-table-header__headline">{{ 'jobs_list.active_jobs'|trans|desc('Active jobs') }}</div>
+</div>
+<table class="table ez-table--active-jobs">
+    <thead>
+        <tr>
+            <th>{{ 'jobs_list.id'|trans|desc('ID') }}</th>
+            <th>{{ 'jobs_list.command'|trans|desc('Command') }}</th>
+            <th>{{ 'jobs_list.state'|trans|desc('State') }}</th>
+            <th>{{ 'jobs_list.created'|trans|desc('Created at') }}</th>
+            <th>{{ 'jobs_list.runtime'|trans|desc('Runtime') }}</th>
+            <th>{{ 'jobs_list.queue'|trans|desc('Queue') }}</th>
+        </tr>
+    </thead>
+    <tbody data-template="{{ include('@ezdesign/part/jobs_list_row.html.twig', {
+        id: '{{ id }}',
+        command: '{{ command }}',
+        state: '{{ state }}',
+        createdAt: '{{ createdAt }}',
+        runtime: '{{ runtime }}',
+        queue: '{{ queue }}',
+    })|e('html_attr') }}">
+    </tbody>
+</table>

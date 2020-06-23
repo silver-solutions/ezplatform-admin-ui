@@ -1,6 +1,17 @@
+imports:
+    - { resource: controllers.yaml }
+
 services:
     _defaults:
         autowire: true
         autoconfigure: true
         public: false
 
+    Ibexa\Commerce\Bundle\AdminUiBundle\EventListener\AdminSetMenusListener:
+        arguments:
+            $authorizationChecker: '@security.authorization_checker'
+            $configResolver: '@ezpublish.config.resolver'
+            $ezpublishApiRepository: '@ezpublish.api.repository'
+            $transService: '@silver_trans.translator'
+        tags:
+            - { name: kernel.event_subscriber }

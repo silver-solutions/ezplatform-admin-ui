@@ -1,0 +1,5 @@
+design_list:
+    base_design: [base_theme]
+templates_theme_paths:
+    base_theme:
+        - '%kernel.project_dir%/vendor/ezsystems/ezcommerce-admin-ui/src/bundle/Resources/views/themes/admin'

@@ -1,0 +1,24 @@
+<tr>
+    <td>
+        <select class="ez-table__country-select form-control">
+            <option value="DE">DE</option>
+            <option value="US">US</option>
+            <option value="NO">NO</option>
+        </select>
+    </td>
+    <td><input type="text" class="ez-table__state-input form-control"></td>
+    <td><input type="text" class="ez-table__zip-input form-control"></td>
+    <td>
+        <select class="ez-table__shipping-method form-control"></select>
+    </td>
+    <td><input type="number" class="ez-table__shipping-cost form-control"></td>
+    <td><input type="number" class="ez-table__value form-control"></td>
+    <td><input type="text" class="ez-table__currency form-control"></td>
+    <td>
+        <button class="btn" title="{{ 'shipping_management.delete_shippment.button'|trans|desc('Delete') }}">
+            <svg class="ez-icon ez-icon--medium ez-icon--trash">
+                <use xlink:href="{{ asset('bundles/ezplatformadminui/img/ez-icons.svg') }}#trash"></use>
+            </svg>
+        </button>
+    </td>
+</tr>

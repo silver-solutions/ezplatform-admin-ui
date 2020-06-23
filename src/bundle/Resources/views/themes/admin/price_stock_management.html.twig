@@ -1,0 +1,85 @@
+{% extends "@ezdesign/ui/layout.html.twig" %}
+
+{% trans_default_domain "ezcommerce_price_and_stock" %}
+
+{% block body_class %}ez-ecommerce-price-and-stock{% endblock %}
+
+{% block breadcrumbs %}
+    {% include '@ezdesign/ui/breadcrumbs.html.twig' with { items: [
+        { value: 'breadcrumb.ecommerce'|trans|desc('e-commerce') },
+        { value: 'price_and_stock.title'|trans|desc('Price and stock management') },
+    ]} %}
+{% endblock %}
+
+{% block page_title %}
+    {% include '@ezdesign/ui/page_title.html.twig' with {
+        title: 'price_and_stock.title'|trans|desc('Price and stock management'),
+        iconName: 'price'
+    } %}
+{% endblock %}
+
+{% block title %}{{ 'price_and_stock.title'|trans|desc('Price and stock management') }}{% endblock %}
+
+{% block content %}
+    <div class="row ez-header pt-3">
+        <div class="container">
+            <ul class="nav nav-tabs ez-tabs px-4" role="tablist">
+                <li class="nav-item">
+                    <a
+                        class="nav-link active"
+                        data-toggle="tab"
+                        href="#ez-tab-price"
+                        role="tab"
+                        aria-controls="ez-tab-price"
+                        aria-expanded=""
+                        aria-selected="false">
+                        {{ 'price_and_stock.price'|trans|desc('Price management') }}
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a
+                        class="nav-link"
+                        data-toggle="tab"
+                        href="#ez-tab-stock"
+                        role="tab"
+                        aria-controls="ez-tab-stock"
+                        aria-expanded=""
+                        aria-selected="false">
+                        {{ 'price_and_stock.stock'|trans|desc('Stock management') }}
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a
+                        class="nav-link"
+                        data-toggle="tab"
+                        href="#ez-tab-shipping"
+                        role="tab"
+                        aria-controls="ez-tab-shipping"
+                        aria-expanded=""
+                        aria-selected="false">
+                        {{ 'price_and_stock.shipping_costs'|trans|desc('Shipping costs management') }}
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="tab-content container mt-4 px-5">
+        <div class="tab-pane active" id="ez-tab-price" role="tabpanel">
+            {% include '@ezdesign/tab/price_management.html.twig' %}
+        </div>
+        <div class="tab-pane" id="ez-tab-stock" role="tabpanel">
+            {% include '@ezdesign/tab/stock_management.html.twig' %}
+        </div>
+        <div class="tab-pane" id="ez-tab-shipping" role="tabpanel">
+            {% include '@ezdesign/tab/shipping_management.html.twig' %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ encore_entry_link_tags('ezcommerce-admin-ui-stock-and-price-css', null, 'ezplatform') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('ezcommerce-admin-ui-stock-and-price-js', null, 'ezplatform') }}
+{% endblock %}

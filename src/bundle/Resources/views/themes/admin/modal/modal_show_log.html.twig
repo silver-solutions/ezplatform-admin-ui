@@ -1,0 +1,31 @@
+{% trans_default_domain 'ezcommerce_erp_admin_control_center' %}
+
+<div class="modal fade ez-modal show ez-modal--show-log" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="{{ 'modal.button.close'|trans|desc('Close') }}">
+                    <svg class="ez-icon ez-icon--medium" aria-hidden="true">
+                        <use xlink:href="{{ asset('bundles/ezplatformadminui/img/ez-icons.svg') }}#discard"></use>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="ez-erp-log">
+                    <div class="ez-erp-log__item ez-erp-log__item--hidden">
+                        <span class="ez-erp-log__item-title">{{ 'modal.log_text'|trans|desc('Log text') }}:</span>
+                        <pre class="ez-erp-log__preview ez-erp-log__preview--log-text"></pre>
+                    </div>
+                    <div class="ez-erp-log__item ez-erp-log__item--hidden">
+                        <span class="ez-erp-log__item-title">{{ 'modal.input_xml'|trans|desc('Input-XML') }}:</span>
+                        <pre class="ez-erp-log__preview ez-erp-log__preview--input-xml"></pre>
+                    </div>
+                    <div class="ez-erp-log__item ez-erp-log__item--hidden">
+                        <span class="ez-erp-log__item-title">{{ 'modal.output_xml'|trans|desc('Output-XML') }}:</span>
+                        <pre class="ez-erp-log__preview ez-erp-log__preview--output-xml"></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

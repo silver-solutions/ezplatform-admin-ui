@@ -1,0 +1,32 @@
+<div class="ez-shipping-management">
+    <div class="ez-table-header ez-table-header--shipping-costs">
+        <div class="ez-table-header__headline">{{ 'shipping.table.title'|trans|desc('Manage shipping costs') }}</div>
+        <div class="ez-table-header__tools">
+            <button class="btn btn-primary ez-btn--add-shipping" title="{{ 'shipping_management.add_shipping'|trans|desc('Add') }}">
+                <svg class="ez-icon ez-icon-create">
+                    <use xlink:href="{{ asset('bundles/ezplatformadminui/img/ez-icons.svg') }}#create"></use>
+                </svg>
+            </button>
+        </div>
+    </div>
+    <table class="table ez-table--shipping-management" data-row-template="{{ include('@ezdesign/tab/shipping_management_table_row.html.twig', {})|e('html_attr') }}">
+        <thead>
+            <tr>
+                <th>{{ 'shipping.table.country'|trans|desc('Country') }}</th>
+                <th>{{ 'shipping.table.state'|trans|desc('State') }}</th>
+                <th>{{ 'shipping.table.zip'|trans|desc('ZIP') }}</th>
+                <th>{{ 'shipping.table.shipping_method'|trans|desc('Shipping method') }}</th>
+                <th>{{ 'shipping.table.shipping_cost'|trans|desc('Shipping cost') }}</th>
+                <th>{{ 'shipping.table.value'|trans|desc('Value of goods') }}</th>
+                <th>{{ 'shipping.table.currency'|trans|desc('Currency') }}</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <button class="btn btn-primary ez-btn--save">
+        <svg class="ez-icon ez-icon--medium ez-icon--light">
+            <use xlink:href="{{ asset('bundles/ezplatformadminui/img/ez-icons.svg') }}#save"></use>
+        </svg>
+    </button>
+</div>

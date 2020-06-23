@@ -1,0 +1,21 @@
+{% trans_default_domain 'ezcommerce_erp_admin_control_center' %}
+
+<div class="ez-table-header">
+    <div class="ez-table-header__headline">{{ 'econtent_type.title'|trans|desc('eContentType') }}: {{ name }} </div>
+</div>
+<table class="table" data-template="{{ include('@ezdesign/part/econtent_types_row.html.twig', {
+        attribute_name: '{{ attribute_name }}',
+        attribute_id: '{{ attribute_id }}',
+        ezdatatype: '{{ ezdatatype }}',
+        mapping: '{{ mapping }}'
+    })|e('html_attr') }}">
+    <thead>
+        <tr>
+            <th>{{ 'econtent_type.table.name.title'|trans|desc('Name') }}</th>
+            <th>{{ 'econtent_type.table.id.title'|trans|desc('ID') }}</th>
+            <th>{{ 'econtent_type.table.type.title'|trans|desc('Type') }}</th>
+            <th>{{ 'econtent_type.table.mapping.title'|trans|desc('Mapping') }}</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>

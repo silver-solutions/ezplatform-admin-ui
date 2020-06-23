@@ -1,0 +1,90 @@
+{% trans_default_domain 'ezcommerce_erp_admin_control_center' %}
+
+<div class="ez-table-header">
+    <div class="ez-table-header__headline">{{ 'econtent.status'|trans|desc('eContent status') }}</div>
+</div>
+<table class="table">
+    <tbody>
+    <tr>
+        <td>{{ 'econtent.live_tables'|trans|desc('Live tables') }}</td>
+        <td>
+            <ul class="ez-live-tables" data-template="{{ include('@ezdesign/part/live_tables_item.html.twig', {
+            class_name: '{{ class_name }}',
+            count: '{{ count }}'
+            })|e('html_attr') }}">
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td>{{ 'econtent.temporary_tables'|trans|desc('Temporary tables') }}</td>
+        <td>
+            <ul
+                class="ez-temporary-tables ez-temporary-tables--hidden"
+                data-template="{{ include('@ezdesign/part/live_tables_item.html.twig', {
+                    class_name: '{{ class_name }}',
+                    count: '{{ count }}'
+                })|e('html_attr') }}">
+            </ul>
+            <div class="ez-swap-tables">
+                <div class="ez-swap-tables__swap-wrapper ez-swap-tables__swap-wrapper--hidden">
+                    <span>{{ 'econtent.temporary_tables.swap_message'|trans|desc('The products from the temporary tables will be activated. This will take a few seconds.') }}</span>
+                    <button class="btn btn-secondary ez-swap-tables__btn-swap">{{ 'econtent.temporary_tables.swap.button'|trans|desc('Swap tmp to live') }}</button>
+                </div>
+                <div class="ez-swap-tables__in-progress ez-swap-tables__in-progress--hidden">
+                    {{ 'econtent.temporary_tables.swap.in_progress'|trans|desc('Swap in progress') }}
+                </div>
+                <div class="ez-swap-tables__not-possible ez-swap-tables__not-possible--hidden">
+                    {{ 'econtent.temporary_tables.swap.not_possible'|trans|desc('Swapping not possible, no objects found.') }}
+                </div>
+                <div class="ez-swap-tables__import-active ez-swap-tables__import-active-hidden">
+                    {{ 'econtent.temporary_tables.swap.active'|trans|desc('Import is active') }}
+                </div>
+            </div>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<div class="ez-table-header">
+    <div class="ez-table-header__headline">{{ 'econtent.tasks'|trans|desc('eContent tasks') }}</div>
+</div>
+<table class="table ez-table ez-table--jobs-list" data-template="{{ include('@ezdesign/part/job_table_row.html.twig', {
+        label: '{{ label }}',
+        desc: '{{ desc }}',
+        job_identifier: '{{ job_identifier }}'
+    })|e('html_attr') }}">
+    <tbody>
+        <tr>
+            <td>{{ 'econtent.export.label'|trans|desc('Export eContent products (live)') }}</td>
+            <td>
+                <div class="alert alert-warning ez-alert ez-alert--backup ez-alert--hidden" role="alert"></div>
+                <div class="ez-backup ez-backup">
+                    <div class="ez-backup__options-wrapper ez-backup__options-wrapper--hidden">
+                        <span class="ez-backup__desc">{{ 'econtent.export.set_backup'|trans|desc('Set name of the backup file') }}: </span>
+                        <input class="form-control ez-backup__input-name" type="text" />
+                        <button class="btn btn-secondary ez-btn ez-btn--export" disabled>{{ 'econtent.export.button'|trans|desc('Export') }}</button>
+                    </div>
+                    <div class="ez-backup__export-started ez-backup__export-started--hidden">
+                        {{ 'econtent.export.started'|trans|desc('Export started, details see tab e-commerce jobs. Backup will be placed in') }} <span class="ez-backup__dir"></span>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>{{ 'econtent.import.label'|trans|desc('Import eContent products from backup') }}</td>
+            <td>
+                <span class="ez-import-backup__no-files">{{ 'econtent.import.no_files'|trans|desc('No files to import') }}</span>
+                <span class="ez-import-backup__import-in-progress ez-import-backup__import-in-progress--hidden">
+                    {{ 'econtent.import.please_wait'|trans|desc('Please wait for last import to be finished') }}
+                </span>
+                <div class="ez-import-backup__options-wrapper ez-import-backup__options-wrapper--hidden">
+                    <div class="ez-import-backup__list" data-template="{{ include('@ezdesign/part/backup_list_item.html.twig', {
+                        date: '{{ date }}',
+                        name: '{{ name }}',
+                        size: '{{ size }}'
+                    })|e('html_attr') }}"></div>
+                    <button class="btn btn-secondary ez-btn ez-btn--import" disabled>{{ 'econtent.import.button'|trans|desc('Import') }}</button>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>

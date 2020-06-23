@@ -1,0 +1,47 @@
+<div class="ez-import-export">
+    <div class="ez-import-export__upload">
+        <h2>{{ 'import_export.upload_stock.title'|trans|desc('Upload new stock list') }}</h2>
+        <div class="alert alert-warning">{{ 'import_export.upload.alert'|trans|desc('It might take some time until the CSV file has been imported.') }}</div>
+        <form name="eventForm" action="{{ path('siso_shop_price_engine_stock_upload', { 'shopId' : 'MAIN'}) }}" method="POST" enctype="multipart/form-data">
+            <input name="file" type="file" />
+            <button class="btn btn-secondary" type="submit" name="submit" title="{{ 'import_export.upload_stock.button'|trans|desc('Upload stock') }}">
+                <svg class="ez-icon ez-icon--medium ez-icon--light">
+                    <use xlink:href="{{ asset('bundles/ezplatformadminui/img/ez-icons.svg') }}#upload"></use>
+                </svg>
+            </button>
+        </form>
+    </div>
+    <div class="ez-import-export__download">
+        <a
+            href="{{ path('siso_shop_price_engine_stock_download', { 'shopId' : 'MAIN'}) }}"
+            target="_blank"
+            class="btn btn-secondary"
+            title="{{ 'import_export.download_stock.button'|trans|desc('Download stock') }}">
+            <svg class="ez-icon ez-icon--medium ez-icon--light">
+                <use xlink:href="{{ asset('bundles/ezplatformadminui/img/ez-icons.svg') }}#download"></use>
+            </svg>
+        </a>
+    </div>
+</div>
+<div class="ez-sku-search ez-sku-search--stock">
+    <div class="ez-sku-search__tools">
+        <input type="search" class="ez-sku-search__input form-control">
+        <button type="button" class="btn btn-primary font-weight-bold ez-btn--search">
+            <svg class="ez-icon ez-icon--medium ez-icon--light">
+                <use xlink:href="{{ asset('bundles/ezplatformadminui/img/ez-icons.svg') }}#search"></use>
+            </svg>
+            <span>{{ 'import_export.search.button'|trans|desc('Search') }}</span>
+        </button>
+    </div>
+    <div class="ez-sku-search__results ez-sku-search__results--hidden ez-stock-update">
+        <label class="ez-stock-update__label">{{ 'stock_management.on_stock'|trans|desc('On stock') }}</label>
+        <input type="number" class="ez-stock-update__input ez-stock-update__input--on-stock form-control">
+        <label class="ez-stock-update__label">{{ 'stock_management.stock_text'|trans|desc('Stock text') }}</label>
+        <input type="text" class="ez-stock-update__input ez-stock-update__input--stock-text form-control">
+        <button class="btn btn-primary ez-btn ez-btn--save">
+            <svg class="ez-icon ez-icon--medium ez-icon--light">
+                <use xlink:href="{{ asset('bundles/ezplatformadminui/img/ez-icons.svg') }}#save"></use>
+            </svg>
+        </button>
+    </div>
+</div>

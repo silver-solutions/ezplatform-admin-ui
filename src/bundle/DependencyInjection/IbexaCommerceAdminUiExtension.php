@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Commerce\Bundle\AdminUiBundle\DependencyInjection;
 
 use Symfony\Component\Config\FileLocator;
+use Symfony\Component\Config\Resource\FileResource;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
@@ -31,6 +32,7 @@ final class IbexaCommerceAdminUiExtension extends Extension implements PrependEx
     {
         $this->prependEzDesign($container);
         $this->prependJMSTranslation($container);
+        $this->prependBazingaJsTranslationConfiguration($container);
     }
 
     /**
@@ -49,7 +51,7 @@ final class IbexaCommerceAdminUiExtension extends Extension implements PrependEx
     {
         $container->prependExtensionConfig('jms_translation', [
             'configs' => [
-                'ezcommerce_admin-ui' => [
+                'ezcommerce_admin_ui' => [
                     'dirs' => [
                         __DIR__ . '/../',
                     ],
@@ -60,5 +62,16 @@ final class IbexaCommerceAdminUiExtension extends Extension implements PrependEx
                 ],
             ],
         ]);
+    }
+
+    /**
+     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
+     */
+    private function prependBazingaJsTranslationConfiguration(ContainerBuilder $container): void
+    {
+        $configFile = __DIR__ . '/../Resources/config/bazinga_js_translation.yaml';
+        $config = Yaml::parseFile($configFile);
+        $container->prependExtensionConfig('bazinga_js_translation', $config);
+        $container->addResource(new FileResource($configFile));
     }
 }

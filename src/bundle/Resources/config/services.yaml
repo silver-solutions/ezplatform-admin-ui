@@ -1,5 +1,6 @@
 imports:
     - { resource: controllers.yaml }
+    - { resource: services/menu.yml }
 
 services:
     _defaults:

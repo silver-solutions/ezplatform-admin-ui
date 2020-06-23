@@ -1,0 +1,235 @@
+{% extends "@ezdesign/ui/layout.html.twig" %}
+
+{% use "@ezdesign/configuration_settings/configuration_field.html.twig" %}
+
+{% trans_default_domain "ezcommerce_configuration_settings" %}
+
+{% block body_class %}ez-ecommerce-configuration-settings{% endblock %}
+
+{% block breadcrumbs %}
+    {% include '@ezdesign/ui/breadcrumbs.html.twig' with { items: [
+        { value: 'breadcrumb.ecommerce'|trans|desc('e-commerce') },
+        { value: 'configuration_settings.breadcrumb.configuration_settings'|trans|desc('Configuration Settings') },
+    ]} %}
+{% endblock %}
+
+{% block page_title %}
+    {% include '@ezdesign/ui/page_title.html.twig' with {
+        title: 'configuration_settings.page_title'|trans|desc('Configuration Settings'),
+        iconName: 'settings-config'
+    } %}
+{% endblock %}
+
+{% block title %}{{ 'configuration_settings.page_title'|trans|desc('Configuration Settings') }}{% endblock %}
+
+{%
+    set group_icons = {
+        'b2b' :'b2b',
+        'basket' :'cart',
+        'catalog' :'catalog',
+        'customer' :'customer',
+        'miscellaneous' :'core',
+        'core' :'core',
+        'erp' :'erp',
+        'mail and newsletter' :'mail',
+        'mail' :'mail',
+        'price' :'price',
+        'search' :'search',
+        'content' :'content',
+        'checkout' :'cart',
+        'fallback_local_price': 'price',
+        'stored-basket': 'cart-upload',
+        'wishlist': 'cart-wishlist',
+    }
+%}
+{%
+    set group_names = {
+        'b2b': 'configuration_settings.group_names.b2b'|trans|desc('Advanced catalog features'),
+        'basket': 'configuration_settings.group_names.basket'|trans|desc('Basket'),
+        'catalog': 'configuration_settings.group_names.catalog'|trans|desc('Catalog'),
+        'customer': 'configuration_settings.group_names.customer'|trans|desc('Customer'),
+        'miscellaneous': 'configuration_settings.group_names.miscellaneous'|trans|desc('Miscellaneous'),
+        'core': 'configuration_settings.group_names.core'|trans|desc('core information'),
+        'erp': 'configuration_settings.group_names.erp'|trans|desc('Erp'),
+        'mail and newsletter': 'configuration_settings.group_names.mail_and_newsletter'|trans|desc('Mail and newsletter'),
+        'mail': 'configuration_settings.group_names.mail'|trans|desc('mail information'),
+        'price': 'configuration_settings.group_names.price'|trans|desc('Price'),
+        'search': 'configuration_settings.group_names.search'|trans|desc('search information'),
+        'checkout': 'configuration_settings.group_names.checkout'|trans|desc('Checkout'),
+        'fallback_local_price': 'configuration_settings.group_names.fallback_local_price'|trans|desc('Fallback configuration for price engine'),
+        'stored-basket': 'configuration_settings.group_names.stored_basket'|trans|desc('Stored basket'),
+        'wishlist': 'configuration_settings.group_names.wishlist'|trans|desc('Wishlist'),
+    }
+%}
+
+{%
+    set group_descriptions = {
+        'miscellaneous': 'configuration_settings.group_descriptions.miscellaneous'|trans|desc('Define settings for additional features'),
+        'catalog': 'configuration_settings.group_descriptions.catalog'|trans|desc('Define details for structure and layout of the catalog'),
+        'price': 'configuration_settings.group_descriptions.price'|trans|desc('Configure currencies and set price provider for the shop. Some configurations are only important for eZ Commerce Advanced'),
+        'b2b': 'configuration_settings.group_descriptions.b2b'|trans|desc('Choose advanced shop feature settings'),
+        'checkout': 'configuration_settings.group_descriptions.checkout'|trans|desc('Configure your paymant and shipping methods. Paypal requires an account.'),
+        'mail and newsletter': 'configuration_settings.group_descriptions.mail and newsletter'|trans|desc('Newsletter2go requires the activation of a seperate plugin and an account with Newsletter2go.'),
+        'basket': 'configuration_settings.group_descriptions.basket'|trans|desc('Define detailed behaviour for the basket.'),
+        'stored-basket': 'configuration_settings.group_descriptions.stored-basket'|trans|desc('Configure the displayed product data for stored baskets.'),
+        'erp': 'configuration_settings.group_descriptions.erp'|trans|desc('Define the details of data exchange and processes between your shop and ERP. ERP requires a web.connector licence.'),
+        'fallback_local_price': 'configuration_settings.group_descriptions.fallback_local_price'|trans|desc('Fallback configuration for price engine. It is used, if no shipping costs are set in price and stock management.'),
+    }
+%}
+
+{% block content %}
+    <div class="row align-items-stretch ez-main-row">
+        <div class="px-0 pb-4 ez-content-container">
+            {% if configurationList|length != 0 %}
+                <div class="ez-header pt-3">
+                    <div class="container">
+                        <ul class="nav nav-tabs ez-tabs ez-tabs--commerce-settings px-4" role="tablist" id="ez-tab-list-commerce-settings">
+                            {% for configurationSiteaccessName, configurationSiteaccess in configurationList %}
+                                {% set active = loop.first %}
+                                <li class="nav-item">
+                                    <a 
+                                        class="nav-link{% if active %} active{% endif %}" 
+                                        id="ez-tab-label-{{ configurationSiteaccessName }}"
+                                        data-toggle="tab" 
+                                        href="#ez-tab-{{ configurationSiteaccessName }}" 
+                                        role="tab" 
+                                        aria-controls="ez-tab-{{ configurationSiteaccessName }}"
+                                        aria-expanded="{{ active }}"
+                                    >
+                                        {{ configurationSiteaccessName|capitalize }}
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            {% endif %}
+
+            <section class="container mt-4 px-5">
+                <div class="card ez-card">
+                    <div class="card-body">
+                        <p>
+                            {{ 'configuration_settings.description'|trans({ 
+                                '%url%': path('_ez_content_view', { 'contentId': configurationContent.id }),
+                                '%priceAndStockUrl%': path('siso_menu_admin_price_stock_management') 
+                            })|desc('The tabs displayed are depending on the siteaccesses that are configured for your shop.
+                                The main tab contains the central configuration options for the default settings that can be set by the shop admin.
+                                Make sure to set the country specific configuration as they overwrite the default settings!<br /><br />
+                                In case of problems please check the <a href="%url%">stored configuration</a><br />
+                                If you are looking for price and stock management go to <a href="%priceAndStockUrl%">price and stock management</a>')|raw }}
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            {% if configurationList|length != 0 %}
+                <section class="container mt-4 mb-4 px-5">
+                    <form action="" method="post">
+                        <div class="tab-content ez-ecommerce-configuration-settings__tabs" id="ez-tab-list-content-commerce-settings">
+                            {% for configurationSiteaccessName, configurationSiteaccess in configurationList %}
+                                {% set activeTab = loop.first %}
+
+                                <div 
+                                    class="tab-pane{% if activeTab %} active{% endif %}" 
+                                    id="ez-tab-{{ configurationSiteaccessName }}" 
+                                    role="tabpanel"
+                                    aria-labelledby="ez-tab-label-{{ configurationSiteaccessName }}"
+                                >
+                                    {% for configurationGroupName, configurationGroup in configurationSiteaccess %}
+                                        {% set activeCard = loop.first %}
+
+                                        <div class="card ez-card ez-card--commerce-configuration-group mb-3{% if not activeCard %} ez-card--collapsed{% endif %}">
+                                            <div 
+                                                id="ez-commerce-configuration-{{ configurationGroupName }}" 
+                                                class="ez-card__header ez-card__header--secondary"
+                                            >
+                                                <div class="ez-label">
+                                                    <svg class="ez-icon">
+                                                        <use xlink:href="{{ asset('bundles/ezplatformadminui/img/ez-icons.svg') }}#{{ group_icons[configurationGroupName] }}"></use>
+                                                    </svg>
+                                                    {{ group_names[configurationGroupName] }}
+                                                </div>
+                                                <button class="ez-card__body-display-toggler btn">
+                                                    <svg class="ez-icon ez-icon--medium ez-icon--caret-down" aria-hidden="true">
+                                                        <use xlink:href="{{ asset('bundles/ezplatformadminui/img/ez-icons.svg') }}#caret-down"></use>
+                                                    </svg>
+                                                    <svg class="ez-icon ez-icon--medium ez-icon--caret-next" aria-hidden="true">
+                                                        <use xlink:href="{{ asset('bundles/ezplatformadminui/img/ez-icons.svg') }}#caret-next"></use>
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                            <div class="ez-card__body">
+                                                {% if group_descriptions[configurationGroupName] is defined %}
+                                                    <p>{{ group_descriptions[configurationGroupName] }}</p>
+                                                {% endif %}
+
+                                                <table class="table ez-table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="ez-table__cell ez-table__cell--header">
+                                                                {{ 'configuration_settings.table.header.name'|trans|desc('Name') }}
+                                                            </th>
+                                                            <th class="ez-table__cell ez-table__cell--header">
+                                                                {{ 'configuration_settings.table.header.value'|trans|desc('Value') }}
+                                                            </th>
+                                                            <th class="ez-table__cell ez-table__cell--header">
+                                                                {{ 'configuration_settings.table.header.description'|trans|desc('Description') }}
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {% for configurationItem in configurationGroup %}
+                                                            <tr>
+                                                                <td class="ez-table__cell ez-table__cell--name">
+                                                                    {{ configurationItem.name }}
+                                                                    {% if configurationItem.type == 'subtype' %}
+                                                                        <strong>[{{ configurationItem.internal_key }}]</strong>
+                                                                        {% if configurationItem.internal_key2 is defined %}
+                                                                            <strong>[{{ configurationItem.internal_key2 }}]</strong>
+                                                                        {% endif %}
+                                                                    {% endif %}
+                                                                </td>
+                                                                <td class="ez-table__cell ez-table__cell--value">
+                                                                    {% if block('configuration_' ~ configurationItem.type) is defined %}
+                                                                        {{ block('configuration_' ~ configurationItem.type) }}
+                                                                    {% endif %}
+                                                                </td>
+                                                                <td class="ez-table__cell  ez-table__cell--description">
+                                                                    {{ configurationItem.description|raw }}
+                                                                </td>
+                                                            </tr>
+                                                        {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <div class="ez-ecommerce-configuration-settings__actions">
+                            <button hidden id="ez-save-configuration" class="btn btn-primary" name="send">
+                                {{ 'configuration_settings.actions.save'|trans|desc('Save configuration') }}
+                            </button>
+                        </div>
+                    </form>
+                </section>
+            {% endif %}
+        </div>
+        <div class="pt-4 px-0 bg-secondary ez-context-menu">
+            <div class="ez-sticky-container">
+                {% set sidebar = knp_menu_get('ezcommerce_eshop.configuration_settings.actions', [], {}) %}
+
+                {{ knp_menu_render(sidebar, {'template': '@ezdesign/ui/menu/sidebar_right.html.twig'}) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ encore_entry_link_tags('ezcommerce-admin-ui-css', null, 'ezplatform') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('ezcommerce-admin-ui-configuration-settings-js', null, 'ezplatform') }}
+{% endblock %}

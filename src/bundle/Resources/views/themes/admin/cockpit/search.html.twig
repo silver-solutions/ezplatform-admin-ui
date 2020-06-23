@@ -1,0 +1,100 @@
+{% trans_default_domain "ezcommerce_cockpit" %}
+
+<div 
+    class="ez-ecommerce-cockpit-search ez-ecommerce-cockpit-search--top"
+    data-name="Mostsearch"
+    data-template="{{ include('@ezdesign/part/cockpit_row.html.twig', {
+        columns: ['{{ LOG_MESSAGE }}', '{{ AMOUNT }}', '{{ HITS }}']
+    })|e('html_attr') }}"
+>
+    <div class="ez-table-header">
+        <div class="ez-table-header__headline">{{ 'cockpit.search.top.search.terms'|trans|desc('Top search terms') }}</div>
+        <button
+            title="{{ 'cockpit.search.refresh'|trans|desc('Refresh') }}"
+            class="btn btn-primary ez-btn--refresh"
+        >
+            <svg class="ez-icon ez-icon-create">
+                <use xlink:href="{{ asset('bundles/ezplatformadminui/img/ez-icons.svg') }}#refresh"></use>
+            </svg>
+        </button>
+    </div>        
+    <div class="ez-ecommerce-cockpit-search__table">
+        <table class="table ez-table">
+            <thead>
+                <tr>
+                    <th>{{ 'cockpit.search.search.term'|trans|desc('Search Term') }}</th>
+                    <th>{{ 'cockpit.search.times.searched'|trans|desc('Times Searched') }}</th>
+                    <th>{{ 'cockpit.search.hits'|trans|desc('Hits') }}</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div 
+    class="ez-ecommerce-cockpit-search ez-ecommerce-cockpit-search--last"
+    data-name="lastsearch"
+    data-template="{{ include('@ezdesign/part/cockpit_row.html.twig', {
+        columns: ['{{ TIMESTAMP }}', '{{ LOG_MESSAGE }}', '{{ RESULTS }}']
+    })|e('html_attr') }}"
+>
+    <div class="ez-table-header">
+        <div class="ez-table-header__headline">{{ 'cockpit.search.last.search.terms'|trans|desc('Last search terms')  }}</div>
+        <button
+            title="{{ 'cockpit.search.refresh'|trans|desc('Refresh') }}"
+            class="btn btn-primary ez-btn--refresh"
+        >
+            <svg class="ez-icon ez-icon-create">
+                <use xlink:href="{{ asset('bundles/ezplatformadminui/img/ez-icons.svg') }}#refresh"></use>
+            </svg>
+        </button>
+    </div> 
+    <div class="ez-ecommerce-cockpit-search__table">
+        <table class="table ez-table">
+            <thead>
+                <tr>
+                    <th>{{ 'cockpit.search.date.time'|trans|desc('Date/Time') }}</th>
+                    <th>{{ 'cockpit.search.search.term'|trans|desc('Search Term') }}</th>
+                    <th>{{ 'cockpit.search.hits'|trans|desc('Hits') }}</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div 
+    class="ez-ecommerce-cockpit-search ez-ecommerce-cockpit-search--no-hit"
+    data-name="Nohitssearch"
+    data-template="{{ include('@ezdesign/part/cockpit_row.html.twig', {
+        columns: ['{{ LOG_MESSAGE }}', '{{ AMOUNT }}', '{{ HITS }}']
+    })|e('html_attr') }}"
+>
+    <div class="ez-table-header">
+        <div class="ez-table-header__headline">{{ 'cockpit.search.most.search.terms.with.less.hits'|trans|desc('Most searched terms with less hits') }}</div>
+        <button
+            title="{{ 'cockpit.search.refresh'|trans|desc('Refresh') }}"
+            class="btn btn-primary ez-btn--refresh"
+        >
+            <svg class="ez-icon ez-icon-create">
+                <use xlink:href="{{ asset('bundles/ezplatformadminui/img/ez-icons.svg') }}#refresh"></use>
+            </svg>
+        </button>
+    </div> 
+    <div class="ez-ecommerce-cockpit-search__table">
+        <table class="table ez-table">
+            <thead>
+                <tr>
+                    <th>{{ 'cockpit.search.search.term'|trans|desc('Search Term') }}</th>
+                    <th>{{ 'cockpit.search.times.searched'|trans|desc('Times Searched') }}</th>
+                    <th>{{ 'cockpit.search.hits'|trans|desc('Hits') }}</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</div>

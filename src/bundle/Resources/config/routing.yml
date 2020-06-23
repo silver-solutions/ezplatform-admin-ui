@@ -1,0 +1,96 @@
+siso_menu_admin_cockpit:
+    path: /eshop/cockpit
+    defaults:
+        _controller: siso_core.menu_admin_controller:cockpitAction
+        policy: siso_policy/dashboard_view
+
+siso_menu_admin_order_management:
+    path: /eshop/ordermanagement
+    defaults:
+        _controller: siso_core.menu_admin_controller:orderManagementAction
+        policy: siso_policy/manage_orders
+
+siso_menu_admin_configuration_settings:
+    path: /eshop/configuration_settings
+    defaults:
+        _controller: silver_eshop.configuration_controller:configurationListAction
+        policy: siso_policy/manage_config
+
+# Rest routing
+silver_eshop_rest.dashboard_charts:
+    path: /rest/dashboard-charts
+    defaults:
+        _controller: silver_eshop_rest_api.controller.rest_controller:getChartDataAction
+    methods: [GET, POST]
+
+silver_eshop_rest.dashboard_overview:
+    path: /rest/dashboard-overview
+    defaults:
+        _controller: silver_eshop_rest_api.controller.rest_controller:getOverviewDataAction
+    methods: [GET, POST]
+
+silver_eshop_rest.dashboard_panel:
+    path: /rest/dashboard-bestseller
+    defaults:
+        _controller: silver_eshop_rest_api.controller.rest_controller:getBestsellerDataAction
+    methods: [GET, POST]
+
+silver_eshop_rest.dashboard_tab:
+    path: /rest/dashboard-searchterms
+    defaults:
+        _controller: silver_eshop_rest_api.controller.rest_controller:getSearchTermsDataAction
+    methods: [GET, POST]
+
+silver_eshop_rest.dashboard_summary:
+    path: /rest/dashboard-summary/{shopId}/{currency}
+    defaults:
+        _controller: silver_eshop_rest_api.controller.rest_controller:getDashboardSummaryAction
+    methods: [GET]
+
+silver_eshop_rest.currency_list:
+    path: /rest/currency-list
+    defaults:
+        _controller: silver_eshop_rest_api.controller.rest_controller:getCurrencies
+    methods: [GET]
+
+silver_eshop_rest.shop_ids_list:
+    path: /rest/shop-list
+    defaults:
+        _controller: silver_eshop_rest_api.controller.rest_controller:getShopIds
+    methods: [GET]
+
+silver_eshop_rest.top_search:
+    path: /rest/top-search/{shopId}
+    defaults:
+        _controller: silver_eshop_rest_api.controller.rest_controller:getTopSearch
+    methods: [GET]
+
+silver_eshop_rest.less_search:
+    path: /rest/most-searched-less-hits/{shopId}
+    defaults:
+        _controller: silver_eshop_rest_api.controller.rest_controller:getNoHitsSearch
+    methods: [GET]
+
+silver_eshop_rest.last_orders:
+    path: /rest/last-orders/{shopId}/{userId}
+    defaults:
+        _controller: silver_eshop_rest_api.controller.rest_controller:getLastOrders
+    methods: [GET]
+
+silver_eshop_rest.best_clients:
+    path: /rest/best-clients/{shopId}/{currency}
+    defaults:
+        _controller: silver_eshop_rest_api.controller.rest_controller:getBestClients
+    methods: [GET]
+
+silver_eshop_rest.transfer_lostorder_erp:
+    path: /rest/lostorders/erp-transfer/{basketId}
+    defaults:
+        _controller: silver_eshop_rest_api.controller.rest_controller:transferToErp
+    methods: [GET]
+
+silver_eshop_rest.remove_lostorder:
+    path: /rest/lostorders/remove-lostorder/{basketId}
+    defaults:
+        _controller: silver_eshop_rest_api.controller.rest_controller:removeLostOrder
+    methods: [GET]

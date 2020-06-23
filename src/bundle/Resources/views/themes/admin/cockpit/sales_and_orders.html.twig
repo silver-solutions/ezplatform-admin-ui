@@ -1,0 +1,92 @@
+{% trans_default_domain "ezcommerce_cockpit" %}
+
+<div class="ez-ecommerce-cockpit-status ez-ecommerce-cockpit-status--two-columns">
+    <div class="ez-ecommerce-cockpit-status__box ez-ecommerce-cockpit-status__box--sales">
+        <h4 class="ez-ecommerce-cockpit-status__box-header">
+            {{ 'cockpit.sales.and.orders.total.sales'|trans|desc('Total Sales') }}
+        </h4>
+        <div class="ez-ecommerce-cockpit-status__box-content ez-ecommerce-cockpit-status__box-content--with-icon">
+            <svg class="ez-icon ez-icon--large" hidden>
+                <use xlink:href="{{ asset('bundles/ezplatformadminui/img/ez-icons.svg') }}#stats"></use>
+            </svg>
+            <span class="ez-ecommerce-cockpit-status__value"></span>
+        </div>
+    </div>
+    <div class="ez-ecommerce-cockpit-status__box ez-ecommerce-cockpit-status__box--orders">
+        <h4 class="ez-ecommerce-cockpit-status__box-header">
+            {{ 'cockpit.sales.and.orders.total.orders'|trans|desc('Total Orders') }}
+        </h4>
+        <div class="ez-ecommerce-cockpit-status__box-content ez-ecommerce-cockpit-status__box-content--with-icon">
+            <svg class="ez-icon ez-icon--large" hidden>
+                <use xlink:href="{{ asset('bundles/ezplatformadminui/img/ez-icons.svg') }}#view-list"></use>
+            </svg>
+            <span class="ez-ecommerce-cockpit-status__value"></span>
+        </div>
+    </div>
+</div>
+<div class="ez-filters">
+    <div class="ez-filters__row">
+        <div class="ez-filters__item">
+            <label class="ez-filters__item-label" for="dateStart">
+                {{ 'cockpit.sales.and.orders.filters.date.from'|trans|desc('Date from') }}
+            </label>
+            <input 
+                type="text"    
+                class="form-control ez-date-select ez-date-select--start"
+                data-js-changed="0"
+                data-omit-next-request="0"
+            />
+            <input
+                type="hidden"
+                name="dateStart" 
+                id="dateStart"
+                class="ez-date-server"
+            />
+        </div>
+        <div class="ez-filters__item">
+            <label class="ez-filters__item-label" for="dateEnd">
+                {{ 'cockpit.sales.and.orders.filters.date.to'|trans|desc('Date to') }}
+            </label>
+            <input 
+                type="text"    
+                class="form-control ez-date-select ez-date-select--end" 
+                data-js-changed="0"
+            />
+            <input
+                type="hidden"
+                name="dateEnd" 
+                id="dateEnd"
+                class="ez-date-server"
+            />
+        </div>
+        <div class="ez-filters__item">
+            <label class="ez-filters__item-label" for="limit">
+                {{ 'cockpit.sales.and.orders.filters.predefined'|trans|desc('Predefined') }}
+            </label>
+            <select name="limit" class="form-control ez-filters__select" id="limit">
+                <option value="custom_range">{{ 'cockpit.sales.and.orders.filters.custom.range'|trans|desc('Custom range') }}</option>
+                <option value="this_week">{{ 'cockpit.sales.and.orders.filters.this.week'|trans|desc('This week') }}</option>
+                <option value="this_month">{{ 'cockpit.sales.and.orders.filters.this.month'|trans|desc('This month') }}</option>
+                <option value="last_7">{{ 'cockpit.sales.and.orders.filters.last.7'|trans|desc('Last 7 days') }}</option>
+                <option value="last_14">{{ 'cockpit.sales.and.orders.filters.last.14'|trans|desc('Last 14 days') }}</option>
+                <option value="last_30" selected>{{ 'cockpit.sales.and.orders.filters.last.30'|trans|desc('Last 30 days') }}</option>
+            </select>
+        </div>
+    </div>
+</div>
+<div class="ez-ecommerce-cockpit-charts ez-commerce-cockpit-charts--sales" data-name="sales">
+    <div class="ez-table-header">
+        <div class="ez-table-header__headline">{{ 'cockpit.sales.and.orders.sales'|trans|desc('Sales') }}</div>
+    </div>
+    <div class="ez-ecommerce-cockpit-charts__box">
+        <div class="ez-ecommerce-cockpit-charts__chart"></div>
+    </div>
+</div>
+<div class="ez-ecommerce-cockpit-charts ez-commerce-cockpit-charts--orders" data-name="orders">
+    <div class="ez-table-header">
+        <div class="ez-table-header__headline">{{ 'cockpit.sales.and.orders.orders'|trans|desc('Orders') }}</div>
+    </div>
+    <div class="ez-ecommerce-cockpit-charts__box">
+        <div class="ez-ecommerce-cockpit-charts__chart"></div>
+    </div>
+</div>

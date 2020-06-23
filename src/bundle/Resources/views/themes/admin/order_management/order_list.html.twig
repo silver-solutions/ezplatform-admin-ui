@@ -1,0 +1,356 @@
+{% extends "@ezdesign/ui/layout.html.twig" %}
+
+{% trans_default_domain "ezcommerce_order_management" %}
+
+{% block body_class %}ez-ecommerce-order-list{% endblock %}
+
+{% block breadcrumbs %}
+    {% include '@ezdesign/ui/breadcrumbs.html.twig' with { items: [
+        { value: 'breadcrumb.ecommerce'|trans|desc('e-commerce') },
+        { value: 'order_list.breadcrumb.order_management'|trans|desc('Order Management') },
+    ]} %}
+{% endblock %}
+
+{% block page_title %}
+    {% include '@ezdesign/ui/page_title.html.twig' with {
+        title: 'order_list.page_title'|trans|desc('Order Management'),
+        iconName: 'order-management'
+    } %}
+{% endblock %}
+
+{% block title %}{{ 'order_list.page_title'|trans|desc('Order Management') }}{% endblock %}
+
+{%
+    set ezCommerceOrderStatuses = {
+        'new': 'order_list.filters.state.new'|trans|desc('New'),
+        'offered': 'order_list.filters.state.offered'|trans|desc('Offered'),
+        'payed': 'order_list.filters.state.payed'|trans|desc('Payed'),
+        'confirmed': 'order_list.filters.state.confirmed'|trans|desc('Confirmed'),
+        'ordered_failed': 'order_list.filters.state.ordered_failed'|trans|desc('Order transfer failed'),
+        'approval': 'order_list.filters.state.approval'|trans|desc('Approval'),
+        'rejected': 'order_list.filters.state.rejected'|trans|desc('Rejected'),
+    }
+%}
+{%
+    set ezCommercePaymentMethods = {
+        'invoice': 'order_list.filters.payment.invoice'|trans|desc('Invoice'),
+        'paypal_express_checkout': 'order_list.filters.payment.paypal_express_checkout'|trans|desc('Paypal Express'),
+    }
+%}
+
+{% block content %}
+    {% set erpConnected = true %} <!-- ses_config_parameter('erp_connection', 'siso_core') -->
+    {% set ezCommerceOptions = ['confirmed','payed'] %}
+
+    <section class="container mt-4 px-5">
+        <form name="filters" method="post" action="">
+            <div class="ez-filters">
+                <div class="ez-filters__row">
+                    {% if erpConnected %}
+                        <div class="ez-filters__item">
+                            <label class="ez-filters__item-label" for="user_no">
+                                {{ 'order_list.filters.user_id'|trans|desc('User ID') }}
+                            </label>
+                            <div>
+                                <button 
+                                    {% if formFilter.userNo is not empty %} hidden {% endif %}
+                                    class="btn btn-secondary ez-btn--udw-select-user"
+                                    type="button"
+                                    data-universal-discovery-title="{{'order_list.filters.udw.select.user'|trans|desc('Select User')}}"
+                                    data-udw-config="{{ ez_udw_config('single_user', {}) }}"
+                                >
+                                    {{'order_list.filters.udw.select.user'|trans|desc('Select User')}}
+                                </button>
+                                {{ include('@ezdesign/ui/tag.html.twig', {
+                                    'content': formFilter.userNo,
+                                    'is_loading_state': false,
+                                    'tag_attributes': {
+                                        'hidden': formFilter.userNo is empty,
+                                        'id': 'user-breadcrumbs',
+                                    }
+                                }) }}
+                            </div>
+                            <input 
+                                type="hidden" 
+                                name="user_no" 
+                                id="user_no"  
+                                class="form-control ez-filters__input ez-filters__input--name" 
+                                value="{{ formFilter.userNo }}"
+                            />
+                        </div>
+                        <div class="ez-filters__item">
+                            <label class="ez-filters__item-label" for="customer_no">
+                                {{ 'order_list.filters.customer_no'|trans|desc('Customer number') }}
+                            </label>
+                            <input 
+                                type="text" 
+                                name="customer_no" 
+                                id="customer_no"  
+                                class="form-control ez-filters__input" 
+                                value="{{ formFilter.customerNo }}"
+                            />
+                        </div>
+                    {% endif %}
+                    <div class="ez-filters__item">
+                        <label class="ez-filters__item-label" for="basket_state">
+                            {{ 'order_list.filters.state'|trans|desc('State') }}
+                        </label>
+                        <select name="basket_state" class="form-control ez-filters__select" id="basket_state">
+                            <option value="">{{ 'order_list.filters.select'|trans|desc('Select') }}...</option>
+                            {% for orderState in orderStates %}
+                                {% if erpConnected or orderState in ezCommerceOptions %}
+                                    <option 
+                                        {% if orderState ==  formFilter.basketState %}selected="selected" {% endif %}
+                                        value="{{ orderState }}"
+                                    >
+                                        {{ ezCommerceOrderStatuses[orderState] }}
+                                    </option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="ez-filters__item">
+                        <label class="ez-filters__item-label" for="date-from">
+                            {{ 'order_list.filters.date_from'|trans|desc('Date from') }}
+                        </label>
+                        <input 
+                            type="text"    
+                            class="form-control ez-date-select ez-date-select--start" 
+                            value="{{ formFilter.dateFrom }}"
+                        />
+                        <input
+                            type="hidden"
+                            name="date-from" 
+                            id="date-from"
+                            class="ez-date-server"
+                            value="{{ formFilter.dateFrom }}"
+                        />
+                    </div>
+                    <div class="ez-filters__item">
+                        <label class="ez-filters__item-label" for="date-to">
+                            {{ 'order_list.filters.date_to'|trans|desc('Date to') }}
+                        </label>
+                        <input 
+                            type="text" 
+                            class="form-control ez-date-select ez-date-select--start" 
+                            value="{{ formFilter.dateTo }}"
+                        />
+                        <input
+                            type="hidden"
+                            name="date-to" 
+                            id="date-to" 
+                            class="ez-date-server"
+                            value="{{ formFilter.dateTo }}"
+                        />
+                    </div>
+                    <div class="ez-filters__item">
+                        <label class="ez-filters__item-label" for="payment_option">
+                            {{ 'order_list.filters.payment_option'|trans|desc('Payment option') }}
+                        </label>
+                        <select name="payment_option" class="form-control ez-filters__select" id="payment_option">
+                            <option value="">{{ 'order_list.filters.select'|trans|desc('Select') }}...</option>
+                            {% for paymentMethod in paymentMethods %}
+                                <option 
+                                    {% if paymentMethod ==  formFilter.paymentOption %}selected="selected" {% endif %}
+                                    value="{{ paymentMethod }}"
+                                >
+                                    {{ ezCommercePaymentMethods[paymentMethod] }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="ez-filters__item">
+                        <label class="ez-filters__item-label" for="payment_transaction_id">
+                            {{ 'order_list.filters.payment_transaction_id'|trans|desc('Payment transaction id') }}
+                        </label>
+                        <input 
+                            type="text" 
+                            name="payment_transaction_id" 
+                            id="payment_transaction_id"  
+                            class="form-control ez-filters__input" 
+                            value="{{ formFilter.paymentTransactionId }}"
+                        />
+                    </div>
+                </div>
+                <div class="ez-filters__btns">
+                    <button 
+                        class="btn btn-secondary ez-btn-apply ez-btn--search" 
+                        type="submit" 
+                        name="submit" 
+                    >
+                        {{ 'order_list.filters.apply'|trans|desc('Apply') }}
+                    </button>
+                    <button 
+                        target="_blank" 
+                        class="btn btn-secondary ez-btn-apply ez-btn--export-orders" 
+                        type="submit" 
+                        name="export" 
+                        value="export_value"
+                    >
+                        {{ 'order_list.filters.export_orders'|trans|desc('Export orders (xml)') }}
+                    </button>
+                </div>
+            </div>
+        </form>
+    </section>
+
+    <section class="container mt-4 px-5">
+        <div class="ez-table-header">
+            <div class="ez-table-header__headline">
+                {{ 'order_list.table.title'|trans|desc('Order Management') }} ({{ count_orders }})
+            </div>
+        </div>
+        <table class="ez-table table">
+            <thead>
+                <tr>
+                    <th>{{ 'order_list.table.header.basket_id'|trans|desc('Basket ID') }}</th>
+                    <th>{{ 'order_list.table.header.date'|trans|desc('Date') }}</th>
+                    <th>{{ 'order_list.table.header.customer_name'|trans|desc('Customer name') }}</th>
+                    {% if erpConnected %}
+                        <th>{{ 'order_list.table.header.shop'|trans|desc('Shop') }}</th>
+                    {% endif %}
+                    <th>{{ 'order_list.table.header.total'|trans|desc('Total') }}</th>
+                    <th>{{ 'order_list.table.header.state'|trans|desc('State') }}</th>
+                    <th>{{ 'order_list.table.header.invoice'|trans|desc('Invoice') }}</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if baskets|length == 0 %}
+                    <tr>
+                        <td class="ez-table__cell ez-table__cell--no-content" colspan="{{ erpConnected ? 8 : 6 }}">
+                            <span class="mb-0 py-1 pl-0">
+                                {{ 'order_list.table.empty'|trans|desc('No orders were found matching your criteria.') }}
+                            </span>
+                        </td>
+                    </tr>
+                {% else %}
+                    {% for basket in baskets %}
+                        {% set invoice_number = 5 %} <!-- TODO: ses_invoice_number(basket.basketId) -->
+                        <tr>
+                            <td class="ez-table__cell">
+                                {{ basket.basketId }}
+                            </td>
+                            <td class="ez-table__cell">
+                                {{ basket.dateLastModified|ez_full_datetime }}
+                            </td>
+                            <td class="ez-table__cell">
+                                {{ basket.invoiceParty.PartyName[0].Name.value|default('-') }}
+                            </td>
+                            {% if erpConnected %}
+                                <td class="ez-table__cell">
+                                    {{ basket.shop }}
+                                </td>
+                            {% endif %}
+                            <td class="ez-table__cell">
+                                {% if not basket.dataMap.multishop_order|default(false) %}
+                                    {{ basket.totalsSum.totalGross|price_format(basket.totalsSum.currency) }}
+                                {% endif %}
+                            </td>
+                            <td class="ez-table__cell">
+                                {{ basket.state }}
+                            </td>
+                            <td class="ez-table__cell">
+                                {% if invoice_number is not empty %} 
+                                    {% set invoice_path = path('siso_menu_admin_order_management_invoice', {
+                                        'invoice_number': invoice_number,
+                                    }) %}
+                                    <a href="{{ invoice_path }}" target="_blank">
+                                        #{{ invoice_number }}
+                                    </a>
+                                {% endif %}
+                            </td>
+                            <td class="ez-table__cell ez-table__cell--has-action-btns text-right">
+                                {% set modal_data_target = 'modal-' ~ basket.basketId %}
+                                <button
+                                    title="{{ 'order_list.table.action.details'|trans|desc('Details') }}"
+                                    class="btn btn-icon"
+                                    data-toggle="modal"
+                                    data-target="#{{ modal_data_target }}"
+                                >
+                                    <svg class="ez-icon ez-icon--secondary">
+                                        <use xlink:href="{{ asset('bundles/ezplatformadminui/img/ez-icons.svg') }}#view"></use>
+                                    </svg>
+                                </button>
+                                {% include '@ezdesign/order_management/order_details.html.twig' with {
+                                    'id': modal_data_target,
+                                    'basket': basket,
+                                    'erpConnected': erpConnected,
+                                } %}
+                                {% if erpConnected %}
+                                    <button
+                                        title="{{ 'order_list.table.action.transfer'|trans|desc('Transfer to ERP') }}"
+                                        class="btn btn-icon ml-2 ez-btn--transfer"
+                                        data-id={{ basket.basketId }}
+                                    >
+                                        <svg class="ez-icon ez-icon--secondary">
+                                            <use xlink:href="{{ asset('bundles/ezplatformadminui/img/ez-icons.svg') }}#back"></use>
+                                        </svg>
+                                    </button>
+                                    <button
+                                        title="{{ 'order_list.table.action.delete'|trans|desc('Remove lost order') }}"
+                                        class="btn btn-icon ml-2 ez-btn--trash"
+                                        data-id={{ basket.basketId }}
+                                    >
+                                        <svg class="ez-icon">
+                                            <use xlink:href="{{ asset('bundles/ezplatformadminui/img/ez-icons.svg') }}#trash"></use>
+                                        </svg>
+                                    </button>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
+            </tbody>
+        </table>
+
+        {% set pages = count_orders // limit %}
+        {% if limit * pages < count_orders %}
+            {% set pages = pages + 1 %}
+        {% endif %}
+        {% if pages > 1 %}
+            <div class="row justify-content-center align-items-center mb-2">
+                <span class="ez-pagination__text">
+                    {{ 'order_list.pager.viewing'|trans({
+                        '%viewing%': baskets|length,
+                        '%total%': count_orders})|desc('Viewing <strong>%viewing%</strong> out of <strong>%total%</strong> items')|raw }}
+                </span>
+            </div>
+            <div class="row justify-content-center align-items-center ez-pagination__btn mb-5">
+                <ul class="pagination ez-pagination">
+                    <li class="page-item"></li>
+                    {% for page in 1..pages %}
+                        {% if (offset/limit) == page - 1 %}
+                            <li class="page-item active">
+                                <span class="page-link">{{ page }}</span>
+                            </li>
+                        {% else %}
+                            {% set pager_path = path('siso_menu_admin_order_management', {
+                                'offset': (page-1) * limit,
+                                'basket_state': formFilter.basketState,
+                                'payment_option': formFilter.paymentOption,
+                                'date-from': formFilter.dateFrom,
+                                'date-to': formFilter.dateTo,
+                                'payment_transaction_id': formFilter.paymentTransactionId,
+                                'user_no': formFilter.userNo,
+                                'customer_no': formFilter.customerNo,
+                            }) %}
+                            <li class="page-item">
+                                <a class="page-link" href="{{ pager_path }}">{{ page }}</a>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                    <li class="page-item"></li>
+                </ul>
+            </div>
+        {% endif %}
+    </section>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ encore_entry_link_tags('ezcommerce-admin-ui-css', null, 'ezplatform') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('ezcommerce-admin-ui-order-management-js', null, 'ezplatform') }}
+{% endblock %}

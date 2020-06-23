@@ -1,0 +1,91 @@
+{% trans_default_domain 'ezcommerce_order_management' %}
+
+<div class="modal fade ez-modal ez-ecommerce-order-details" id="{{ id }}" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{{ 'order_list.details.title'|trans|desc('Basket details') }}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <svg class="ez-icon ez-icon--medium" aria-hidden="true">
+                        <use xlink:href="{{ asset('bundles/ezplatformadminui/img/ez-icons.svg') }}#discard"></use>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body ez-ecommerce-order-details__content">
+                <div class="ez-ecommerce-order-details__item">
+                    {% if erpConnected and basket.invoiceParty.PartyIdentification is defined %}
+                        <div>
+                            <label class="ez-label">{{ 'order_list.details.customer_number'|trans|desc('Customer number') }}</label>
+                            <div>{{ basket.invoiceParty.PartyIdentification[0].ID.value|default('-') }}</div>
+                        </div>
+                    {% endif %}
+                    {% if erpConnected %}
+                        <div>
+                            <label class="ez-label">{{ 'order_list.details.order_id'|trans|desc('Order ID') }}</label>
+                            <div>{{ basket.erpOrderId|default('-') }}</div>
+                        </div>
+                    {% endif %}
+
+                    {% if basket.dataMap.orderType|default('') != '' %}
+                        <div>
+                            <label class="ez-label">{{ 'order_list.details.type'|trans|desc('Type') }}</label>
+                            <div>{{ basket.dataMap.orderType }}</div>
+                        </div>
+                    {% endif %}
+
+                    <div>
+                        <label class="ez-label">{{ 'order_list.details.transaction_id'|trans|desc('Transaction ID') }}</label>
+                        <div>{{ basket.paymentTransactionId }}</div>
+                    </div>
+                    <div>
+                        <label class="ez-label">{{ 'order_list.details.customer_number'|trans|desc('Customer number') }}</label>
+                        <div>{{ basket.paymentMethod }}</div>
+                    </div>
+                </div>
+                <div class="ez-ecommerce-order-details__item">
+                    <label class="ez-label">{{ 'order_list.details.products'|trans|desc('Products') }}</label>
+                    <div>
+                        {% if basket.lines %}
+                            {% for line in basket.lines %}
+                                {% if line.catalogElement|default is not empty %}
+                                    {% set product = line.catalogElement %}
+                                {% else %}
+                                    {% set product = ses_product({'sku': line.sku, 'variantCode': line.variantCode }) %}
+                                {% endif %}
+                                <div>
+                                    {{ line.quantity }} x {{ line.sku }}
+                                    {% if line.variantCode|default is not empty %}
+                                        {{ 'order_list.details.variant'|trans|desc('Variant') }}: {{ line.variantCode }}
+                                    {% endif %}
+                                    {% if product.name is defined %}
+                                        {{ product.name }}
+                                    {% endif %}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="ez-ecommerce-order-details__item">
+                    <label class="ez-label">{{ 'order_list.details.invoice_address'|trans|desc('Invoice Address') }}</label>
+                    <div>
+                        {% include '@ezdesign/common/address.html.twig' with {
+                            'address' : basket.invoiceParty, 
+                            'displayEmail' : false, 
+                            'raw' : true,
+                        } %}
+                    </div>
+                </div>
+                <div class="ez-ecommerce-order-details__item">
+                    <label class="ez-label">{{ 'order_list.details.delivery_address'|trans|desc('Delivery Address') }}</label>
+                    <div>
+                        {% include '@ezdesign/common/address.html.twig' with {
+                            'address' : basket.deliveryParty, 
+                            'displayEmail' : false, 
+                            'raw' : true,
+                        } %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

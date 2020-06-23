@@ -1,0 +1,153 @@
+{% extends "@ezdesign/ui/layout.html.twig" %}
+
+{% trans_default_domain "ezcommerce_cockpit" %}
+
+{% block body_class %}ez-ecommerce-cockpit{% endblock %}
+
+{% block breadcrumbs %}
+    {% include '@ezdesign/ui/breadcrumbs.html.twig' with { items: [
+        { value: 'breadcrumb.ecommerce'|trans|desc('e-commerce') },
+        { value: 'cockpit.breadcrumb.cockpit'|trans|desc('Cockpit') },
+    ]} %}
+{% endblock %}
+
+{% block page_title %}
+    {% include '@ezdesign/ui/page_title.html.twig' with {
+        title: 'cockpit.page_title'|trans|desc('Cockpit'),
+        iconName: 'dashboard'
+    } %}
+{% endblock %}
+
+{% block title %}{{ 'cockpit.page_title'|trans|desc('Cockpit') }}{% endblock %}
+
+
+{% block content %}
+    <div class="row align-items-stretch ez-main-row">
+        <div class="px-0 pb-4 ez-content-container">
+            <div class="ez-header pt-3">
+                <div class="container">
+                    <ul class="nav nav-tabs ez-tabs ez-tabs--commerce-cockpit px-4" role="tablist" id="ez-tab-list-commerce-cockpit">
+                        <li class="nav-item">
+                            <a 
+                                class="nav-link active" 
+                                id="ez-tab-label-status"
+                                data-toggle="tab" 
+                                href="#ez-tab-status" 
+                                role="tab" 
+                                aria-controls="ez-tab-status"
+                                aria-expanded="true"
+                            >
+                                {{ 'cockpit.tabs.status.title'|trans|desc('Status') }}
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a 
+                                class="nav-link" 
+                                id="ez-tab-label-sales-and-orders"
+                                data-toggle="tab" 
+                                href="#ez-tab-sales-and-orders" 
+                                role="tab" 
+                                aria-controls="ez-tab-sales-and-orders"
+                                aria-expanded="false"
+                            >
+                                {{ 'cockpit.tabs.sales_and_orders.title'|trans|desc('Sales and Orders') }}
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a 
+                                class="nav-link" 
+                                id="ez-tab-label-products-and-sales"
+                                data-toggle="tab" 
+                                href="#ez-tab-products-and-sales" 
+                                role="tab" 
+                                aria-controls="ez-tab-products-and-sales"
+                                aria-expanded="false"
+                            >
+                                {{ 'cockpit.tabs.products_and_sales.title'|trans|desc('Products and Sales') }}
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a 
+                                class="nav-link" 
+                                id="ez-tab-label-search"
+                                data-toggle="tab" 
+                                href="#ez-tab-search" 
+                                role="tab" 
+                                aria-controls="ez-tab-search"
+                                aria-expanded="false"
+                            >
+                                {{ 'cockpit.tabs.search.title'|trans|desc('Search') }}
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <section class="container mt-4 mb-4 px-5">
+                <div class="ez-filters">
+                    <div class="ez-filters__row">
+                        <div class="ez-filters__item">
+                            <label class="ez-filters__item-label" for="shop_id">
+                                {{ 'cockpit.filters.shop_id'|trans|desc('Shop') }}
+                            </label>
+                            <select name="shop_id" class="form-control ez-filters__select" id="shop_id">
+                            </select>
+                        </div>
+                        <div class="ez-filters__item">
+                            <label class="ez-filters__item-label" for="currency">
+                                {{ 'cockpit.filters.currency'|trans|desc('Currency') }}
+                            </label>
+                            <select name="currency" class="form-control ez-filters__select" id="currency">
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-content ez-ecommerce-cockpit__tabs" id="ez-tab-list-content-commerce-cockpit">
+                    <div 
+                        class="tab-pane active" 
+                        id="ez-tab-status" 
+                        role="tabpanel"
+                        aria-labelledby="ez-tab-label-status"
+                    >
+                        {% include '@ezdesign/cockpit/status.html.twig' %}
+                    </div>
+                    <div 
+                        class="tab-pane" 
+                        id="ez-tab-sales-and-orders" 
+                        role="tabpanel"
+                        aria-labelledby="ez-tab-label-sales-and-orders"
+                    >
+                        {% include '@ezdesign/cockpit/sales_and_orders.html.twig' %}
+                    </div>
+                    <div 
+                        class="tab-pane" 
+                        id="ez-tab-products-and-sales" 
+                        role="tabpanel"
+                        aria-labelledby="ez-tab-label-products-and-sales"
+                    >
+                        {% include '@ezdesign/cockpit/products_and_sales.html.twig' %}
+                    </div>
+                    <div 
+                        class="tab-pane" 
+                        id="ez-tab-search" 
+                        role="tabpanel"
+                        aria-labelledby="ez-tab-label-search"
+                    >
+                        {% include '@ezdesign/cockpit/search.html.twig' %}
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ encore_entry_link_tags('ezcommerce-admin-ui-css', null, 'ezplatform') }}
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset("bundles/ibexacommerceadminui/vendor/c3/c3.min.js") }}"></script>
+    <script src="{{ asset("bundles/ibexacommerceadminui/vendor/d3/d3.min.js") }}"></script>
+    
+    {{ encore_entry_script_tags('ezcommerce-admin-ui-cockpit-js', null, 'ezplatform') }}
+{% endblock %}

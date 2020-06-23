@@ -1,0 +1,80 @@
+{% trans_default_domain "ezcommerce_cockpit" %}
+
+<div class="ez-ecommerce-cockpit-status">
+    <div class="ez-ecommerce-cockpit-status__box">
+        <h4 class="ez-ecommerce-cockpit-status__box-header">
+            {{ 'cockpit.status.hdd.usage'|trans|desc('HDD usage') }}
+        </h4>
+        <div class="ez-ecommerce-cockpit-status__box-content">
+            <div class="ez-ecommerce-cockpit-status__chart ez-ecommerce-cockpit-status__chart--hdd"></div>
+        </div>
+    </div>
+    <div class="ez-ecommerce-cockpit-status__box">
+        <h4 class="ez-ecommerce-cockpit-status__box-header">
+            {{ 'cockpit.status.server.load'|trans|desc('Server load') }}
+        </h4>
+        <div class="ez-ecommerce-cockpit-status__box-content">
+            <div class="ez-ecommerce-cockpit-status__chart ez-ecommerce-cockpit-status__chart--server"></div>
+        </div>
+    </div>
+    <div class="ez-ecommerce-cockpit-status__box">
+        <h4 class="ez-ecommerce-cockpit-status__box-header">
+            {{ 'cockpit.status.erp.status'|trans|desc('ERP status') }}
+        </h4>
+        <div class="ez-ecommerce-cockpit-status__box-content">
+            <div class="ez-ecommerce-cockpit-status__erp-status ez-ecommerce-cockpit-status__erp-status--error ez-ecommerce-cockpit-status__erp-status--hidden">
+                <div class="badge badge-danger">
+                    {{ 'cockpit.status.erp.no.connection'|trans|desc('No connection') }}
+                </div>
+                <div>
+                    <svg class="ez-icon ez-icon--large">
+                        <use xlink:href="{{ asset('bundles/ezplatformadminui/img/ez-icons.svg') }}#discard"></use>
+                    </svg>
+                </div>
+            </div>
+            <div class="ez-ecommerce-cockpit-status__erp-status ez-ecommerce-cockpit-status__erp-status--success ez-ecommerce-cockpit-status__erp-status--hidden">
+                <div class="badge badge-success">
+                    {{ 'cockpit.status.erp.connected'|trans|desc('Connected') }}
+                </div>
+                <div>
+                    <svg class="ez-icon ez-icon--large">
+                        <use xlink:href="{{ asset('bundles/ezplatformadminui/img/ez-icons.svg') }}#checkmark"></use>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="ez-ecommerce-cockpit-status__box ez-ecommerce-cockpit-status__box--carts">
+        <h4 class="ez-ecommerce-cockpit-status__box-header">
+            {{ 'cockpit.status.active.shopping.cards'|trans|desc('Active shopping carts') }}
+        </h4>
+        <div class="ez-ecommerce-cockpit-status__box-content ez-ecommerce-cockpit-status__box-content--with-icon">
+            <svg class="ez-icon ez-icon--large" hidden>
+                <use xlink:href="{{ asset('bundles/ezplatformadminui/img/ez-icons.svg') }}#cart"></use>
+            </svg>
+            <span class="ez-ecommerce-cockpit-status__value"></span>
+        </div>
+    </div>
+    <div class="ez-ecommerce-cockpit-status__box ez-ecommerce-cockpit-status__box--customers">
+        <h4 class="ez-ecommerce-cockpit-status__box-header">
+            {{ 'cockpit.status.no.of.customers'|trans|desc('Total no. of customers') }}
+        </h4>
+        <div class="ez-ecommerce-cockpit-status__box-content ez-ecommerce-cockpit-status__box-content--with-icon">
+            <svg class="ez-icon ez-icon--large" hidden>
+                <use xlink:href="{{ asset('bundles/ezplatformadminui/img/ez-icons.svg') }}#customer"></use>
+            </svg>
+            <span class="ez-ecommerce-cockpit-status__value"></span>
+        </div>
+    </div>
+    <div class="ez-ecommerce-cockpit-status__box ez-ecommerce-cockpit-status__box--products">
+        <h4 class="ez-ecommerce-cockpit-status__box-header">
+            {{ 'cockpit.status.no.of.products'|trans|desc('Total no. of products') }}
+        </h4>
+        <div class="ez-ecommerce-cockpit-status__box-content ez-ecommerce-cockpit-status__box-content--with-icon">
+            <svg class="ez-icon ez-icon--large" hidden>
+                <use xlink:href="{{ asset('bundles/ezplatformadminui/img/ez-icons.svg') }}#product"></use>
+            </svg>
+            <span class="ez-ecommerce-cockpit-status__value"></span>
+        </div>
+    </div>
+</div>

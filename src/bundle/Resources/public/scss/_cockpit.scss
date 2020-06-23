@@ -1,0 +1,14 @@
+.ez-ecommerce-cockpit {
+    .ez-tabs--commerce-cockpit {
+        border-bottom: 0;
+    }
+
+    .ez-filters {
+        border: 0;
+
+        &:before,
+        &:after {
+            display: none;
+        }
+    }
+}

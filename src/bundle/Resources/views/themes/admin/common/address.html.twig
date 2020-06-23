@@ -1,0 +1,58 @@
+{% block address %}
+    {% if class is not defined %}
+        {% set class = '' %}
+    {% endif %}
+    {% if displayEmail is not defined %}
+        {% set displayEmail = true %}
+    {% endif %}
+    {% if displayPhone is not defined %}
+        {% set displayPhone = true %}
+    {% endif %}
+    {% if raw is not defined %}
+        {% set raw = false %}
+    {% endif %}
+
+    {% if address|default is not empty %}
+        <div class="ez-ecommerce-address">
+            {% if raw %}
+                {% if address.PartyName.0 is defined %}
+                    {{ address.PartyName.0.Name }}</br>
+                {% endif %}
+                {% if address.PartyName.1 is defined %}
+                    {{ address.PartyName.1.Name }}<br/>
+                {% endif %}
+                {{ address.PostalAddress.StreetName }}
+                {{ address.PostalAddress.AdditionalStreetName }}
+                {{ address.PostalAddress.BuildingNumber }}<br/>
+                {{ address.PostalAddress.PostalZone }}
+                {{ address.PostalAddress.CityName }}<br/>
+                {% if address.PostalAddress.Country.IdentificationCode.value|default is not empty  %}
+                    {{ address.PostalAddress.Country.IdentificationCode.value|code_label('country') }}<br/>
+                {% endif %}
+                {% if displayPhone %}
+                    {{ address.Contact.Telephone }}<br/>
+                {% endif %}
+                {% if displayEmail %}
+                {{ address.Contact.ElectronicMail }}<br/>
+                {% endif %}
+            {% else %}
+                <ul class="ez-ecommerce-address__list {{ class }}">
+                    <li><b>{% if address.PartyName.0 is defined %}{{ address.PartyName.0.Name }}{% endif %}</b></li>
+                    <li>{% if address.PartyName.1 is defined %}{{ address.PartyName.1.Name }}{% endif %}</li>
+                    <li>{{ address.PostalAddress.StreetName }} {{ address.PostalAddress.AdditionalStreetName }} {{ address.PostalAddress.BuildingNumber }}</li>
+                    <li>{{ address.PostalAddress.PostalZone }} {{ address.PostalAddress.CityName }}</li>
+                    <li>{{ address.PostalAddress.CountrySubentity }}</li>
+                    {% if address.PostalAddress.Country.IdentificationCode.value|default is not empty  %}
+                        <li>{{ address.PostalAddress.Country.IdentificationCode.value|code_label('country') }}</li>
+                    {% endif %}
+                    {% if displayPhone %}
+                        <li>{{ address.Contact.Telephone }}</li>
+                    {% endif %}
+                    {% if displayEmail %}
+                        <li>{{ address.Contact.ElectronicMail }}</li>
+                    {% endif %}
+                </ul>
+            {% endif %}
+        </div>
+    {% endif %}
+{% endblock %}

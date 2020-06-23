@@ -1,0 +1,101 @@
+{% trans_default_domain "ezcommerce_cockpit" %}
+
+<div 
+    class="ez-ecommerce-cockpit-products-and-sales ez-ecommerce-cockpit-products-and-sales--bestsellers"
+    data-name="dashboard"
+    data-template="{{ include('@ezdesign/part/cockpit_row.html.twig', {
+        columns: ['{{ SKU }}', '{{ COUNT_SKU }}', '{{ NAME }}']
+    })|e('html_attr') }}"
+>
+    <div class="ez-table-header">
+        <div class="ez-table-header__headline">{{ 'cockpit.products.and.sales.bestsellers'|trans|desc('Bestsellers') }}</div>
+        <button
+            title="{{ 'cockpit.products.and.sales.refresh'|trans|desc('Refresh') }}"
+            class="btn btn-primary ez-btn--refresh"
+        >
+            <svg class="ez-icon ez-icon-create">
+                <use xlink:href="{{ asset('bundles/ezplatformadminui/img/ez-icons.svg') }}#refresh"></use>
+            </svg>
+        </button>
+    </div>        
+    <div class="ez-ecommerce-cockpit-products-and-sales__table">
+        <table class="table ez-table">
+            <thead>
+                <tr>
+                    <th>{{ 'cockpit.products.and.sales.sku'|trans|desc('SKU') }}</th>
+                    <th>{{ 'cockpit.products.and.sales.count'|trans|desc('Count') }}</th>
+                    <th>{{ 'cockpit.products.and.sales.product.name'|trans|desc('Product name') }}</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div 
+    class="ez-ecommerce-cockpit-products-and-sales ez-ecommerce-cockpit-products-and-sales--orders"
+    data-name="lastorders"
+    data-template="{{ include('@ezdesign/part/cockpit_row.html.twig', {
+        columns: ['{{ DATE }}', '{{ BUYER }}', '{{ TOTAL }}', '{{ CURRENCY }}']
+    })|e('html_attr') }}"
+>
+    <div class="ez-table-header">
+        <div class="ez-table-header__headline">{{ 'cockpit.products.and.sales.last.orders'|trans|desc('Last orders') }}</div>
+        <button
+            title="{{ 'cockpit.products.and.sales.refresh'|trans|desc('Refresh') }}"
+            class="btn btn-primary ez-btn--refresh"
+        >
+            <svg class="ez-icon ez-icon-create">
+                <use xlink:href="{{ asset('bundles/ezplatformadminui/img/ez-icons.svg') }}#refresh"></use>
+            </svg>
+        </button>
+    </div> 
+    <div class="ez-ecommerce-cockpit-products-and-sales__table">
+        <table class="table ez-table">
+            <thead>
+                <tr>
+                    <th>{{ 'cockpit.products.and.sales.date.time'|trans|desc('Date/Time') }}</th>
+                    <th>{{ 'cockpit.products.and.sales.customer.name'|trans|desc('Customer name') }}</th>
+                    <th>{{ 'cockpit.products.and.sales.total.sales'|trans|desc('Total sales') }}</th>
+                    <th>{{ 'cockpit.products.and.sales.currency'|trans|desc('Currency') }}</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div 
+    class="ez-ecommerce-cockpit-products-and-sales ez-ecommerce-cockpit-products-and-sales--clients"
+    data-name="bestclients"
+    data-template="{{ include('@ezdesign/part/cockpit_row.html.twig', {
+        columns: ['{{ NAME }}', '{{ AMOUNT }}', '{{ CURRENCY }}']
+    })|e('html_attr') }}"
+>
+    <div class="ez-table-header">
+        <div class="ez-table-header__headline">{{ 'cockpit.products.and.sales.nest.clients'|trans|desc('Best clients') }}</div>
+        <button
+            title="{{ 'cockpit.products.and.sales.refresh'|trans|desc('Refresh') }}"
+            class="btn btn-primary ez-btn--refresh"
+        >
+            <svg class="ez-icon ez-icon-create">
+                <use xlink:href="{{ asset('bundles/ezplatformadminui/img/ez-icons.svg') }}#refresh"></use>
+            </svg>
+        </button>
+    </div> 
+    <div class="ez-ecommerce-cockpit-products-and-sales__table">
+        <table class="table ez-table">
+            <thead>
+                <tr>
+                    <th>{{ 'cockpit.products.and.sales.customer.name'|trans|desc('Customer name') }}</th>
+                    <th>{{ 'cockpit.products.and.sales.total.sales'|trans|desc('Total sales') }}</th>
+                    <th>{{ 'cockpit.products.and.sales.currency'|trans|desc('Currency') }}</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</div>

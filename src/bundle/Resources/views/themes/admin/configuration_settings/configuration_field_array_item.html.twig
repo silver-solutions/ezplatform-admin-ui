@@ -1,0 +1,72 @@
+{%
+    set field_array_options = {
+        'siso_price.price_provider.shop': 'configuration_settings.field.array.option.shop'|trans|desc('Local price engine'),
+        'siso_price.price_provider.remote': 'configuration_settings.field.array.option.remote'|trans|desc('Prices from ERP'),
+    }
+%}
+{% set name_key = (configurationItem.type == 'subtype')
+    ? configurationItem.key ~ "[keys][" ~ configurationItem.internal_key ~ "]"  ~
+        ((configurationItem.internal_key2 is defined) ? "[" ~ configurationItem.internal_key2 ~ "]" : "" ) ~ "[]"
+    : configurationItem.key ~ "[keys][]" %}
+{% set name_value = (configurationItem.type == 'subtype')
+    ? configurationItem.key ~ "[values][" ~ configurationItem.internal_key ~ "]"  ~
+        ((configurationItem.internal_key2 is defined) ? "[" ~ configurationItem.internal_key2 ~ "]" : "" ) ~ "[]"
+    : configurationItem.key ~ "[values][]" %}
+
+<div class="ez-configuration-field-array__item">
+    <div class="ez-configuration-field-array__inputs">
+        {% if configurationItem.keys is defined and configurationItem.keys == true %}
+            {% if configurationItem.keys_choices|default is not empty %}
+                <div class="ez-configuration-field-array__input">
+                    <select name="{{ name_key }}" class="form-control">
+                        {% for choice in configurationItem.keys_choices %}
+                            <option value="{{ choice }}" {% if itemKey == choice %} selected="selected"{% endif %}>
+                                {{ field_array_options[choice] is defined ? field_array_options[choice] : choice }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+            {% else %}
+                <div class="ez-configuration-field-array__input">
+                    <input 
+                        type="text" 
+                        name="{{ name_key }}" 
+                        value="{{ itemKey }}" 
+                        class="form-control"
+                        placeholder="{{ 'configuration_settings.field.array.input.placeholder'|trans|desc('Input Values') }}"
+                    />
+                </div>
+            {% endif %}
+        {% endif %}
+        {% if configurationItem.choices is defined and configurationItem.choices is not empty %}
+            <div class="ez-configuration-field-array__input">
+                <select name="{{ name_value }}" class="form-control">
+                    {% for choice in configurationItem.choices %}
+                        <option value="{{ choice }}" {% if itemValue == choice %} selected="selected"{% endif %}>
+                            {{ field_array_options[choice] is defined ? field_array_options[choice] : choice }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+        {% else %}
+            <div class="ez-configuration-field-array__input">
+                <input 
+                    type="text" 
+                    name="{{ name_value }}" 
+                    value="{{ itemValue }}" 
+                    class="form-control"
+                    placeholder="{{ 'configuration_settings.field.array.input.placeholder'|trans|desc('Input Values') }}"
+                />
+            </div>
+        {% endif %}
+    </div>
+    <div class="ez-configuration-field-array__actions">
+        {% if not loop.first %}
+            <button type="button" class="btn ez-btn ez-btn--trash">
+                <svg class="ez-icon">
+                    <use xlink:href="{{ asset('bundles/ezplatformadminui/img/ez-icons.svg') }}#trash"></use>
+                </svg>
+            </button>
+        {% endif %}
+    </div>
+</div>

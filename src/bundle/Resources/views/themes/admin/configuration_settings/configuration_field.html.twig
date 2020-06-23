@@ -1,0 +1,175 @@
+{% block key %}
+    {% apply spaceless %}
+        {% set key = (configurationItem.type == 'subtype')
+            ? configurationItem.key ~ "[values][" ~ configurationItem.internal_key ~ "]" ~
+                ((configurationItem.internal_key2 is defined) ? "[" ~ configurationItem.internal_key2 ~ "]" : "" )
+            : configurationItem.key %}
+        {{ key|trim }}
+    {% endapply %}
+{% endblock %}
+
+{% block configuration_boolean %}
+    <div class="ez-configuration-field ez-configuration-field--boolean form-group">
+        <div class="ez-data-source">
+            <label class="ez-data-source__label{% if configurationItem.value == true %} is-checked{% endif %} ">
+                <span class="ez-data-source__indicator"></span>
+            </label>
+            <div class="ez-data-source__value">
+                <input 
+                    name="{{ block('key') }}" 
+                    type="radio" 
+                    value="true"
+                    class="form-check-input"
+                    {% if configurationItem.value == true %} checked="checked"{% endif %} 
+                />
+                <input 
+                    name="{{ block('key') }}" 
+                    type="radio" 
+                    value="false"
+                    class="form-check-input"
+                    {% if configurationItem.value == false %} checked="checked"{% endif %} 
+                />
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block configuration_string %}
+    <div class="ez-configuration-field">
+        <input 
+            name="{{ block('key') }}" 
+            type="text" 
+            class="form-control" 
+            value="{{ configurationItem.value }}"
+        />
+    </div>
+{% endblock %}
+
+{% block configuration_email %}
+    <div class="ez-configuration-field">
+        <input 
+            name="{{ block('key') }}" 
+            type="email" 
+            class="form-control" 
+            value="{{ configurationItem.value }}"
+        />
+    </div>
+{% endblock %}
+
+{% block configuration_integer %}
+    <div class="ez-configuration-field">
+        {% if configurationItem.value is iterable %}
+            {% for elementValue  in configurationItem.value %}
+                <input 
+                    name="{{ block('key') }}" 
+                    type="number" 
+                    class="form-control" 
+                    value="{{ elementValue }}"
+                />
+            {% endfor %}
+        {% else %}
+            <input 
+                name="{{ block('key') }}" 
+                type="number" 
+                class="form-control" 
+                value="{{ configurationItem.value }}"
+            />
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block configuration_numeric %}
+    <div class="ez-configuration-field">
+        <input 
+            name="{{ block('key') }}" 
+            type="number" 
+            class="form-control" 
+            value="{{ configurationItem.value }}"
+        />
+    </div>
+{% endblock %}
+
+{% block configuration_selectbox %}
+    <div class="ez-configuration-field">
+        <select name="{{ block('key') }}" class="form-control">
+            {% for choice in configurationItem.choices %}
+                <option value="{{ choice }}" {% if configurationItem.value == choice %} selected="selected"{% endif %}>
+                    {{ choice|st_translate }}
+                </option>
+            {% endfor %}
+        </select>
+    </div>
+{% endblock %}
+
+{% block configuration_checkbox %}
+    <div class="ez-configuration-field form-group">
+        {% for choice in configurationItem.choices %}
+            <div class="form-check form-check-inline">
+                <input 
+                    type="checkbox" 
+                    name="{{ block('key') }}[]"
+                    class="form-check-input"
+                    value="{{ choice }}"
+                    {% if choice in configurationItem.value %} checked="checked"{% endif %}
+                />
+                <label class="ez-label form-check-label">{{ choice }}</label>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
+
+{% block configuration_array %}
+    <div class="ez-configuration-field--array ez-configuration-field-array">
+        <div 
+            class="ez-configuration-field-array__items" 
+            data-prototype="{{ include('@ezdesign/configuration_settings/configuration_field_array_item.html.twig', {
+                configurationItem: configurationItem,
+                itemKey: null,
+                itemValue: null,
+            })|e }}"
+        >
+            {% for itemKey, itemValue in configurationItem.value %}
+                {% include '@ezdesign/configuration_settings/configuration_field_array_item.html.twig' with {
+                    configurationItem: configurationItem,
+                    itemKey: itemKey,
+                    itemValue: itemValue,
+                } %}
+            {% endfor %}
+        </div>
+        <button type="button" class="btn btn-primary ez-btn ez-btn--add-input">
+            <svg class="ez-icon ez-icon--light">
+                <use xlink:href="{{ asset('bundles/ezplatformadminui/img/ez-icons.svg') }}#create"></use>
+            </svg>
+        </button>
+    </div>
+{% endblock %}
+
+{% block configuration_subtype %}
+    {% set configurationItemClone = configurationItem %}
+    {% for parentKey, parentValue in configurationItemClone.value %}
+        {% if parentKey == configurationItemClone.internal_key %}
+            {% if configurationItemClone.internal_key2 is defined %}
+                {% for parentKey2, parentValue2 in configurationItemClone.value[configurationItem.internal_key] %}
+                    {% if parentKey2 == configurationItemClone.internal_key2 %}
+                        {% set configurationItem = configurationItem|merge({
+                            value         : configurationItem.value[configurationItem.internal_key][configurationItem.internal_key2],
+                            keys          : configurationItem.sub_keys|default is not empty ? true : false,
+                            keys_choices  : configurationItem.sub_keys_choices|default is not empty ? configurationItem.sub_keys_choices : null,
+                            choices       : configurationItem.sub_choices|default is not empty ? configurationItem.sub_choices : null,
+                        }) %}
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                {% set configurationItem = configurationItem|merge({
+                    value         : configurationItem.value[configurationItem.internal_key],
+                    keys          : configurationItem.sub_keys|default is not empty ? true : false,
+                    keys_choices  : configurationItem.sub_keys_choices|default is not empty ? configurationItem.sub_keys_choices : null,
+                    choices       : configurationItem.sub_choices|default is not empty ? configurationItem.sub_choices : null,
+                }) %}
+            {% endif %}
+            {% if block('configuration_' ~ configurationItem.sub_type) is defined %}
+                {{ block('configuration_' ~ configurationItem.sub_type ) }}
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+{% endblock %}

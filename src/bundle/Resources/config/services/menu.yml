@@ -1,0 +1,13 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    #
+    # Menu Builders
+    #
+
+    Ibexa\Commerce\Bundle\AdminUiBundle\Menu\Builder\ConfigurationSettingsBuilder:
+        tags:
+            - { name: knp_menu.menu_builder, method: build, alias: ezcommerce_eshop.configuration_settings.actions }

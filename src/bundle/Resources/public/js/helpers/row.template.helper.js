@@ -1,8 +1,7 @@
 export default class RowTemplateGenerator {
-    constructor(type, template, formatShortDateTime) {
+    constructor(type, template) {
         this.type = type;
         this.template = template;
-        this.formatShortDateTime = formatShortDateTime;
         this.methods = {
             Mostsearch: 'mostSearch',
             lastsearch: 'lastSearch',
@@ -26,9 +25,9 @@ export default class RowTemplateGenerator {
     lastSearch(row) {
         let rowTemplate = this.template;
 
-        rowTemplate = rowTemplate.replace('{{ TIMESTAMP }}', this.formatShortDateTime(new Date((row.logTimestamp || row[0]) * 1000)));
+        rowTemplate = rowTemplate.replace('{{ TIMESTAMP }}', (row.logTimestamp || row[0]).string);
         rowTemplate = rowTemplate.replace('{{ LOG_MESSAGE }}', row.logMessage || row[1]);
-        rowTemplate = rowTemplate.replace('{{ RESULTS }}', row.results || row[2]);
+        rowTemplate = rowTemplate.replace('{{ RESULTS }}', row.results !== undefined ? row.results : row[2]);
 
         return rowTemplate;
     }

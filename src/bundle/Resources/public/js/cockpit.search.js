@@ -1,13 +1,12 @@
 import RowTemplateGenerator from './helpers/row.template.helper.js';
 
 (function(global, doc, eZ) {
-    const { formatShortDateTime } = eZ.helpers.timezone;
     const token = doc.querySelector('meta[name="CSRF-Token"]').content;
     const siteaccess = doc.querySelector('meta[name="SiteAccess"]').content;
     const shopSelect = doc.querySelector('select[name="shop_id"]');
     const serchTables = doc.querySelectorAll('.ez-ecommerce-cockpit-search');
     const showSearchTermsGeneric = (type, table) => {
-        const rowTemplateGenerator = new RowTemplateGenerator(type, table.dataset.template, formatShortDateTime);
+        const rowTemplateGenerator = new RowTemplateGenerator(type, table.dataset.template);
         const request = new Request('/api/ezp/v2/rest/dashboard-searchterms', {
             method: 'POST',
             headers: {

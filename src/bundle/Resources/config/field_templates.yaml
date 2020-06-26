@@ -1,0 +1,6 @@
+system:
+    default:
+        fielddefinition_edit_templates:
+            - { template: '@IbexaCommerceAdminUi/themes/admin/field_types.html.twig' }
+        field_templates:
+            - { template: '@IbexaCommerceAdminUi/themes/admin/content_fields.html.twig' }

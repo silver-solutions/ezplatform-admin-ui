@@ -1,0 +1,58 @@
+{% block ses_fieldtype_variants_row %}
+    {% set variant_types = ses_config_parameter('variant_types', 'siso_core') %}
+
+    <div
+        class="ez-field-edit ez-field-edit--ezvariants"
+        data-value="{{ form.parent.vars.value.value.text }}"
+        data-variant-types="{{ variant_types|json_encode() }}"
+    >
+        <div class="ez-field-edit__label-wrapper">
+            {{ form_label(form, null, { label_attr: { class: 'ez-field-edit__label' }}) }}
+            {{ block('form_errors') }}
+        </div>
+        <div class="ez-field-edit__data">
+            <div class="ez-data-source">
+                {{ form_widget(form, { attr: {class: 'ez-field-edit__variants-input'}}) }}
+                <div class="ez-custom-dropdown">
+                    <select class="ez-custom-dropdown__select">
+                        {% for variant_type in variant_types %}
+                            <option value="{{ variant_type.id }}">{{ variant_type.type_label }}</option>
+                        {% endfor %}
+                    </select>
+                    <div class="ez-custom-dropdown__wrapper">
+                        <ul class="ez-custom-dropdown__selection-info">
+                            <li class="ez-custom-dropdown__selected-item" data-value="{{ variant_types[0].id }}">
+                                {{ variant_types[0].type_label }}
+                                <span class="ez-custom-dropdown__remove-selection"></span>
+                            </li>
+                        </ul>
+                        <ul class="ez-custom-dropdown__items ez-custom-dropdown__items--hidden">
+                            {% for variant_type in variant_types %}
+                                <li
+                                    data-value="{{ variant_type.id }}"
+                                    class="ez-custom-dropdown__item{% if loop.first %} ez-custom-dropdown__item--selected{% endif %}"
+                                >
+                                    {{ variant_type.type_label }}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                <div class="ez-variants">
+                    <div
+                        class="ez-variants__groups-wrapper ez-variants__groups-wrapper--hidden"
+                        data-template="{{ include('@ezdesign/field_type/variants_group.html.twig', {
+                            group_label: '{{ group_label }}'
+                        })|e('html_attr') }}"
+                    >
+                    </div>
+                    <button type="button" class="btn btn-primary ez-btn--add-variant" title="{{ 'field_type.add_variant'|trans|desc('Add variant') }}">
+                        <svg class="ez-icon ez-icon--light ez-icon--medium ez-icon--create">
+                            <use xlink:href="/bundles/ezplatformadminui/img/ez-icons.svg#create"></use>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

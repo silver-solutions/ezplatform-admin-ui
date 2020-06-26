@@ -21,6 +21,31 @@
         <target state="new">Local price engine</target>
         <note>key: configuration_settings.field.array.option.shop</note>
       </trans-unit>
+      <trans-unit id="51a13a0e7d46a0701faf6c82fd9a4d9a1cbc96bb" resname="content_fields.ezvariants.code.label">
+        <source>Code</source>
+        <target state="new">Code</target>
+        <note>key: content_fields.ezvariants.code.label</note>
+      </trans-unit>
+      <trans-unit id="3bb45705764c6716e7b303e0e9667d5db526484b" resname="content_fields.ezvariants.description.label">
+        <source>Description</source>
+        <target state="new">Description</target>
+        <note>key: content_fields.ezvariants.description.label</note>
+      </trans-unit>
+      <trans-unit id="d45be4130e225d810408799fcbe1a658f940529e" resname="content_fields.ezvariants.sku.label">
+        <source>SKU</source>
+        <target state="new">SKU</target>
+        <note>key: content_fields.ezvariants.sku.label</note>
+      </trans-unit>
+      <trans-unit id="74a0a1f1378464d065954caae7ce69feb20bad8e" resname="field_type.add_variant">
+        <source>Add variant</source>
+        <target state="new">Add variant</target>
+        <note>key: field_type.add_variant</note>
+      </trans-unit>
+      <trans-unit id="cbc1f44be5f6d1cff762774712d8ccbfd796f6ec" resname="field_types.variants.button.trash">
+        <source>Remove variant</source>
+        <target state="new">Remove variant</target>
+        <note>key: field_types.variants.button.trash</note>
+      </trans-unit>
       <trans-unit id="4efe2fe55f600d3f4f371aa0d02dfda50f285bda" resname="import_export.download_price.button">
         <source>Download prices</source>
         <target state="new">Download prices</target>

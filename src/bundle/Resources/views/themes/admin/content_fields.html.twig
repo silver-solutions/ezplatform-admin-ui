@@ -1,0 +1,31 @@
+{% extends '@EzPublishCore/content_fields.html.twig' %}
+
+{% block uivarvarianttype_field %}
+    {% apply spaceless %}
+    <div class="ez-table">
+        <table class="table table-striped">
+            {% set field_value = field.value.variantData %}
+            <thead>
+                <tr>
+                    <th>{{ 'content_fields.ezvariants.sku.label'|trans|desc('SKU') }}</th>
+                    <th>{{ 'content_fields.ezvariants.code.label'|trans|desc('Code') }}</th>
+                    <th>{{ 'content_fields.ezvariants.description.label'|trans|desc('Description') }}</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for variant in field.value.variantData %}
+                <tr>
+                    <td>{{ variant.sku.value }}</td>
+                    <td>{{ variant.variantCode.value }}</td>
+                    <td>{{ variant.description.value }}</td>
+                    <td>{{ variant.characteristicCode1.value }}</td>
+                    <td>{{ variant.characteristicCode2.value }}</td>
+                </tr>
+                {%  endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endapply %}
+{% endblock %}

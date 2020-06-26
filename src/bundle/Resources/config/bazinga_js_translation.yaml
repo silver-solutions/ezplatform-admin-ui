@@ -1,2 +1,4 @@
 active_domains:
     - 'filters_ui'
+    - 'price_stock_ui'
+    - 'field_types_ui'

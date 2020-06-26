@@ -33,6 +33,8 @@ final class IbexaCommerceAdminUiExtension extends Extension implements PrependEx
         $this->prependEzDesign($container);
         $this->prependJMSTranslation($container);
         $this->prependBazingaJsTranslationConfiguration($container);
+        $this->prependTwigConfiguration($container);
+        $this->prependFieldTemplatesConfiguration($container);
     }
 
     /**
@@ -73,5 +75,23 @@ final class IbexaCommerceAdminUiExtension extends Extension implements PrependEx
         $config = Yaml::parseFile($configFile);
         $container->prependExtensionConfig('bazinga_js_translation', $config);
         $container->addResource(new FileResource($configFile));
+    }
+
+    /**
+     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
+     */
+    public function prependTwigConfiguration(ContainerBuilder $container): void
+    {
+        $config = Yaml::parse(file_get_contents(__DIR__.'/../Resources/config/twig.yaml'));
+        $container->prependExtensionConfig('twig', $config);
+    }
+
+    /**
+     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
+     */
+    public function prependFieldTemplatesConfiguration(ContainerBuilder $container): void
+    {
+        $config = Yaml::parse(file_get_contents(__DIR__.'/../Resources/config/field_templates.yaml'));
+        $container->prependExtensionConfig('ezpublish', $config);
     }
 }

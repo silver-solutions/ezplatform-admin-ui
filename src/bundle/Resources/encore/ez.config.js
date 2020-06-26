@@ -9,17 +9,16 @@ module.exports = (Encore) => {
         .addEntry('ezcommerce-admin-ui-css', [
             path.resolve(__dirname, '../public/vendor/c3/c3.min.css'),
             path.resolve(__dirname, '../public/scss/ezcommerce.scss'),
-        ]);
-
-    Encore.addEntry('ezcommerce-admin-ui-control-center-js', [
-        path.resolve(__dirname, '../public/js/search.filters.js'),
-        path.resolve(__dirname, '../public/js/email.actions.js'),
-        path.resolve(__dirname, '../public/js/econtent.info.js'),
-        path.resolve(__dirname, '../public/js/erp.status.js'),
-        path.resolve(__dirname, '../public/js/erp.show.log.js'),
-        path.resolve(__dirname, '../public/js/erp.performance.chart.js'),
-        path.resolve('./public/bundles/ezplatformadminui/js/scripts/admin.location.tab.js'),
-    ])
+        ])
+        .addEntry('ezcommerce-admin-ui-control-center-js', [
+            path.resolve(__dirname, '../public/js/search.filters.js'),
+            path.resolve(__dirname, '../public/js/email.actions.js'),
+            path.resolve(__dirname, '../public/js/econtent.info.js'),
+            path.resolve(__dirname, '../public/js/erp.status.js'),
+            path.resolve(__dirname, '../public/js/erp.show.log.js'),
+            path.resolve(__dirname, '../public/js/erp.performance.chart.js'),
+            path.resolve('./public/bundles/ezplatformadminui/js/scripts/admin.location.tab.js'),
+        ])
         .addEntry('ezcommerce-admin-ui-stock-and-price-js', [
             path.resolve(__dirname, '../public/js/price.sku.search.js'),
             path.resolve(__dirname, '../public/js/stock.sku.search.js'),

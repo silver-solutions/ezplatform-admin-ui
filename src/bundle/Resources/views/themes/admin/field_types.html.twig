@@ -1,0 +1,9 @@
+{% extends '@ezdesign/content_type/field_types.html.twig' %}
+
+{% block uivarvarianttype_field_definition_edit %}
+    <div class="ez-variant-type-default-value{% if group_class is not empty %} {{ group_class }}{% endif %}">
+        {{- form_label(form.defaultValue) -}}
+        {{- form_errors(form.defaultValue) -}}
+        {{- form_widget(form.defaultValue) -}}
+    </div>
+{% endblock %}

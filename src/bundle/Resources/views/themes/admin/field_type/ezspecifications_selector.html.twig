@@ -1,0 +1,28 @@
+{% trans_default_domain "ezcommerce_specifications" %}
+
+<div class="ez-specifications-selector">
+    <button 
+        type="button"
+        class="btn btn-primary ez-btn--open-add-value-widget"
+        title="{{ 'specifications.add.value'|trans|desc('Add value') }}"
+    >
+        <svg class="ez-icon ez-icon-create">
+            <use xlink:href="{{ asset('bundles/ezplatformadminui/img/ez-icons.svg') }}#create"></use>
+        </svg>
+    </button>
+    <div 
+        class="ez-specifications-selector__list-wrapper ez-specifications-selector__list-wrapper--hidden"
+        data-template="{{ include('@ezdesign/field_type/ezspecifications_selector_button.html.twig')|e }}"
+    >
+        <div class="ez-specifications-selector__title">{{ 'specifications.add.value'|trans|desc('Add value') }}:</div>
+        <div class="ez-specifications-selector__list">
+            <div class="ez-specifications-selector__list-triangle"></div>
+            <button 
+                type="button"
+                class="btn btn-icon ez-btn--add-value ez-btn--custom-value"
+            >
+                {{ 'specifications.custom'|trans|desc('Custom') }}
+            </button>
+        </div>
+    </div>
+</div>

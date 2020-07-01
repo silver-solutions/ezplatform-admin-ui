@@ -1,0 +1,31 @@
+{% trans_default_domain "ezcommerce_specifications" %}
+
+<tr>
+    <td class="ez-table__cell">
+        <input 
+            placeholder="{{ 'specifications.label.specification'|trans|desc('Specification') }}" 
+            type="text" 
+            class="ez-field-edit-preview__input form-control ez-field--ezspecifications"
+        >
+    </td>
+    <td class="ez-table__cell">
+        <div class="form-inline">
+            <input 
+                placeholder="{{ 'specifications.label.value'|trans|desc('Value') }}" 
+                type="text" 
+                class="ez-field-edit-preview__input form-control ez-field--value"
+            >
+            <select class="ez-data-source__input form-control ez-field--value-suffix"></select>
+        </div>
+    </td>
+    <td class="ez-table__cell">
+        <button
+            class="btn btn-icon ez-btn--delete ml-2" 
+            title="{{ 'specifications.delete'|trans|desc('Delete') }}"
+        >
+            <svg class="ez-icon">
+                <use xlink:href="{{ asset('bundles/ezplatformadminui/img/ez-icons.svg') }}#trash"></use>
+            </svg>
+        </button>
+    </td>
+</tr>

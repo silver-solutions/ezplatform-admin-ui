@@ -1,0 +1,51 @@
+{% trans_default_domain "ezcommerce_specifications" %}
+
+{% block ses_fieldtype_specifications_row %}
+    {% set specification_groups = ses_config_parameter('specification_groups', 'siso_core') %}
+    {% set label_attr = label_attr|merge({'class': 'ez-field-edit__label'}) %}
+    {% set attr = attr|merge({'class': 'ez-field-edit--stored-value', 'hidden': 'hidden'}) %}
+
+    <div class="ez-field-edit ez-field-edit--ezspecifications" data-default="{{ specification_groups|json_encode()|e }}">
+        <div class="ez-field-edit__label-wrapper">
+            {{ block('form_label') }}
+            {{ block('form_errors') }}
+        </div>
+        {{ block('form_widget') }}
+        {% for specification_group in specification_groups %}
+            <div 
+                class="card ez-card ez-card--toggle-group mb-3 ez-specifications {{ not loop.first ? 'ez-card--collapsed' : ''}}"
+                data-id="{{ specification_group.code }}"
+            >
+                <div class="ez-card__header">
+                    <legend class="ez-label col-form-label">
+                        {{ specification_group.label }}
+                    </legend>
+                    <button type="button" class="ez-card__body-display-toggler btn">
+                        <svg class="ez-icon ez-icon--medium">
+                            <use xlink:href="{{ asset('bundles/ezplatformadminui/img/ez-icons.svg') }}#caret-down"></use>
+                        </svg>
+                    </button>
+                </div>
+                <div class="ez-card__body">
+                    <div class="ez-table-header">
+                        <div class="ez-table-header__headline">
+                            {{ 'specifications.data'|trans|desc('Data') }}
+                        </div>
+                        {% include '@ezdesign/field_type/ezspecifications_selector.html.twig' %}
+                    </div>
+                    <table class="ez-table table" data-template="{{ include('@ezdesign/field_type/ezspecifications_row.html.twig')|e }}">
+                        <thead>
+                            <tr>
+                                <th>{{ 'specifications.label.specification'|trans|desc('Specification') }}</th>
+                                <th>{{ 'specifications.label.value'|trans|desc('Value') }}</th>
+                                <th>{{ 'specifications.label.actions'|trans|desc('Actions') }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

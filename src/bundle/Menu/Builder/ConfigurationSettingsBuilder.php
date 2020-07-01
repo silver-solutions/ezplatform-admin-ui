@@ -62,8 +62,7 @@ class ConfigurationSettingsBuilder extends AbstractBuilder implements Translatio
                 'attributes' => [
                     'class' => 'btn--trigger',
                     'data-click' => '#ez-save-configuration',
-                    /** @Desc("Save") */
-                    'title' => $this->translator->trans(self::ITEM__SAVE, [], 'menu'),
+                    'title' => $this->translator->trans(/** @Ignore */ self::ITEM__SAVE, [], 'menu'),
                 ],
                 'extras' => [
                     'icon' => 'save',

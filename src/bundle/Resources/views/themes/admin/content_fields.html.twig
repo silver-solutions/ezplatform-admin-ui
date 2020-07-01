@@ -29,3 +29,37 @@
     </div>
     {% endapply %}
 {% endblock %}
+
+{% block sesspecificationstype_field %}
+    {% apply spaceless %}
+        {% for specGroup in field.value.specData %}
+            <table class="table ez-table--list">
+                <thead>
+                    <tr>
+                        <th class="ez-table__cell ez-table__cell--header" colspan="2">
+                            {% if specGroup.label is defined %}
+                                {{ specGroup.label }}
+                            {% else %}
+                                <i>{{ specGroup.name }}</i>
+                            {% endif %}
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for specGroupData in specGroup.data %}
+                        <tr class="ez-table__row">
+                            <td class="ez-table__cell">{{ specGroupData.label }}</td>
+                            <td class="ez-table__cell">
+                                {{ specGroupData.value }}
+                                {% if specGroupData.selected_option is defined %}
+                                    {{ ' ' }}
+                                    {{ specGroupData.selected_option }}
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endfor %}
+    {% endapply %}
+{% endblock sesspecificationstype_field %}

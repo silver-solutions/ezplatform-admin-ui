@@ -33,15 +33,7 @@
             <span>{{ 'import_export.search.button'|trans|desc('Search') }}</span>
         </button>
     </div>
-    <div class="ez-sku-search__results ez-sku-search__results--hidden ez-stock-update">
-        <label class="ez-stock-update__label">{{ 'stock_management.on_stock'|trans|desc('On stock') }}</label>
-        <input type="number" class="ez-stock-update__input ez-stock-update__input--on-stock form-control">
-        <label class="ez-stock-update__label">{{ 'stock_management.stock_text'|trans|desc('Stock text') }}</label>
-        <input type="text" class="ez-stock-update__input ez-stock-update__input--stock-text form-control">
-        <button class="btn btn-primary ez-btn ez-btn--save">
-            <svg class="ez-icon ez-icon--medium ez-icon--light">
-                <use xlink:href="{{ asset('bundles/ezplatformadminui/img/ez-icons.svg') }}#save"></use>
-            </svg>
-        </button>
+    <div class="ez-sku-search__results ez-sku-search__results--hidden">
+        {% include '@ezdesign/tab/stock_update.html.twig' %}
     </div>
 </div>

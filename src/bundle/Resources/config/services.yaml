@@ -16,3 +16,14 @@ services:
             $transService: '@silver_trans.translator'
         tags:
             - { name: kernel.event_subscriber }
+
+    Ibexa\Commerce\AdminUi\Tab\LocationView\CommerceTab:
+        parent: EzSystems\EzPlatformAdminUi\Tab\AbstractTab
+        calls:
+            - method: setBasketService
+              arguments:
+                  - '@silver_basket.basket_repository'
+                  - '@ezpublish.config.resolver'
+                  - '@silver_catalog.data_provider_service'
+        tags:
+            - { name: ezplatform.tab, group: 'location-view' }

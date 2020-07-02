@@ -8,7 +8,7 @@ module.exports = (Encore) => {
         .addEntry('ezcommerce-admin-ui-stock-and-price-css', [path.resolve(__dirname, '../public/scss/ezcommerce-admin-ui.scss')])
         .addEntry('ezcommerce-admin-ui-css', [
             path.resolve(__dirname, '../public/vendor/c3/c3.min.css'),
-            path.resolve(__dirname, '../public/scss/ezcommerce.scss'),
+            path.resolve(__dirname, '../public/scss/ezcommerce-admin-ui.scss'),
         ])
         .addEntry('ezcommerce-admin-ui-control-center-js', [
             path.resolve(__dirname, '../public/js/search.filters.js'),

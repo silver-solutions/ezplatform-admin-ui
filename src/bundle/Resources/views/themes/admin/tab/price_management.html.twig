@@ -34,35 +34,6 @@
         </button>
     </div>
     <div class="ez-sku-search__results ez-sku-search__results--hidden">
-        <div class="ez-table-header ez-table-header--price-management">
-            <div class="ez-table-header__headline"></div>
-            <div class="ez-table-header__tools">
-                <select class="ez-table-header__price-select form-control"></select>
-                <button class="btn btn-primary ez-btn--add-price" title="{{ 'price_management.add_price'|trans|desc('Add price') }}">
-                    <svg class="ez-icon ez-icon-create">
-                        <use xlink:href="{{ asset('bundles/ezplatformadminui/img/ez-icons.svg') }}#create"></use>
-                    </svg>
-                </button>
-            </div>
-        </div>
-        <table class="table ez-table--price-management" data-row-template="{{ include('@ezdesign/tab/price_management_table_row.html.twig', {
-            sku: '{{ sku }}'
-        })|e('html_attr') }}">
-            <thead>
-                <tr>
-                    <th>{{ 'price_management.sku'|trans|desc('SKU') }}</th>
-                    <th>{{ 'price_management.customer_group'|trans|desc('Customer group') }}</th>
-                    <th>{{ 'price_management.base_price'|trans|desc('Base price') }}</th>
-                    <th>{{ 'price_management.offer_price'|trans|desc('Offer price') }}</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
-        <button class="btn btn-primary ez-btn--save" title="{{ 'price_management.save'|trans|desc('Save') }}">
-            <svg class="ez-icon ez-icon--medium ez-icon--light">
-                <use xlink:href="{{ asset('bundles/ezplatformadminui/img/ez-icons.svg') }}#save"></use>
-            </svg>
-        </button>
+        {% include '@ezdesign/tab/price_table.html.twig' %}
     </div>
 </div>

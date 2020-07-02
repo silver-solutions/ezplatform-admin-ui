@@ -167,7 +167,8 @@
 
     class EzVariantsValidator extends eZ.BaseFieldValidator {
         validateInput(event) {
-            const isError = !event.target.value.trim() && event.target.required;
+            const value = JSON.parse(event.target.value);
+            const isError = event.target.required && (value === null || value.length === 0);
             const label = event.target.closest(SELECTOR_FIELD).querySelector('.ez-field-edit__label').innerHTML;
             const errorMessage = eZ.errors.emptyField.replace('{fieldName}', label);
 

@@ -1,23 +1,29 @@
 import getFormDataFromObject from './helpers/form.data.helper.js';
 
 (function(global, doc, eZ) {
-    const searchInput = doc.querySelector('.ez-sku-search--stock .ez-sku-search__input');
-    const searchButton = doc.querySelector('.ez-sku-search--stock .ez-btn--search');
-    const searchResults = doc.querySelector('.ez-sku-search--stock .ez-sku-search__results');
-    const onStockInput = doc.querySelector('.ez-sku-search--stock .ez-stock-update__input--on-stock');
-    const stockTextInput = doc.querySelector('.ez-sku-search--stock .ez-stock-update__input--stock-text');
-    const saveButton = doc.querySelector('.ez-sku-search--stock .ez-btn--save');
+    const skuWrapper = doc.querySelector('.ez-sku-search--stock');
+
+    if (!skuWrapper) {
+        return;
+    }
+
+    const searchInput = skuWrapper.querySelector('.ez-sku-search__input');
+    const searchButton = skuWrapper.querySelector('.ez-btn--search');
+    const searchResults = skuWrapper.querySelector('.ez-sku-search__results');
+    const onStockInput = skuWrapper.querySelector('.ez-stock-update__input--on-stock');
+    const stockTextInput = skuWrapper.querySelector('.ez-stock-update__input--stock-text');
+    const saveButton = skuWrapper.querySelector('.ez-btn--save');
     const enterKeyCode = 13;
     let skuData = {};
     const handleKeyUp = (event) => {
         const keyCode = event.charCode || event.keyCode || 0;
 
         if (keyCode === enterKeyCode) {
-            search();
+            search(skuWrapper.dataset.sku);
         }
     };
-    const search = () => {
-        const sku = searchInput.value;
+    const search = (skuCode) => {
+        const sku = skuCode || searchInput.value;
         const request = new Request(Routing.generate('siso_menu_admin_fetch_stock', { shopId: 'MAIN' }), {
             method: 'POST',
             body: getFormDataFromObject({ sku }),
@@ -35,7 +41,10 @@ import getFormDataFromObject from './helpers/form.data.helper.js';
             const notFoundMessage = Translator.trans(/*@Desc("Product not found")*/ 'product.not_found', {}, 'price_stock_ui');
 
             eZ.helpers.notification.showWarningNotification(notFoundMessage);
-            searchResults.classList.add('ez-sku-search__results--hidden');
+
+            if (searchResults) {
+                searchResults.classList.add('ez-sku-search__results--hidden');
+            }
 
             return;
         }
@@ -44,7 +53,9 @@ import getFormDataFromObject from './helpers/form.data.helper.js';
         onStockInput.value = response.stock['-'].stock;
         stockTextInput.value = response.stock['-'].stockSign;
 
-        searchResults.classList.remove('ez-sku-search__results--hidden');
+        if (searchResults) {
+            searchResults.classList.remove('ez-sku-search__results--hidden');
+        }
     };
     const save = () => {
         skuData.stock['-'].stock = onStockInput.value;
@@ -69,13 +80,21 @@ import getFormDataFromObject from './helpers/form.data.helper.js';
 
                     eZ.helpers.notification.showSuccessNotification(savedMessage);
                 }
-
-                search();
             })
             .catch(eZ.helpers.notification.showErrorNotification);
     };
 
-    searchInput.addEventListener('keyup', handleKeyUp, false);
-    searchButton.addEventListener('click', search, false);
+    if (searchInput) {
+        searchInput.addEventListener('keyup', handleKeyUp, false);
+    }
+
+    if (searchButton) {
+        searchButton.addEventListener('click', search, false);
+    }
+
+    if (skuWrapper.dataset.sku) {
+        search(skuWrapper.dataset.sku);
+    }
+
     saveButton.addEventListener('click', save, false);
 })(window, window.document, window.eZ);

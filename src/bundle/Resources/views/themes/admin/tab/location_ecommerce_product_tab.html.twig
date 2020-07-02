@@ -1,0 +1,14 @@
+{% trans_default_domain "ezcommerce_location_ecommerce_tab" %}
+
+<div class="ez-product-management ez-sku-search ez-sku-search--stock" data-sku="{{ sku }}">
+    <h2 class="ez-product-management__title">{{ 'product.stock.management'|trans|desc('Stock management') }}</h2>
+    <div class="ez-product-management__wrapper">
+        {% include '@ezdesign/tab/stock_update.html.twig' %}
+    </div>
+</div>
+<div class="ez-product-management ez-sku-search ez-sku-search--price" data-sku="{{ sku }}">
+    <h2 class="ez-product-management__title">{{ 'product.price.management'|trans|desc('Price management') }}</h2>
+    <div class="ez-product-management__wrapper">
+        {% include '@ezdesign/tab/price_table.html.twig' %}
+    </div>
+</div>

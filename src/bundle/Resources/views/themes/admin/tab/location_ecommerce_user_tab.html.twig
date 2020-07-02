@@ -1,0 +1,96 @@
+{% trans_default_domain "ezcommerce_location_ecommerce_tab" %}
+
+{% import _self as location_ecommece_user_tab %}
+
+<script src="{{ asset("bundles/ibexacommerceadminui/vendor/c3/c3.min.js") }}"></script>
+<script src="{{ asset("bundles/ibexacommerceadminui/vendor/d3/d3.min.js") }}"></script>
+
+<div class="ez-ecommerce-user-tab">
+    <h2 class="ez-ecommerce-user-tab__title">{{ 'user_tab.overview'|trans|desc('Overview') }}</h2>
+    <div class="ez-ecommerce-user-tab__wrapper">
+        <div class="ez-ecommerce-user-tab__item">{{ 'user_tab.total_amount'|trans|desc('Total amount') }}</div>
+        <div class="ez-ecommerce-user-tab__item">{{ totalAmount|price_format()}}</div>
+        <div class="ez-ecommerce-user-tab__item">{{ 'user_tab.orders'|trans|desc('Orders') }}</div>
+        <div class="ez-ecommerce-user-tab__item ez-commerce-user-overview" data-chart-data="{{ chartData }}"></div>
+    </div>
+</div>
+{% if basketTypes|length %}
+    <div class="ez-ecommerce-user-tab">
+        <h2 class="ez-ecommerce-user-tab__title">{{ 'user_tab.orders.and.baskets'|trans|desc('Orders and active baskets') }}</h2>
+        <div class="ez-ecommerce-user-tab__table-wrapper">
+            {% for type, baskets in basketTypes %}
+                {% if baskets|length %}
+                    <div class="ez-table-header ">
+                        <div class="ez-table-header__headline">{{ type }}</div>
+                    </div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>{{ 'user_tab.table.id'|trans|desc('Id') }}</th>
+                                <th>{{ 'user_tab.table.date'|trans|desc('Date/Payment') }}</th>
+                                <th>{{ 'user_tab.table.invoice.address'|trans|desc('Invoice Address') }}</th>
+                                <th>{{ 'user_tab.table.delivery.address'|trans|desc('Delivery Address') }}</th>
+                                <th>{{ 'user_tab.table.products'|trans|desc('Products') }}</th>
+                                <th>{{ 'user_tab.table.total'|trans|desc('Total') }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for basket in baskets %}
+                            <tr>
+                                <td>
+                                    <p class="mb-0">{{ 'user_tab.table.shop_order_id'|trans|desc('Shop Order ID') }}: {{ basket.basketId }}</p>
+                                    <p class="mb-0">{{ 'user_tab.table.erp_order_id'|trans|desc('ERP Order ID') }}: {{ basket.erpOrderId }}</p>
+                                </td>
+                                <td>
+                                    <p class="mb-0">{{ basket.dateLastModified|ez_full_datetime }}</p>
+                                    <p class="mb-0">{{ basket.paymentMethod }}</p>
+                                </td>
+
+                                <td>
+                                    {{ location_ecommece_user_tab.addres_info(basket.invoiceParty, true)}}
+                                </td>
+                                <td>
+                                    {% if basket.deliveryParty|default is not empty %}
+                                        {{ location_ecommece_user_tab.addres_info(basket.deliveryParty, false)}}
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% for line in basket.lines %}
+                                        <p class="mb-0">{{ line.quantity }} x {{ line.sku }}</p>
+                                    {% endfor %}
+                                </td>
+                                <td>
+                                    {{ basket.totalsSum.totalGross|price_format(basket.totalsSum.currency) }}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+{% endif %}
+
+{% macro addres_info(address, display_email) %}
+    {% if address.PartyName.0 is defined %}
+        <p>{{ address.PartyName.0.Name }}</p>
+    {% endif %}
+    {% if address.PartyName.1 is defined %}
+        <p>{{ address.PartyName.1.Name }}</p>
+    {% endif %}
+        <p class="mb-0">
+            {{ address.PostalAddress.StreetName }}
+            {{ address.PostalAddress.AdditionalStreetName }}
+            {{ address.PostalAddress.BuildingNumber }}
+        </p>
+        <p class="mb-0">{{ address.PostalAddress.PostalZone }}
+        <p class="mb-0">{{ address.PostalAddress.CityName }}</p>
+    {% if address.PostalAddress.Country.IdentificationCode.value|default is not empty  %}
+        <p>{{ address.PostalAddress.Country.IdentificationCode.value|code_label('country') }}</p>
+    {% endif %}
+        <p class="mb-0">{{ address.Contact.Telephone }}</p>
+    {% if display_email %}
+        <p class="mb-0">{{ address.Contact.ElectronicMail }}</p>
+    {% endif %}
+{% endmacro %}

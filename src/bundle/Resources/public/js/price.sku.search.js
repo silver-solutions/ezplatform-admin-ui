@@ -1,27 +1,33 @@
 import getFormDataFromObject from './helpers/form.data.helper.js';
 
 (function(global, doc, eZ) {
-    const searchInput = doc.querySelector('.ez-sku-search--price .ez-sku-search__input');
-    const searchButton = doc.querySelector('.ez-sku-search--price .ez-btn--search');
-    const currencySelect = doc.querySelector('.ez-sku-search--price .ez-table-header__price-select');
-    const searchResults = doc.querySelector('.ez-sku-search--price .ez-sku-search__results');
-    const tableHeader = doc.querySelector('.ez-sku-search--price .ez-table-header__headline');
+    const skuWrapper = doc.querySelector('.ez-sku-search--price');
+
+    if (!skuWrapper) {
+        return;
+    }
+
+    const searchInput = skuWrapper.querySelector('.ez-sku-search__input');
+    const searchButton = skuWrapper.querySelector('.ez-btn--search');
+    const currencySelect = skuWrapper.querySelector('.ez-table-header__price-select');
+    const searchResults = skuWrapper.querySelector('.ez-sku-search__results');
+    const tableHeader = skuWrapper.querySelector('.ez-table-header__headline');
     const table = doc.querySelector('.ez-table--price-management');
     const tableBody = table.querySelector('tbody');
-    const addPriceButton = doc.querySelector('.ez-sku-search--price .ez-btn--add-price');
-    const saveButton = doc.querySelector('.ez-sku-search--price .ez-btn--save');
+    const addPriceButton = skuWrapper.querySelector('.ez-btn--add-price');
+    const saveButton = skuWrapper.querySelector('.ez-btn--save');
     const enterKeyCode = 13;
     let skuData = {};
     const handleKeyUp = (event) => {
         const keyCode = event.charCode || event.keyCode || 0;
 
         if (keyCode === enterKeyCode) {
-            search();
+            search(skuWrapper.dataset.sku);
         }
     };
-    const search = () => {
+    const search = (skuCode) => {
         const currency = currencySelect.value || 'EUR';
-        const sku = searchInput.value;
+        const sku = skuCode || searchInput.value;
         const request = new Request(Routing.generate('siso_menu_admin_fetch_prices', { shopId: 'MAIN', currency }), {
             method: 'POST',
             body: getFormDataFromObject({ sku }),
@@ -39,7 +45,10 @@ import getFormDataFromObject from './helpers/form.data.helper.js';
             const notFoundMessage = Translator.trans(/*@Desc("Product not found")*/ 'product.not_found', {}, 'price_stock_ui');
 
             eZ.helpers.notification.showWarningNotification(notFoundMessage);
-            searchResults.classList.add('ez-sku-search__results--hidden');
+
+            if (searchResults) {
+                searchResults.classList.add('ez-sku-search__results--hidden');
+            }
 
             return;
         }
@@ -74,7 +83,8 @@ import getFormDataFromObject from './helpers/form.data.helper.js';
         response.result.prices['-'].forEach((price) => {
             const container = doc.createElement('tbody');
             const template = table.dataset.rowTemplate;
-            const renderTemplate = template.replace('{{ sku }}', searchInput.value);
+            const sku = skuWrapper.dataset.sku || searchInput.value;
+            const renderTemplate = template.replace('{{ sku }}', sku);
 
             container.insertAdjacentHTML('beforeend', renderTemplate);
 
@@ -101,12 +111,15 @@ import getFormDataFromObject from './helpers/form.data.helper.js';
         tableBody.innerHTML = '';
         tableBody.append(tableRowFragment);
 
-        searchResults.classList.remove('ez-sku-search__results--hidden');
+        if (searchResults) {
+            searchResults.classList.remove('ez-sku-search__results--hidden');
+        }
     };
     const addPriceRow = () => {
         const container = doc.createElement('tbody');
         const template = table.dataset.rowTemplate;
-        const renderTemplate = template.replace('{{ sku }}', searchInput.value);
+        const sku = skuWrapper.dataset.sku || searchInput.value;
+        const renderTemplate = template.replace('{{ sku }}', sku);
         const customGroupFragment = createCustomGroupsFragment();
 
         container.insertAdjacentHTML('beforeend', renderTemplate);
@@ -186,8 +199,18 @@ import getFormDataFromObject from './helpers/form.data.helper.js';
             .catch(eZ.helpers.notification.showErrorNotification);
     };
 
-    searchInput.addEventListener('keyup', handleKeyUp, false);
-    searchButton.addEventListener('click', search, false);
+    if (searchInput) {
+        searchInput.addEventListener('keyup', handleKeyUp, false);
+    }
+
+    if (searchButton) {
+        searchButton.addEventListener('click', search, false);
+    }
+
+    if (skuWrapper.dataset.sku) {
+        search(skuWrapper.dataset.sku);
+    }
+
     currencySelect.addEventListener('change', search, false);
     addPriceButton.addEventListener('click', addPriceRow, false);
     saveButton.addEventListener('click', save, false);

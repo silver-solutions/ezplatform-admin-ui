@@ -20,8 +20,17 @@
                     <td>{{ variant.sku.value }}</td>
                     <td>{{ variant.variantCode.value }}</td>
                     <td>{{ variant.description.value }}</td>
-                    <td>{{ variant.characteristicCode1.value }}</td>
-                    <td>{{ variant.characteristicCode2.value }}</td>
+                    <td>
+                        {% if variant.characteristicCode1 is defined %}
+                            {{ variant.characteristicCode1.value }}
+                        {% endif %}
+                    </td>
+
+                    <td>
+                        {% if variant.characteristicCode2 is defined %}
+                            {{ variant.characteristicCode2.value }}
+                        {% endif %}
+                    </td>
                 </tr>
                 {%  endfor %}
             </tbody>

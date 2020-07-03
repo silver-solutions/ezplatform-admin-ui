@@ -1,0 +1,7 @@
+{%- block ses_fieldtype_sesselection_widget -%}
+    {{ block('ezplatform_fieldtype_ezselection_widget') }}
+{%- endblock -%}
+
+{%- block ses_fieldtype_sesselection_row -%}
+    {% with { wrapper_attr : { class: 'ez-field-edit--ezselection' } } %} {{ block('form_row_fieldtype') }} {% endwith %}
+{%- endblock -%}

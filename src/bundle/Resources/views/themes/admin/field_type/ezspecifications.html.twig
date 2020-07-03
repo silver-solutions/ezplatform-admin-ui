@@ -31,9 +31,9 @@
                         <div class="ez-table-header__headline">
                             {{ 'specifications.data'|trans|desc('Data') }}
                         </div>
-                        {% include '@ezdesign/field_type/ezspecifications_selector.html.twig' %}
+                        {% include '@ezdesign/field_type/specifications_selector.html.twig' %}
                     </div>
-                    <table class="ez-table table" data-template="{{ include('@ezdesign/field_type/ezspecifications_row.html.twig')|e }}">
+                    <table class="ez-table table" data-template="{{ include('@ezdesign/field_type/specifications_row.html.twig')|e }}">
                         <thead>
                             <tr>
                                 <th>{{ 'specifications.label.specification'|trans|desc('Specification') }}</th>

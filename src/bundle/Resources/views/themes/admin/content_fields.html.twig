@@ -76,3 +76,24 @@
 {% block sesselection_field %}
     {{ field.value.text }}
 {% endblock sesselection_field %}
+
+{% block sesexternaldata_field %}
+    {% set field_values = ses_simple_unserialize(field.value.text) %}
+
+    <table class="table ez-table">
+        <thead>
+            <tr>
+                <th>{{ 'content_fields.external_data.name.label'|trans|desc('Name') }}</th>
+                <th>{{ 'content_fields.external_data.data.label'|trans|desc('Data') }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for name, data in field_values %}
+                <tr>
+                    <td class="ez-table__cell">{{ name }}</td>
+                    <td class="ez-table__cell">{{ data }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock sesexternaldata_field %}

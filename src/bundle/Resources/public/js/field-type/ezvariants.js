@@ -155,6 +155,18 @@
                 }
             });
 
+            if (!itemData.characteristicCode2) {
+                itemData.characteristicCode2 = {
+                    label: '',
+                    value: '',
+                };
+
+                itemData.characteristicLabel2 = {
+                    label: '',
+                    value: '',
+                };
+            }
+
             data.push(itemData);
         });
 

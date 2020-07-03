@@ -22,7 +22,7 @@ import getFormDataFromObject from './helpers/form.data.helper.js';
         const keyCode = event.charCode || event.keyCode || 0;
 
         if (keyCode === enterKeyCode) {
-            search(skuWrapper.dataset.sku);
+            search();
         }
     };
     const search = (skuCode) => {
@@ -204,14 +204,14 @@ import getFormDataFromObject from './helpers/form.data.helper.js';
     }
 
     if (searchButton) {
-        searchButton.addEventListener('click', search, false);
+        searchButton.addEventListener('click', () => search(), false);
     }
 
     if (skuWrapper.dataset.sku) {
         search(skuWrapper.dataset.sku);
     }
 
-    currencySelect.addEventListener('change', search, false);
+    currencySelect.addEventListener('change', () => search(skuWrapper.dataset.sku), false);
     addPriceButton.addEventListener('click', addPriceRow, false);
     saveButton.addEventListener('click', save, false);
 })(window, window.document, window.eZ);

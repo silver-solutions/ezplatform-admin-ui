@@ -19,7 +19,7 @@ import getFormDataFromObject from './helpers/form.data.helper.js';
         const keyCode = event.charCode || event.keyCode || 0;
 
         if (keyCode === enterKeyCode) {
-            search(skuWrapper.dataset.sku);
+            search();
         }
     };
     const search = (skuCode) => {
@@ -50,8 +50,11 @@ import getFormDataFromObject from './helpers/form.data.helper.js';
         }
 
         skuData = response;
-        onStockInput.value = response.stock['-'].stock;
-        stockTextInput.value = response.stock['-'].stockSign;
+
+        const stackValues = response.stock['-'];
+
+        onStockInput.value = stackValues ? stackValues.stock : '';
+        stockTextInput.value = stackValues ? stackValues.stockSign : '';
 
         if (searchResults) {
             searchResults.classList.remove('ez-sku-search__results--hidden');
@@ -89,7 +92,7 @@ import getFormDataFromObject from './helpers/form.data.helper.js';
     }
 
     if (searchButton) {
-        searchButton.addEventListener('click', search, false);
+        searchButton.addEventListener('click', () => search(), false);
     }
 
     if (skuWrapper.dataset.sku) {

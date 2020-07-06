@@ -73,7 +73,7 @@
         const defaultGroupData = predefinedValues.find(({ code }) => code === groupId);
         const alreadyUsedPredefined = [...tableWrapper.querySelectorAll('tr[data-id]')].map((row) => row.dataset.id);
 
-        if (defaultGroupData.default_values.length === alreadyUsedPredefined.length) {
+        if (defaultGroupData.default_values === null || defaultGroupData.default_values.length === alreadyUsedPredefined.length) {
             addRow(tableWrapper);
 
             return;

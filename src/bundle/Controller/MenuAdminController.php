@@ -1,19 +1,9 @@
 <?php
-/**
- * Product eZ Commerce
- *
- * A powerful e-commerce solution for online shops with a focus on content & commerce.
- *
- * http://www.silversolutions.de/en/e-Commerce/silver.eShop-The-B2B-Shop-Software
- *
- * This file contains the class MenuAdminController
- *
- * @copyright Copyright (C) 2019 silver.solutions GmbH. All rights reserved.
- * @license BUL - For full copyright and license information view LICENSE file distributed with this source code.
- * @version v2.5.0
- * @package eZ Commerce
- */
 
+/**
+ * @copyright Copyright (C) Ibexa AS. All rights reserved.
+ * @license For full copyright and license information view LICENSE file distributed with this source code.
+ */
 namespace Ibexa\Commerce\Bundle\AdminUiBundle\Controller;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;

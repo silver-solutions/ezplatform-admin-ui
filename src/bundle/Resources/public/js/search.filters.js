@@ -10,7 +10,8 @@
     };
     const resetUserId = (event) => {
         const filterItem = event.target.closest('.ez-filters__item');
-        const input = filterItem.querySelector('#userId');
+        const btn = filterItem.querySelector('.ez-filters__item-udw-button');
+        const input = filterItem.querySelector('input');
         const itemDesc = filterItem.querySelector('.ez-filters__item-desc');
         const userIdNode = filterItem.querySelector('.ez-filters__user-id');
 
@@ -19,6 +20,9 @@
 
         input.value = '';
         userIdNode.innerHTML = '';
+
+        btn.classList.remove('ez-filters__item-button--hidden');
+        itemDesc.classList.add('ez-filters__item-desc--hidden');
     };
     const initFlatPickr = (dateBtn) => {
         const defaultDate = dateBtn.value;

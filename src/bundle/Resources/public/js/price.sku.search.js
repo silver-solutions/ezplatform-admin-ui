@@ -179,7 +179,7 @@ import getFormDataFromObject from './helpers/form.data.helper.js';
         const tables = tableWrapper.querySelectorAll('.ez-price-table');
 
         tables.forEach((table) => {
-            const sku = table.dataset.sku;
+            const variantSku = table.dataset.sku;
             const tableRows = [...table.querySelectorAll('tbody tr')];
             const prices = tableRows.map((tableRow) => {
                 const groupId = tableRow.querySelector('.ez-table__customer-group-select').value;
@@ -189,7 +189,7 @@ import getFormDataFromObject from './helpers/form.data.helper.js';
                     currency: skuData.currency,
                     shopId: 'MAIN',
                     sku: skuData.sku,
-                    variantCode: null,
+                    variantCode: variantSku,
                     basePrice: parseFloat(tableRow.querySelector('.ez-table__base-price').value),
                     offerPrice: parseFloat(tableRow.querySelector('.ez-table__offer-price').value),
                     groupId: groupId,
@@ -200,7 +200,7 @@ import getFormDataFromObject from './helpers/form.data.helper.js';
                 };
             });
 
-            skuData.prices[sku] = prices;
+            skuData.prices[variantSku] = prices;
         });
 
         const request = new Request(Routing.generate('siso_menu_admin_update_prices'), {

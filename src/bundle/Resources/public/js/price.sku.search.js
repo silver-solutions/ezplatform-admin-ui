@@ -60,6 +60,7 @@ import getFormDataFromObject from './helpers/form.data.helper.js';
         const currencySelectFragment = doc.createDocumentFragment();
         const tableRowFragment = doc.createDocumentFragment();
         const contentName = variantSku === '-' ? skuData.name : `${skuData.name}/${variantSku}`;
+        const skuPrices = skuData.prices[variantSku] || [];
         const tableHeaderText = Translator.trans(
             /*@Desc("Prices for %contentName%, List price %price%")*/ 'price.table.header',
             {
@@ -78,7 +79,7 @@ import getFormDataFromObject from './helpers/form.data.helper.js';
 
         tableFragment.append(priceTableWrapper);
 
-        skuData.prices[variantSku].forEach((price) => {
+        skuPrices.forEach((price) => {
             const container = doc.createElement('tbody');
             const template = tableFragment.querySelector('table').dataset.rowTemplate;
             const sku = skuWrapper.dataset.sku || searchInput.value;

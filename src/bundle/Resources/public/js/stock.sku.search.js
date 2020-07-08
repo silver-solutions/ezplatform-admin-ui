@@ -10,9 +10,8 @@ import getFormDataFromObject from './helpers/form.data.helper.js';
     const searchInput = skuWrapper.querySelector('.ez-sku-search__input');
     const searchButton = skuWrapper.querySelector('.ez-btn--search');
     const searchResults = skuWrapper.querySelector('.ez-sku-search__results');
-    const onStockInput = skuWrapper.querySelector('.ez-stock-update__input--on-stock');
-    const stockTextInput = skuWrapper.querySelector('.ez-stock-update__input--stock-text');
     const saveButton = skuWrapper.querySelector('.ez-btn--save');
+    const skuUpdateWrapper = skuWrapper.querySelector('.ez-stock-management');
     const enterKeyCode = 13;
     let skuData = {};
     const handleKeyUp = (event) => {
@@ -33,10 +32,10 @@ import getFormDataFromObject from './helpers/form.data.helper.js';
 
         fetch(request)
             .then(eZ.helpers.request.getJsonFromResponse)
-            .then(setSkuData)
+            .then(handleSearchResponse)
             .catch(eZ.helpers.notification.showErrorNotification);
     };
-    const setSkuData = (response) => {
+    const handleSearchResponse = (response) => {
         if (response.result && response.result.message !== undefined) {
             const notFoundMessage = Translator.trans(/*@Desc("Product not found")*/ 'product.not_found', {}, 'price_stock_ui');
 
@@ -51,18 +50,45 @@ import getFormDataFromObject from './helpers/form.data.helper.js';
 
         skuData = response;
 
-        const stackValues = response.stock['-'];
+        skuUpdateWrapper.innerHTML = '';
 
-        onStockInput.value = stackValues ? stackValues.stock : '';
-        stockTextInput.value = stackValues ? stackValues.stockSign : '';
+        Object.entries(skuData.stock).forEach(renderSkuUpdate);
+    };
+    const renderSkuUpdate = ([variantSku, stockData]) => {
+        const skuUpdateFragment = doc.createDocumentFragment();
+        const skuUpdateContainer = doc.createElement('div');
+        const template = skuUpdateWrapper.dataset.template;
+        const renderedTemplate = template.replace('{{ sku }}', variantSku).replace('{{ variant_sku }}', variantSku);
+
+        skuUpdateContainer.insertAdjacentHTML('beforeend', renderedTemplate);
+
+        const stockUpdateWrapper = skuUpdateContainer.querySelector('.ez-stock-update');
+        const onStockInput = stockUpdateWrapper.querySelector('.ez-stock-update__input--on-stock');
+        const stockTextInput = stockUpdateWrapper.querySelector('.ez-stock-update__input--stock-text');
+
+        onStockInput.value = stockData ? stockData.stock : '';
+        stockTextInput.value = stockData ? stockData.stockSign : '';
+
+        skuUpdateFragment.append(stockUpdateWrapper);
+        skuUpdateWrapper.append(skuUpdateFragment);
+
+        saveButton.classList.remove('ez-btn--hidden');
 
         if (searchResults) {
             searchResults.classList.remove('ez-sku-search__results--hidden');
         }
     };
     const save = () => {
-        skuData.stock['-'].stock = onStockInput.value;
-        skuData.stock['-'].stockSign = stockTextInput.value;
+        const stockUpdateNodes = skuUpdateWrapper.querySelectorAll('.ez-stock-update');
+
+        stockUpdateNodes.forEach((stockUpdateNode) => {
+            const variantSku = stockUpdateNode.dataset.sku;
+            const onStockInput = stockUpdateNode.querySelector('.ez-stock-update__input--on-stock');
+            const stockTextInput = stockUpdateNode.querySelector('.ez-stock-update__input--stock-text');
+
+            skuData.stock[variantSku].stock = onStockInput.value;
+            skuData.stock[variantSku].stockSign = stockTextInput.value;
+        });
 
         const request = new Request(Routing.generate('siso_menu_admin_update_stock'), {
             method: 'POST',

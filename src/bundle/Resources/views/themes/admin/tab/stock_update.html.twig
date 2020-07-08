@@ -1,11 +1,14 @@
-<div class="ez-stock-update">
-    <label class="ez-stock-update__label">{{ 'stock_management.on_stock'|trans|desc('On stock') }}</label>
-    <input type="number" class="ez-stock-update__input ez-stock-update__input--on-stock form-control">
-    <label class="ez-stock-update__label">{{ 'stock_management.stock_text'|trans|desc('Stock text') }}</label>
-    <input type="text" class="ez-stock-update__input ez-stock-update__input--stock-text form-control">
-    <button class="btn btn-primary ez-btn ez-btn--save">
-        <svg class="ez-icon ez-icon--medium ez-icon--light">
-            <use xlink:href="{{ asset('bundles/ezplatformadminui/img/ez-icons.svg') }}#save"></use>
-        </svg>
-    </button>
+<div class="ez-stock-update" data-sku="{{ variant_sku }}">
+    <div class="ez-stock-update__item ez-stock-update__item--description">
+        <label class="ez-stock-update__label">{{ 'stock_management.sku'|trans|desc('SKU') }}</label>
+        <div class="ez-stock-update__sku">{{ sku }}</div>
+    </div>
+    <div class="ez-stock-update__item">
+        <label class="ez-stock-update__label">{{ 'stock_management.on_stock'|trans|desc('On stock') }}</label>
+        <input type="number" class="ez-stock-update__input ez-stock-update__input--on-stock form-control">
+    </div>
+    <div class="ez-stock-update__item">
+        <label class="ez-stock-update__label">{{ 'stock_management.stock_text'|trans|desc('Stock text') }}</label>
+        <input type="text" class="ez-stock-update__input ez-stock-update__input--stock-text form-control">
+    </div>
 </div>

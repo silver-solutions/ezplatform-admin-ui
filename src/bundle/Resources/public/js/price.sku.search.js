@@ -9,12 +9,8 @@ import getFormDataFromObject from './helpers/form.data.helper.js';
 
     const searchInput = skuWrapper.querySelector('.ez-sku-search__input');
     const searchButton = skuWrapper.querySelector('.ez-btn--search');
-    const currencySelect = skuWrapper.querySelector('.ez-table-header__price-select');
     const searchResults = skuWrapper.querySelector('.ez-sku-search__results');
-    const tableHeader = skuWrapper.querySelector('.ez-table-header__headline');
-    const table = doc.querySelector('.ez-table--price-management');
-    const tableBody = table.querySelector('tbody');
-    const addPriceButton = skuWrapper.querySelector('.ez-btn--add-price');
+    const tableWrapper = skuWrapper.querySelector('.ez-price-management');
     const saveButton = skuWrapper.querySelector('.ez-btn--save');
     const enterKeyCode = 13;
     let skuData = {};
@@ -25,8 +21,7 @@ import getFormDataFromObject from './helpers/form.data.helper.js';
             search();
         }
     };
-    const search = (skuCode) => {
-        const currency = currencySelect.value || 'EUR';
+    const search = (skuCode, currency = 'EUR') => {
         const sku = skuCode || searchInput.value;
         const request = new Request(Routing.generate('siso_menu_admin_fetch_prices', { shopId: 'MAIN', currency }), {
             method: 'POST',
@@ -37,10 +32,10 @@ import getFormDataFromObject from './helpers/form.data.helper.js';
 
         fetch(request)
             .then(eZ.helpers.request.getJsonFromResponse)
-            .then(renderPriceTable)
+            .then(handleSearchResponse)
             .catch(eZ.helpers.notification.showErrorNotification);
     };
-    const renderPriceTable = (response) => {
+    const handleSearchResponse = (response) => {
         if (response.result.message !== undefined) {
             const notFoundMessage = Translator.trans(/*@Desc("Product not found")*/ 'product.not_found', {}, 'price_stock_ui');
 
@@ -55,34 +50,37 @@ import getFormDataFromObject from './helpers/form.data.helper.js';
 
         skuData = response.result;
 
+        tableWrapper.innerHTML = '';
+
+        renderPriceTable('-');
+        Object.keys(skuData.variants).forEach(renderPriceTable);
+    };
+    const renderPriceTable = (variantSku) => {
+        const tableFragment = doc.createDocumentFragment();
         const currencySelectFragment = doc.createDocumentFragment();
         const tableRowFragment = doc.createDocumentFragment();
+        const contentName = variantSku === '-' ? skuData.name : `${skuData.name}/${variantSku}`;
         const tableHeaderText = Translator.trans(
             /*@Desc("Prices for %contentName%, List price %price%")*/ 'price.table.header',
             {
-                contentName: response.result.name,
-                price: `${response.result.baseprice * response.result.currencyList[response.result.currency]} ${response.result.currency}`,
+                contentName,
+                price: `${skuData.baseprice * skuData.currencyList[skuData.currency]} ${skuData.currency}`,
             },
             'price_stock_ui'
         );
+        const tableTemplate = tableWrapper.dataset.tableTemplate;
+        const renderedTableTemplate = tableTemplate.replace('{{ header_text }}', tableHeaderText).replace('{{ variant_sku }}', variantSku);
+        const tableWrapperContainer = doc.createElement('div');
 
-        Object.keys(response.result.currencyList).forEach((currency) => {
-            const container = doc.createElement('select');
-            const option = `<option value="${currency}">${currency}</option>`;
+        tableWrapperContainer.insertAdjacentHTML('beforeend', renderedTableTemplate);
 
-            container.insertAdjacentHTML('beforeend', option);
+        const priceTableWrapper = tableWrapperContainer.querySelector('.ez-price-table');
 
-            currencySelectFragment.append(container.querySelector('option'));
-        });
+        tableFragment.append(priceTableWrapper);
 
-        currencySelect.innerHTML = '';
-        currencySelect.append(currencySelectFragment);
-        currencySelect.value = response.result.currency;
-        tableHeader.innerHTML = tableHeaderText;
-
-        response.result.prices['-'].forEach((price) => {
+        skuData.prices[variantSku].forEach((price) => {
             const container = doc.createElement('tbody');
-            const template = table.dataset.rowTemplate;
+            const template = tableFragment.querySelector('table').dataset.rowTemplate;
             const sku = skuWrapper.dataset.sku || searchInput.value;
             const renderTemplate = template.replace('{{ sku }}', sku);
 
@@ -108,14 +106,39 @@ import getFormDataFromObject from './helpers/form.data.helper.js';
             tableRowFragment.append(row);
         });
 
-        tableBody.innerHTML = '';
-        tableBody.append(tableRowFragment);
+        Object.keys(skuData.currencyList).forEach((currency) => {
+            const container = doc.createElement('select');
+            const option = `<option value="${currency}">${currency}</option>`;
+
+            container.insertAdjacentHTML('beforeend', option);
+
+            currencySelectFragment.append(container.querySelector('option'));
+        });
+
+        const currencySelect = tableFragment.querySelector('.ez-table-header__price-select');
+        const addPriceButton = tableFragment.querySelector('.ez-btn--add-price');
+
+        currencySelect.innerHTML = '';
+        currencySelect.append(currencySelectFragment);
+        currencySelect.value = skuData.currency;
+
+        currencySelect.addEventListener('change', (event) => search(skuWrapper.dataset.sku, event.target.value), false);
+        addPriceButton.addEventListener(
+            'click',
+            (event) => addPriceRow(event.target.closest('.ez-price-table').querySelector('table')),
+            false
+        );
+
+        tableFragment.querySelector('tbody').append(tableRowFragment);
+        tableWrapper.append(tableFragment);
+
+        saveButton.classList.remove('ez-btn--hidden');
 
         if (searchResults) {
             searchResults.classList.remove('ez-sku-search__results--hidden');
         }
     };
-    const addPriceRow = () => {
+    const addPriceRow = (table) => {
         const container = doc.createElement('tbody');
         const template = table.dataset.rowTemplate;
         const sku = skuWrapper.dataset.sku || searchInput.value;
@@ -135,7 +158,7 @@ import getFormDataFromObject from './helpers/form.data.helper.js';
             false
         );
 
-        tableBody.append(row);
+        table.querySelector('tbody').append(row);
     };
     const createCustomGroupsFragment = () => {
         const customGroupFragment = doc.createDocumentFragment();
@@ -152,29 +175,32 @@ import getFormDataFromObject from './helpers/form.data.helper.js';
         return customGroupFragment;
     };
     const save = () => {
-        const tableRows = [...tableBody.querySelectorAll('tr')];
-        const currency = currencySelect.value;
-        const prices = tableRows.map((tableRow) => {
-            const groupId = tableRow.querySelector('.ez-table__customer-group-select').value;
-            const groupLabel = skuData.customerGroups.find((group) => groupId === group.groupId).label;
+        const tables = tableWrapper.querySelectorAll('.ez-price-table');
 
-            return {
-                currency,
-                shopId: 'main',
-                sku: skuData.sku,
-                variantCode: null,
-                basePrice: parseFloat(tableRow.querySelector('.ez-table__base-price').value),
-                offerPrice: parseFloat(tableRow.querySelector('.ez-table__offer-price').value),
-                groupId: groupId,
-                customerGroup: {
+        tables.forEach((table) => {
+            const sku = table.dataset.sku;
+            const tableRows = [...table.querySelectorAll('tbody tr')];
+            const prices = tableRows.map((tableRow) => {
+                const groupId = tableRow.querySelector('.ez-table__customer-group-select').value;
+                const groupLabel = skuData.customerGroups.find((group) => groupId === group.groupId).label;
+
+                return {
+                    currency: skuData.currency,
+                    shopId: 'MAIN',
+                    sku: skuData.sku,
+                    variantCode: null,
+                    basePrice: parseFloat(tableRow.querySelector('.ez-table__base-price').value),
+                    offerPrice: parseFloat(tableRow.querySelector('.ez-table__offer-price').value),
                     groupId: groupId,
-                    label: groupLabel,
-                },
-            };
-        });
+                    customerGroup: {
+                        groupId: groupId,
+                        label: groupLabel,
+                    },
+                };
+            });
 
-        skuData.currency = currency;
-        skuData.prices['-'] = prices;
+            skuData.prices[sku] = prices;
+        });
 
         const request = new Request(Routing.generate('siso_menu_admin_update_prices'), {
             method: 'POST',
@@ -211,7 +237,5 @@ import getFormDataFromObject from './helpers/form.data.helper.js';
         search(skuWrapper.dataset.sku);
     }
 
-    currencySelect.addEventListener('change', () => search(skuWrapper.dataset.sku), false);
-    addPriceButton.addEventListener('click', addPriceRow, false);
     saveButton.addEventListener('click', save, false);
 })(window, window.document, window.eZ);

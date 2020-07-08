@@ -6,6 +6,11 @@
       <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
     </header>
     <body>
+      <trans-unit id="8c61cfa34565ff704950cc228bee5b98e700d156" resname="price_management.save">
+        <source>Save</source>
+        <target state="new">Save</target>
+        <note>key: price_management.save</note>
+      </trans-unit>
       <trans-unit id="fb5172f9fa8bc95cad3fdbb634e84eaa443383ee" resname="product.price.management">
         <source>Price management</source>
         <target state="new">Price management</target>

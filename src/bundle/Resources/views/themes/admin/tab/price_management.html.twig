@@ -33,7 +33,13 @@
             <span>{{ 'import_export.search.button'|trans|desc('Search') }}</span>
         </button>
     </div>
-    <div class="ez-sku-search__results ez-sku-search__results--hidden">
-        {% include '@ezdesign/tab/price_table.html.twig' %}
-    </div>
+    <div class="ez-sku-search__results ez-sku-search__results--hidden ez-price-management" data-table-template="{{ include('@ezdesign/tab/price_table.html.twig', {
+        header_text: '{{ header_text }}',
+        variant_sku: '{{ variant_sku }}'
+    })|e('html_attr') }}"></div>
+    <button class="btn btn-primary ez-btn--save ez-btn--hidden" title="{{ 'price_management.save'|trans|desc('Save') }}">
+        <svg class="ez-icon ez-icon--medium ez-icon--light">
+            <use xlink:href="{{ asset('bundles/ezplatformadminui/img/ez-icons.svg') }}#save"></use>
+        </svg>
+    </button>
 </div>

@@ -2,13 +2,25 @@
 
 <div class="ez-product-management ez-sku-search ez-sku-search--stock" data-sku="{{ sku }}">
     <h2 class="ez-product-management__title">{{ 'product.stock.management'|trans|desc('Stock management') }}</h2>
-    <div class="ez-product-management__wrapper">
-        {% include '@ezdesign/tab/stock_update.html.twig' %}
-    </div>
+    <div class="ez-product-management__wrapper ez-stock-management" data-template="{{ include('@ezdesign/tab/stock_update.html.twig', {
+        sku: '{{ sku }}',
+        variant_sku: '{{ variant_sku }}'
+    })|e('html_attr') }}"></div>
+    <button class="btn btn-primary ez-btn ez-btn--save">
+        <svg class="ez-icon ez-icon--medium ez-icon--light">
+            <use xlink:href="{{ asset('bundles/ezplatformadminui/img/ez-icons.svg') }}#save"></use>
+        </svg>
+    </button>
 </div>
 <div class="ez-product-management ez-sku-search ez-sku-search--price" data-sku="{{ sku }}">
     <h2 class="ez-product-management__title">{{ 'product.price.management'|trans|desc('Price management') }}</h2>
-    <div class="ez-product-management__wrapper">
-        {% include '@ezdesign/tab/price_table.html.twig' %}
-    </div>
+    <div class="ez-product-management__wrapper ez-price-management" data-table-template="{{ include('@ezdesign/tab/price_table.html.twig', {
+        header_text: '{{ header_text }}',
+        variant_sku: '{{ variant_sku }}'
+    })|e('html_attr') }}"></div>
+    <button class="btn btn-primary ez-btn--save" title="{{ 'price_management.save'|trans|desc('Save') }}">
+        <svg class="ez-icon ez-icon--medium ez-icon--light">
+            <use xlink:href="{{ asset('bundles/ezplatformadminui/img/ez-icons.svg') }}#save"></use>
+        </svg>
+    </button>
 </div>

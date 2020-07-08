@@ -21,6 +21,16 @@
         <target state="new">Local price engine</target>
         <note>key: configuration_settings.field.array.option.shop</note>
       </trans-unit>
+      <trans-unit id="9f25f7e3ba97910fb4e06611759890de9f3bf566" resname="content_fields.external_data.data.label">
+        <source>Data</source>
+        <target state="new">Data</target>
+        <note>key: content_fields.external_data.data.label</note>
+      </trans-unit>
+      <trans-unit id="5e510f0b551154eb57374d24fd68bc6731761d24" resname="content_fields.external_data.name.label">
+        <source>Name</source>
+        <target state="new">Name</target>
+        <note>key: content_fields.external_data.name.label</note>
+      </trans-unit>
       <trans-unit id="51a13a0e7d46a0701faf6c82fd9a4d9a1cbc96bb" resname="content_fields.ezvariants.code.label">
         <source>Code</source>
         <target state="new">Code</target>
@@ -180,6 +190,16 @@
         <source>On stock</source>
         <target state="new">On stock</target>
         <note>key: stock_management.on_stock</note>
+      </trans-unit>
+      <trans-unit id="c647ca835347673e015c0fa527ba0a40bf7946f7" resname="stock_management.save">
+        <source>Save</source>
+        <target state="new">Save</target>
+        <note>key: stock_management.save</note>
+      </trans-unit>
+      <trans-unit id="17aa5eb3fb62622b7e00d4f9bf7a84512307c79f" resname="stock_management.sku">
+        <source>SKU</source>
+        <target state="new">SKU</target>
+        <note>key: stock_management.sku</note>
       </trans-unit>
       <trans-unit id="b61bd861b86f97b578af8a4ba46c57567fc397f3" resname="stock_management.stock_text">
         <source>Stock text</source>

@@ -1,4 +1,15 @@
 .ez-stock-update {
+    display: flex;
+    margin-bottom: calculateRem(16px);
+
+    &__item {
+        margin-right: calculateRem(32px);
+    }
+
+    &__sku {
+        line-height: calculateRem(38px);
+    }
+
     &__label {
         font-weight: bold;
         margin-bottom: 0;

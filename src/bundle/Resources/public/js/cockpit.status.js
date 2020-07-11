@@ -68,7 +68,7 @@
     };
     const showSalesStats = (data) => {
         const salesWidget = doc.querySelector('.ez-ecommerce-cockpit-status__box--sales');
-        const totalSales = Object.values(data.totalSales).find((sales) => sales.currency === currencySelect.value);
+        const totalSales = Object.values(data.totalSales).find((sales) => sales.currency === currencySelect.value) || {'totalSales': 0};
 
         salesWidget.querySelector('.ez-icon').removeAttribute('hidden');
         salesWidget.querySelector('.ez-ecommerce-cockpit-status__value').innerHTML = totalSales.totalSales;

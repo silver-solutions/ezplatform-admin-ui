@@ -226,7 +226,7 @@
                     </tr>
                 {% else %}
                     {% for basket in baskets %}
-                        {% set invoice_number = 5 %} <!-- TODO: ses_invoice_number(basket.basketId) -->
+                        {% set invoice_number = ses_invoice_number(basket.basketId) %}
                         <tr>
                             <td class="ez-table__cell">
                                 {{ basket.basketId }}
@@ -251,7 +251,7 @@
                                 {{ basket.state }}
                             </td>
                             <td class="ez-table__cell">
-                                {% if invoice_number is not empty %} 
+                                {% if invoice_number is not empty %}
                                     {% set invoice_path = path('siso_menu_admin_order_management_invoice', {
                                         'invoice_number': invoice_number,
                                     }) %}

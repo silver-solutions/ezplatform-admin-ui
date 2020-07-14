@@ -1,0 +1,34 @@
+{% block ses_fieldtype_sesprofiledata_row %}
+    {% set input_template = '{"buyerParties":[],"deliveryParties":[],"originalValueObject":{"text":"","adresses": null},"sesUser": "","deletedParties":{"buyerParties":[],"deliveryParties":[]}}' %}
+    {% set input_row_template = '{"PartyIdentification":[{"ID":{"value":null}}],"PartyName":[{"Name":{"value":null}},{"Name":{"value":null}}],"PostalAddress":{"StreetName":{"value":null},"AdditionalStreetName":{"value":null},"BuildingNumber":{"value":null},"CityName":{"value":null},"PostalZone":{"value":null},"CountrySubentity":{"value":null},"CountrySubentityCode":{"value":null},"AddressLine":[],"Country":{"IdentificationCode":{"value":null},"Name":{"value":null}},"Department":{"value":null},"SesExtension":{"value":null}},"Contact":{"ID":{"value":null},"Name":{"value":null},"Telephone":{"value":null},"Telefax":{"value":null},"ElectronicMail":{"value":null},"OtherCommunication":{"value":null},"Note":{"value":null},"SesExtension":{"value":null}},"Person":{"FirstName":{"value":null},"FamilyName":{"value":null},"Title":{"value":null},"MiddleName":{"value":null},"SesExtension":{"value":null}},"SesExtension":{"value":null}}' %}
+    
+    <div
+        class="ez-field-edit ez-field-edit--ezprofiledata"
+        data-value="{{ form.parent.vars.value.value.adresses }}"
+        data-input-template="{{ input_template }}"
+        data-input-row-template="{{ input_row_template }}"
+    >
+        <div class="ez-field-edit__label-wrapper">
+            {{ form_label(form, null, { label_attr: { class: 'ez-field-edit__label' }}) }}
+            {{ block('form_errors') }}
+        </div>
+        <div class="ez-field-edit__data">
+            {{ form_widget(form, { attr: {class: 'ez-field-edit__profiledata-input'}, type: 'hidden'}) }}
+            <div class="ez-data-source">
+                {% include ('@ezdesign/field_type/profile_data_address.html.twig') with {
+                    label:  'profile.data.address.buyer.label'|trans|desc('Buyer address'),
+                    single: true ,
+                    field_name: 'Buyer',
+                    additional_fields: ses_config_parameter('additional_buyer_ses_extension_form_fields', 'siso_core')|json_encode()
+                } %}
+                {% include ('@ezdesign/field_type/profile_data_address.html.twig') with {
+                    label:  'profile.data.address.delivery.label'|trans|desc('Delivery addresses'),
+                    single: false,
+                    field_name: 'Delivery',
+                    addresses_json: form.parent.vars.value.value.adresses,
+                    additional_fields: ses_config_parameter('additional_delivery_ses_extension_form_fields', 'siso_core')|json_encode()
+                } %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

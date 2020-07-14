@@ -1,0 +1,22 @@
+<div class="card ez-card ez-card--row-group" data-group-id="{{ field_name }}" data-group-name="{{ field_name|lower }}Parties">
+    <div class="ez-card__header">
+        <legend class="ez-label col-form-label">
+            {{ label }}
+        </legend>
+        {% if not single %}
+            <button
+                type="button"
+                title="{{ 'profile.data.address.add.new.address'|trans|desc('Add a new Address') }}"
+                class="btn btn-primary ez-btn--add-address">
+                <svg class="ez-icon ez-icon--light ez-icon--medium ez-icon-create">
+                    <use xlink:href="{{ asset('bundles/ezplatformadminui/img/ez-icons.svg') }}#create"></use>
+                </svg>
+            </button>
+        {% endif %}
+    </div>
+    <div 
+        class="ez-card__body" 
+        data-template="{{ include('@ezdesign/field_type/profile_data_address_row_template.html.twig')|e('html_attr') }}"}}
+    >
+    </div>
+</div>

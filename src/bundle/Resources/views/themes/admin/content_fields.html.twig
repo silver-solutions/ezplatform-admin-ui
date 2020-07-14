@@ -97,3 +97,64 @@
         </tbody>
     </table>
 {% endblock sesexternaldata_field %}
+
+{% block sesprofiledata_field %}
+    {% apply spaceless %}
+        <div class="ez-profile-data">
+            {% set customerData = field.value.text|unserialize %}
+            {% if field.value.lastErpUpdate != 0 %}
+                <div>
+                    <strong>{{ 'content_fields.profiledata.last.update.from.erp'|trans|desc('Last update from ERP') }}:</strong> {{ field.value.lastErpUpdate|date }}<br/>
+                    <strong>{{ 'content_fields.profiledata.add.attributes.from.erp'|trans|desc('Add. attributes from ERP') }}:</strong><br/>
+                    {% for  key,value in  customerData.buyerParties.0.SesExtension.value %}
+                        {{ key }}: {{ value }}<br/>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            <div>
+                <strong>{{ 'content_fields.profiledata.buyer.address'|trans|desc('Buyer address') }}</strong>
+                <div class="ez-profile-data__row">
+                    {% for buyerParty in customerData.buyerParties %}
+                        <div class="ez-card ez-profile-data__card">
+                            <h5 class="ez-card__header">
+                                {% if buyerParty.PartyIdentification[0].ID is defined %}
+                                    {{ 'content_fields.profiledata.customer.number'|trans|desc('Customer number') }}: {{ buyerParty.PartyIdentification[0].ID.value | default('') }}
+                                {% endif %}
+                            </h5>
+                            <div class="ez-card__body">
+                                {% include '@ezdesign/common/address.html.twig' with {
+                                    'address' : buyerParty, 
+                                    'displayEmail' : false, 
+                                    'raw' : true,
+                                } %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% if customerData.deliveryParties is defined and customerData.deliveryParties|length > 0 %}
+                <div>
+                    <strong>{{ 'content_fields.profiledata.delivery.address'|trans|desc('Delivery address') }}</strong>
+                    <div class="ez-profile-data__row">
+                        {% for deliveryParty in customerData.deliveryParties %}
+                            <div class="ez-card ez-profile-data__card">
+                                <h5 class="ez-card__header">
+                                    {% if deliveryParty.PartyIdentification[0].ID.value is defined %}
+                                        {{ 'content_fields.profiledata.shipcode'|trans|desc('Shipcode') }}: {{ deliveryParty.PartyIdentification[0].ID.value }}
+                                    {% endif %}
+                                </h5>
+                                <div class="ez-card__body">
+                                    {% include '@ezdesign/common/address.html.twig' with {
+                                        'address' : deliveryParty, 
+                                        'displayEmail' : false, 
+                                        'raw' : true,
+                                    } %}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    {% endapply %}
+{% endblock sesprofiledata_field %}

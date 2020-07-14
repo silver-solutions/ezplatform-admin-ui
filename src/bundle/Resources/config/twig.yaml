@@ -2,3 +2,4 @@ form_themes:
     - '@IbexaCommerceAdminUi/themes/admin/field_type/ezvariantstype.html.twig'
     - '@IbexaCommerceAdminUi/themes/admin/field_type/ezspecifications.html.twig'
     - '@IbexaCommerceAdminUi/themes/admin/field_type/ezselectiontype.html.twig'
+    - '@IbexaCommerceAdminUi/themes/admin/field_type/ezprofiledatatype.html.twig'

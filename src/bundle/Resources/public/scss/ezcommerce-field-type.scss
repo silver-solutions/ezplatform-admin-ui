@@ -2,6 +2,8 @@
 @import './public/bundles/ezplatformadminui/scss/mixins.scss';
 @import './public/bundles/ezplatformadminui/scss/functions/calculate.rem.scss';
 
+@import 'field-type/ezprofiledata';
 @import 'field-type/ezvariants';
+@import 'profile-data';
 @import 'variants';
 @import 'field-type/ezspecifications-selector.scss';

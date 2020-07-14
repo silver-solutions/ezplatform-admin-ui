@@ -1,0 +1,214 @@
+
+<div class="card ez-card ez-card--toggle-group mb-3 ez-profile-address-row ez-card--collapsed" data-index="{{ '{{ INDEX }}' }}">
+    <div class="ez-card__header">
+        <legend class="ez-label col-form-label"></legend>
+        {% if not single %}
+            <button
+                type="button"
+                class="btn btn-icon ez-btn--remove-address"
+                title="{{ 'profile.data.button.trash'|trans|desc('Remove address') }}"
+            >
+                <svg class="ez-icon ez-icon--trash">
+                    <use xlink:href="{{ asset('bundles/ezplatformadminui/img/ez-icons.svg') }}#trash"></use>
+                </svg>
+            </button>
+        {% endif %}
+        <button type="button" class="ez-card__body-display-toggler btn">
+            <svg class="ez-icon ez-icon--medium">
+                <use xlink:href="{{ asset('bundles/ezplatformadminui/img/ez-icons.svg') }}#caret-down"></use>
+            </svg>
+        </button>
+    </div>
+    <div class="ez-card__body">
+        <div class="ez-data-source__field ez-data-source__field--required">
+            <div class="ez-data-source__label-wrapper">
+                <label 
+                    class="ez-data-source__label required" 
+                    for="selected{{ field_name }}PartyName"
+                >
+                    {{ 'profile.data.address.name.company'|trans|desc('Name/Company') }}
+                </label>
+            </div>
+            <div class="ez-data-source__input-wrapper">
+                <input
+                    type="text"
+                    class="ez-data-source__input form-control"
+                    name="selected{{ field_name }}PartyName"
+                    required="required"
+                    data-path="PartyName.0.Name"
+                />
+            </div>
+        </div>
+        <div class="ez-data-source__field">
+            <div class="ez-data-source__label-wrapper">
+                <label 
+                    class="ez-data-source__label" 
+                    for="selected{{ field_name }}PartyName2"
+                >
+                    {{ 'profile.data.address.name.company.2'|trans|desc('Name/Company 2') }}
+                </label>
+            </div>
+            <div class="ez-data-source__input-wrapper">
+                <input
+                    type="text"
+                    class="ez-data-source__input form-control"
+                    name="selected{{ field_name }}PartyName2"
+                    data-path="PartyName.1.Name"
+                />
+            </div>
+        </div>
+        <div class="ez-data-source__field">
+            <div class="ez-data-source__label-wrapper">
+                <label 
+                    class="ez-data-source__label" 
+                    for="selected{{ field_name }}PartyStreetName"
+                >
+                    {{ 'profile.data.address.street'|trans|desc('Street') }}
+                </label>
+            </div>
+            <div class="ez-data-source__input-wrapper">
+                <input 
+                    type="text"
+                    class="ez-data-source__input form-control"
+                    name="selected{{ field_name }}PartyStreetName"
+                    data-path="PostalAddress.StreetName"
+                />
+            </div>
+        </div>
+        <div class="ez-data-source__field">
+            <div class="ez-data-source__label-wrapper">
+                <label 
+                    class="ez-data-source__label" 
+                    for="selected{{ field_name }}PartyAdditionalStreetName"
+                >
+                    {{ 'profile.data.address.additional.address.line'|trans|desc('Additional address line') }}
+                </label>
+            </div>
+            <div class="ez-data-source__input-wrapper">
+                <input 
+                    type="text"
+                    class="ez-data-source__input form-control"
+                    name="selected{{ field_name }}PartyAdditionalStreetName"
+                    data-path="PostalAddress.AdditionalStreetName"
+                />
+            </div>
+        </div>
+        <div class="ez-data-source__field ez-data-source__field--required">
+            <div class="ez-data-source__label-wrapper">
+                <label 
+                    class="ez-data-source__label required" 
+                    for="selected{{ field_name }}PartyCityName"
+                >
+                    {{ 'profile.data.address.city'|trans|desc('City') }}
+                </label>
+            </div>
+            <div class="ez-data-source__input-wrapper">
+                <input 
+                    type="text"
+                    class="ez-data-source__input form-control"
+                    name="selected{{ field_name }}PartyCityName"
+                    required="required"
+                    data-path="PostalAddress.CityName"
+                />
+            </div>
+        </div>
+        <div class="ez-data-source__field">
+            <div class="ez-data-source__label-wrapper">
+                <label 
+                    class="ez-data-source__label" 
+                    for="selected{{ field_name }}PartyPostalZone"
+                >
+                    {{ 'profile.data.address.zip.code'|trans|desc('ZIP code') }}
+                </label>
+            </div>
+            <div class="ez-data-source__input-wrapper">
+                <input 
+                    type="text"
+                    class="ez-data-source__input form-control"
+                    name="selected{{ field_name }}PartyPostalZone"
+                    data-path="PostalAddress.PostalZone"
+                />
+            </div>
+        </div>
+        <div class="ez-data-source__field">
+            <div class="ez-data-source__label-wrapper">
+                <label 
+                    class="ez-data-source__label" 
+                    for="selected{{ field_name }}PartyCountryIdentificationCode"
+                >
+                    {{ 'profile.data.address.country.code'|trans|desc('Country code') }}
+                </label>
+            </div>
+            <div class="ez-data-source__input-wrapper">
+                <input 
+                    type="text"
+                    class="ez-data-source__input form-control"
+                    name="selected{{ field_name }}PartyCountryIdentificationCode"
+                    data-path="PostalAddress.Country.IdentificationCode"
+                />
+            </div>
+        </div>
+        <div class="ez-data-source__field">
+            <div class="ez-data-source__label-wrapper">
+                <label 
+                    class="ez-data-source__label" 
+                    for="selected{{ field_name }}ContactTelephone"
+                >
+                    {{ 'profile.data.address.contact.telephone'|trans|desc('Contact Telephone') }}
+                </label>
+            </div>
+            <div class="ez-data-source__input-wrapper">
+                <input 
+                    type="text"
+                    class="ez-data-source__input form-control"
+                    name="selected{{ field_name }}ContactTelephone"
+                    data-path="Contact.Telephone"
+                />
+            </div>
+        </div>
+        <div class="ez-data-source__field">
+            <div class="ez-data-source__label-wrapper">
+                <label 
+                    class="ez-data-source__label" 
+                    for="selected{{ field_name }}ContactTelefax"
+                >
+                    {{ 'profile.data.address.contact.fax'|trans|desc('Contact Fax') }}
+                </label>
+            </div>
+            <div class="ez-data-source__input-wrapper">
+                <input 
+                    type="text"
+                    class="ez-data-source__input form-control"
+                    name="selected{{ field_name }}ContactTelefax"
+                    data-path="Contact.Telefax"
+                />
+            </div>
+        </div>
+        <div class="ez-data-source__field">
+            <div class="ez-data-source__label-wrapper">
+                <label 
+                    class="ez-data-source__label" 
+                    for="selected{{ field_name }}ContactElectronicMail"
+                >
+                    {{ 'profile.data.address.contact.email'|trans|desc('Contact E-Mail') }}
+                </label>
+            </div>
+            <div class="ez-data-source__input-wrapper">
+                <input 
+                    type="text"
+                    class="ez-data-source__input form-control"
+                    name="selected{{ field_name }}ContactElectronicMail"
+                    data-path="Contact.ElectronicMail"
+                />
+            </div>
+        </div>
+        <div 
+            class="ez-data-source--additional-fields"
+            data-template="{{ include('@ezdesign/field_type/profile_data_address_extra_template.html.twig', {
+                name: '{{ name }}',
+                label: '{{ label }}'
+            })|e('html_attr') }}"
+            data-additional-fields="{{ additional_fields }}"
+        ></div>
+    </div>
+</div>

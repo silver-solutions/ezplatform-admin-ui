@@ -18,6 +18,7 @@ module.exports = (eZConfig, eZConfigManager) => {
             path.resolve(__dirname, '../public/js/field-type/ezvariants.js'),
             path.resolve(__dirname, '../public/js/field-type/ezspecifications.js'),
             path.resolve(__dirname, '../public/js/field-type/ezspecifications.validator.js'),
+            path.resolve(__dirname, '../public/js/field-type/ezprofiledata.js'),
         ],
     });
 

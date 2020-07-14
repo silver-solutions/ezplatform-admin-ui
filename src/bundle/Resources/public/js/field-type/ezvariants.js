@@ -12,8 +12,17 @@
         fieldValue.forEach((value) => addVariant(field, value));
     };
     const addVariant = (field, values) => {
+        let variantId = null;
         const variantTypes = JSON.parse(field.dataset.variantTypes);
-        const variantId = values && values.id ? values.id : field.querySelector('.ez-custom-dropdown__select').value;
+        if(values === undefined) {
+            let formData = JSON.parse(field.dataset.value);
+            if(formData.length > 0) {
+                variantId = formData[0].id;
+            }
+        }
+        if(variantId === null) {
+            variantId = values && values.id ? values.id : field.querySelector('.ez-custom-dropdown__select').value;
+        }
         const variantConfig = variantTypes.find((variantType) => variantType.id === variantId);
         const groupsWrapper = field.querySelector('.ez-variants__groups-wrapper');
         const customDropdown = field.querySelector('.ez-custom-dropdown');

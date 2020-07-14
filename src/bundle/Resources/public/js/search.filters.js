@@ -5,8 +5,12 @@
     const udwContainer = doc.querySelector('#react-udw');
     const updateInputValue = (btn, dates) => {
         const input = doc.querySelector(btn.dataset.targetSelector);
+        const date = dates[0];
+        const dateWithUserTimezone = eZ.helpers.timezone.convertDateToTimezone(date, eZ.adminUiConfig.timezone, true);
+        const dateTimestamp = Math.floor(dateWithUserTimezone.valueOf() / 1000);
+        const formattedDate = moment(dateTimestamp, 'X').format('YYYY-MM-DD');
 
-        input.value = dates[0].toLocaleDateString();
+        input.value = formattedDate;
     };
     const resetUserId = (event) => {
         const filterItem = event.target.closest('.ez-filters__item');
@@ -25,7 +29,7 @@
         itemDesc.classList.add('ez-filters__item-desc--hidden');
     };
     const initFlatPickr = (dateBtn) => {
-        const defaultDate = dateBtn.value;
+        const defaultDate = new Date(dateBtn.value);
 
         flatpickr(dateBtn, {
             onChange: updateInputValue.bind(null, dateBtn),
